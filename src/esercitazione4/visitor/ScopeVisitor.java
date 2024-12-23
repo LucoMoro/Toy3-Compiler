@@ -13,26 +13,65 @@ import esercitazione4.ast.RelOp.*;
 import esercitazione4.ast.StatOp.*;
 import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.ast.VarDeclOp.VarOptInitNode;
-import esercitazione4.visitor.symbolTable.SymbolTable;
+import esercitazione4.visitor.symbolTable.*;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class ScopeVisitor implements Visitor{
     private SymbolTable table;
-    private Stack<SymbolTable> symbolStack = new Stack<>();
+    private Stack<SymbolTable> typeEnvironment = new Stack<>();
 
     @Override
     public Object visit(ProgramNode node) {
-        table = new SymbolTable();
-        table.setParent(null);
-        node.setTable(table);
+
+        SymbolTable programTable = new SymbolTable("ProgramTable");
+        typeEnvironment.add(programTable);
 
         ArrayList<DeclOpNode> decls = node.getDecls();
 
+        //iterates on each declaration and adds the element as a row of the scoping table of Program
         for (DeclOpNode decl : decls){
+            String name;
+            String kind;
+            Firm type; //variable used to indicate the firm of the method or the type of the function
+            Type return_type = null;
+            ArrayList<Type> inputs_type = new ArrayList<>(); //variable used to temporarily contain the parameters' type of the function
+            if(decl instanceof DefDeclNode){
+                name = ((DefDeclNode) decl).getName().getValue(); //name will be equal to the function name
+                if(((DefDeclNode) decl).getType() == null){ //checks if the function has a return type
+                    kind = "procedure";
+                }else {
+                    kind = "function";
+                    return_type = ((DefDeclNode) decl).getType();
+                }
+                if(((DefDeclNode) decl).getParams() == null){ //checks if the function has parameters
+                    inputs_type = null;
+                }else {
+                    for(ParDeclNode par : ((DefDeclNode) decl).getParams()){ //gets the type of each parameter
+                        inputs_type.add(0, par.getRight());
+                    }
+                }
+
+                type = new FunctionType(inputs_type, return_type);
+
+                SymbolTableRow row = new SymbolTableRow(name, kind, type);
+                programTable.addRow(row);
+
+            } else if (decl instanceof VarDeclNode) {
+                for(VarOptInitNode var : ((VarDeclNode) decl).getVars()){ //there could be defined multiple variables together
+                    name = var.getIdentifier().getValue();
+                    kind = "variable";
+                    type = new VariableType(((VarDeclNode) decl).getType());
+
+                    SymbolTableRow row = new SymbolTableRow(name, kind, type);
+                    programTable.addRow(row);
+                }
+            }
             decl.accept(this);
         }
+
+        System.out.println(programTable);
 
         ArrayList<VarDeclNode> vars = node.getVars();
         ArrayList<StatOpNode> stats = node.getStats();
@@ -48,6 +87,13 @@ public class ScopeVisitor implements Visitor{
                 stat.accept(this);
             }
         }
+
+        node.setTable(programTable);
+        return node;
+    }
+
+    @Override
+    public Object visit(DefDeclNode node) {
 
         return node;
     }
@@ -214,11 +260,6 @@ public class ScopeVisitor implements Visitor{
 
     @Override
     public Object visit(ParDeclNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(DefDeclNode node) {
         return null;
     }
 

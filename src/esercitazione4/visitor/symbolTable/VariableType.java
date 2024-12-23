@@ -16,5 +16,10 @@ public class VariableType implements Firm{
         this.type = type;
     }
 
+    @Override
+    public String toString(){
+        return "" + this.type;
+    }
+
     private Type type;
 }

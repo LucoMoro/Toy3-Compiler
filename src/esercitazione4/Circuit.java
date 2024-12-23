@@ -1,6 +1,7 @@
 package esercitazione4;
 
 import esercitazione4.ast.ProgramNode;
+import esercitazione4.visitor.ScopeVisitor;
 import esercitazione4.visitor.TreeVisitor;
 
 import java.io.*;
@@ -38,6 +39,9 @@ public class Circuit {
             ProgramNode program = (ProgramNode) p.parse().value;
             TreeVisitor visitor = new TreeVisitor(output_file);
             program.accept(visitor);
+
+            ScopeVisitor scope = new ScopeVisitor();
+            program.accept(scope);
 
             output_file.close();
         }

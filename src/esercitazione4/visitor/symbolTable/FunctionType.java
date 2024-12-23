@@ -36,6 +36,11 @@ public class FunctionType implements Firm {
         this.return_type = return_type;
     }
 
+    @Override
+    public String toString(){
+        return "" + this.input_types + "->" + this.return_type;
+    }
+
     private ArrayList<Type> input_types;
     private Type return_type;
 }
