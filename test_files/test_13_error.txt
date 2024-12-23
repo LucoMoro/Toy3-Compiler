@@ -1,0 +1,16 @@
+    i : 0;
+
+end
+def randomFunction(i : int ) : int {
+    local_var : "hello";
+    local_var !>>;
+
+    i := i + 1;
+
+    randomFunction(i);
+    }
+
+begin
+works : int;
+
+end

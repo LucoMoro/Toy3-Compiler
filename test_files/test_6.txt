@@ -1,0 +1,5 @@
+program
+
+
+
+          begin  /* Whitout VarDecls */ test | test2 <<; end

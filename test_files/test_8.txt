@@ -1,0 +1,11 @@
+
+program
+def noParTest () {
+    /* Whitout VarDecls */
+
+    noBodyNoParams >>;
+    }
+
+begin
+noParTest();
+end

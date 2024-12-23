@@ -1,0 +1,8 @@
+
+//Test for EndOfLineComment
+
+program
+begin
+    'e' >>;
+    end
+                /*Test for Traditional Comment*/

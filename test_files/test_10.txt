@@ -1,0 +1,19 @@
+
+program
+//Tests ArithOp and Relop with numbers
+
+begin /* Whitout VarDecls */
+
+    /*Random comment*/
+
+            5 <> 67*345.37 >>;
+            -6 !>>;
+
+                    34567822.342324 or 4 >>;
+
+
+
+                            not true !>>;
+
+                        //"a" <> ers >>;
+            end

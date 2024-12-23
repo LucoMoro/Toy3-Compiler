@@ -1,0 +1,11 @@
+program
+
+        def globalFunction() {
+        local_var: 3;
+        return 5*0.453-2;
+        }
+
+begin
+   test : 6;
+    var | secondVar := hello and anAssign or ofVars;
+end

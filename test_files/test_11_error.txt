@@ -1,0 +1,15 @@
+
+program
+//Tests ArithOp and Relop with strings, chars and numbers
+def uselessFunction(){}
+uselessVariable : -5 ;
+
+begin defined : 6;
+
+    /*Random comment*/
+
+            "t" <> "testing the constants" or 67*34537 , defined >>;
+            "a" !>>;
+
+                    34567822.342324 or "string" >>;
+            end

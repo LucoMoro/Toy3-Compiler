@@ -1,0 +1,7 @@
+program
+    vardecls = 5 : char | x : string;
+
+begin
+    hello(test, test2);
+    hello(test, test2);
+end

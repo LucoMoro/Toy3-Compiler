@@ -1,0 +1,42 @@
+program
+    i : 0;
+
+
+def randomFunction(i : int ) : int {
+    local_var : "hello";
+    local_var !>>;
+
+    i := i + 1;
+
+    randomFunction(i);
+
+        if( y > 1) then {
+            "y è maggiore di 1" !>>;
+        }
+
+        if( x >= 2) then {
+            "x è maggiore o uguale a 2" !>>;
+        }
+
+        if( z < 3) then {
+            "z è minore di 3" !>>;
+        }
+
+        if( k <= 4 ) then {
+            "k è minore o uguale a 4" !>>;
+        }
+
+        if( r == 5 ) then {
+            "r è uguale a 5" !>>;
+        }
+
+        if( t <> 6 ) then {
+            "t è diverso da 6" !>>;
+        }
+    }
+
+begin
+works : int;
+test <<;
+test and test2 !>>;
+end

@@ -1,0 +1,13 @@
+
+program
+def DefDeclTest ( testing, the : int; ref parameters, function : bool) : char {
+    no_var | no_vars | another_name : int;
+
+    testing | the | body <<;
+    just >= a <> statement !>>;
+            FunCallTest (parTest ) ;
+
+                        return LastTest;
+
+                        }
+                        begin end

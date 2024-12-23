@@ -1,0 +1,7 @@
+program
+    vardecls = 5 : char;
+
+begin
+    hello(test, test2);
+    hello(test, test2);
+end

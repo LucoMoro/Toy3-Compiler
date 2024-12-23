@@ -1,0 +1,290 @@
+// CUP specification for a simple expression evaluator (no actions)
+
+import java_cup.runtime.*;
+import java.util.ArrayList;
+
+import esercitazione4.ast.IdNode;
+import esercitazione4.ast.ExprOpNode;
+import esercitazione4.ast.Constants.*;
+import esercitazione4.ast.ArithOp.*;
+import esercitazione4.ast.BoolOp.*;
+import esercitazione4.ast.RelOp.*;
+import esercitazione4.ast.FunCallNode;
+
+import esercitazione4.ast.ProgramNode;
+
+import esercitazione4.ast.DeclOpNode;
+
+import esercitazione4.ast.DefDeclOp.DefDeclNode;
+
+import esercitazione4.ast.ParDeclOp.*;
+
+import esercitazione4.ast.BodyNode;
+
+import esercitazione4.ast.StatOp.*;
+
+import esercitazione4.ast.Type;
+
+import esercitazione4.ast.VarDeclOp.*;
+
+/* Terminals (tokens returned by the scanner). */
+/** Keywords **/
+terminal            IF, THEN, ELSE;
+terminal            WHILE, DO, RETURN;
+terminal            REF, DEF;
+terminal            INT, BOOL, DOUBLE, STRING, CHAR;
+terminal            PROGRAM, BEGIN, END;
+
+/** Constants **/
+terminal            TRUE, FALSE;
+terminal            INT_CONST, DOUBLE_CONST;
+terminal            CHAR_CONST, STRING_CONST;
+
+/** Operators **/
+terminal            PLUS, MINUS, TIMES, DIV;
+terminal            AND, OR, NOT;
+terminal            GT, GE, LT, LE, EQ, NE; //NE is missing in the syntactic specification
+
+/** Parenthesis & Symbols **/
+terminal            LPAR, RPAR, LBRAC, RBRAC;
+terminal            PIPE, COMMA;
+terminal            SEMI;
+terminal            ASSIGN, COLON, ASSIGNDECL;
+
+/** Identifiers **/
+terminal String ID;
+
+/** Read & Write **/
+terminal IN, OUT, OUTNL;
+
+/* Non terminals */
+non terminal        Programma;
+non terminal        ArithOp, BoolOp, RelOp;
+
+/** Expressions & Statements **/
+non terminal        Expr, Stat, Body;
+non terminal        ArrayList<StatOpNode> Statements;
+non terminal        ArrayList<ExprOpNode> Exprs;
+non terminal        FunCall;
+
+/** Types and Constants **/
+non terminal        OptType, TypeOrConstant;
+non terminal        Constant, Type;
+
+/** List of variables **/
+non terminal        ParDecl,DefDecl, VarDecl;
+non terminal        ArrayList<DeclOpNode> Decls;
+non terminal        ArrayList<ParDeclNode> ParDecls;
+non terminal        ArrayList<VarDeclNode> VarDecls;
+non terminal        ArrayList<IdNode> Vars;
+non terminal        PVar;
+non terminal        ArrayList<PVarNode> PVars;
+non terminal        ArrayList<VarOptInitNode> VarsOptInit;
+
+/* Precedences */
+precedence left OR;
+precedence left AND;
+precedence right NOT;
+precedence left GT, GE, LT, LE, EQ, NE;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIV;
+precedence left UMINUS;
+precedence left LPAR, RPAR; //Check if it is correct
+
+/* The grammar */
+Programma ::= PROGRAM Decls:decls BEGIN VarDecls:vars Statements:stats END {: RESULT = new ProgramNode(decls, vars, stats);
+                                                                              System.out.println(RESULT);
+                                                                           :}
+          ;
+
+Decls ::= VarDecl:var Decls:list {: list.add(0, (VarDeclNode) var);
+                                    RESULT = list;
+                                    System.out.println("VarDecls Fittizio: " + RESULT);
+                                 :}
+      | DefDecl:def Decls:list {: list.add(0, (DefDeclNode) def);
+                                  RESULT = list;
+                                  System.out.println("DefDecls Fittizio: " + RESULT);
+                               :}
+      | /* empty */ {: ArrayList<DeclOpNode> list = new ArrayList<>();
+                       RESULT = list;
+                    :}
+      ;
+
+VarDecls ::= VarDecls:list VarDecl:var {: list.add((VarDeclNode) var);
+                                          RESULT = list;
+                                          //System.out.println("VarDecls Fittizio: " + RESULT);
+                                       :}
+         |/* empty */ {: ArrayList<VarDeclNode> list = new ArrayList<>();
+                         RESULT = list;
+                      :};
+
+VarDecl ::= VarsOptInit:vars COLON TypeOrConstant:typeOrConstant SEMI {: RESULT = new VarDeclNode(vars, typeOrConstant); System.out.println(RESULT);:}
+            ;
+
+//For each list, check during esercitazione5 if it is correct to add elements on top of the array or should be added at the bottom (or viceversa)
+VarsOptInit ::= ID:attrib PIPE VarsOptInit:list {: list.add(new VarOptInitNode(new IdNode(attrib)));
+                                                   RESULT = list;
+                                                :}
+            | ID:id ASSIGNDECL Expr:expr PIPE VarsOptInit:list {: list.add(new VarOptInitNode(new IdNode(id), expr));
+                                                                  RESULT = list;
+                                                                :}
+            | ID:attrib {: ArrayList<VarOptInitNode> list = new ArrayList<>();
+                           list.add(new VarOptInitNode(new IdNode(attrib)));
+                           RESULT = list;
+                        :}
+            | ID:id ASSIGNDECL Expr:expr {: ArrayList<VarOptInitNode> list = new ArrayList<>();
+                                            list.add(new VarOptInitNode(new IdNode(id), expr));
+                                            RESULT = list;
+                                         :}
+            ;
+
+TypeOrConstant ::= Type:attrib {: RESULT = attrib;  System.out.println("Type Fittizio: " + RESULT); :}
+               | Constant:attrib {: RESULT = attrib; System.out.println("Constant Fittizio: " + RESULT); :}
+               ;
+
+Type ::= INT {: RESULT = Type.INT; :}
+     | BOOL {: RESULT = Type.BOOL; :}
+     | DOUBLE {: RESULT = Type.DOUBLE; :}
+     | STRING {: RESULT = Type.STRING; :}
+     | CHAR {: RESULT = Type.CHAR; :}
+     ;
+
+Constant ::= TRUE {: RESULT = new BoolNode(true); :}
+         | FALSE {: RESULT = new BoolNode(false); :}
+         | INT_CONST:attrib {: RESULT = new IntNode((int) attrib); :}
+         | DOUBLE_CONST:attrib {: RESULT = new DoubleNode((double) attrib); :}
+         | CHAR_CONST:attrib {: RESULT = new CharNode((char) attrib); :}
+         | STRING_CONST:attrib {: RESULT = new StringNode((String) attrib); :}
+         ;
+
+DefDecl ::= DEF ID:name LPAR ParDecls:params RPAR OptType:type Body:body {: RESULT = new DefDeclNode(new IdNode(name), params, type, body);
+                                                                            System.out.println(RESULT);
+                                                                         :}
+        | DEF ID:name LPAR RPAR OptType:type Body:body {: RESULT = new DefDeclNode(new IdNode(name), type, body);
+                                                          System.out.println(RESULT);
+                                                       :}
+        ;
+
+ParDecls ::= ParDecl:attrib SEMI ParDecls:list {: list.add((ParDeclNode) attrib);
+                                                  RESULT = list;
+                                                  System.out.println("ParDecls fittizio: " + RESULT);
+                                               :}
+         | ParDecl:attrib {: ArrayList<ParDeclNode> list = new ArrayList<>();
+                             list.add((ParDeclNode) attrib);
+                             RESULT = list;
+                             System.out.println("ParDecls fittizio: " + RESULT);
+                          :}
+         ;
+
+ParDecl ::= PVars:vars COLON Type:type {: RESULT = new ParDeclNode(vars, type);
+                                          System.out.println(RESULT);
+                                       :}
+        ;
+
+PVars ::= PVar:pvar COMMA PVars:list {: list.add((PVarNode) pvar);
+                                        RESULT = list;
+                                        //System.out.println("PVars fittizio: " + RESULT);
+                                     :}
+      | PVar:attrib {: ArrayList<PVarNode> list = new ArrayList<>();
+                       list.add((PVarNode) attrib);
+                       RESULT = list;
+                       //System.out.println("PVar fittizio: " + RESULT);
+                       :}
+      ;
+
+PVar ::= ID:attrib {: RESULT = new PVarNode(new IdNode(attrib)); System.out.println(RESULT);:}
+     | REF ID:attrib {: RESULT = new PVarNode(new IdNode(attrib), true); System.out.println(RESULT); :}
+     ;
+
+OptType ::= COLON Type:type {: RESULT = type; :}
+        | /* empty */ {: RESULT = null; :}
+        ;
+
+Body ::= LBRAC VarDecls:vars Statements:stats RBRAC {: RESULT = new BodyNode(vars, stats);
+                                                       System.out.println(RESULT);
+                                                    :};
+
+//AGGIUNTA DEL NUOVO ELEMENTO IN TESTA E NON IN CODA
+Statements ::= Stat:stat Statements:list {: list.add(0, (StatOpNode) stat);
+                                            RESULT = list;
+                                            //System.out.println("Statements Fittizio: " + RESULT);
+                                         :}
+            | /* empty */ {: ArrayList<StatOpNode> list = new ArrayList<>();
+                             RESULT = list;
+                          :}
+            ;
+
+Stat ::= Vars:attrib IN SEMI {: RESULT = new ReadOpNode(attrib); System.out.println(RESULT); :}
+    | Exprs:attrib OUT SEMI {: RESULT = new WriteOpNode(attrib); System.out.println(RESULT); :}
+    | Exprs:attrib OUTNL SEMI {: RESULT = new WriteOpNode(attrib, true); System.out.println(RESULT); :}
+    | Vars:ids ASSIGN Exprs:exprs SEMI {: RESULT = new AssignOpNode(ids, exprs); System.out.println(RESULT); :}
+    | FunCall:attrib SEMI {: RESULT = attrib; System.out.println(RESULT); :}
+    | IF LPAR Expr:expr RPAR THEN Body:body1 ELSE Body:body2 {: RESULT = new IfThenElseNode(expr, body1, body2); System.out.println(RESULT); :}
+    | IF LPAR Expr:expr RPAR THEN Body:body {: RESULT = new IfThenNode(expr, body); System.out.println(RESULT); :}
+    | WHILE LPAR Expr:expr RPAR DO Body:body {: RESULT = new WhileNode(expr, body); System.out.println(RESULT); :}
+    | RETURN Expr:attrib SEMI {: RESULT = new ReturnOpNode(attrib); System.out.println(RESULT); :}
+    ;
+
+Vars ::= ID:attrib PIPE Vars:list {: list.add(new IdNode(attrib));
+                                     RESULT = list;
+                                  :}
+     | ID:attrib {: ArrayList<IdNode> list = new ArrayList<>();
+                    list.add(new IdNode(attrib));
+                    RESULT = list;
+                 :}
+     ;
+
+Exprs ::= Expr:attrib COMMA Exprs:list {: list.add((ExprOpNode) attrib);
+                                          RESULT = list;
+                                          System.out.println("Exprs Fittizio: " + RESULT);
+                                       :}
+      | Expr:attrib {: ArrayList<ExprOpNode> list = new ArrayList<>();
+                       list.add((ExprOpNode) attrib);
+                       RESULT = list;
+                    :}
+      ;
+
+FunCall ::= ID:attrib LPAR Exprs:ref RPAR {: RESULT = new FunCallNode(new IdNode (attrib), ref);:}
+        | ID:attrib LPAR RPAR {: RESULT = new FunCallNode(new IdNode (attrib)); :}
+        ;
+
+Expr ::= Expr:e1 ArithOp:attrib Expr:e2 {: if(attrib.equals("PLUS")) {RESULT = new AddNode(e1, e2); }
+                                           else if(attrib.equals("MINUS")){ RESULT = new DiffNode(e1, e2); }
+                                           else if(attrib.equals("TIMES")){ RESULT = new MulNode(e1, e2); }
+                                           else if(attrib.equals("DIV")){ RESULT = new DivNode(e1, e2); }
+                                           System.out.println(RESULT);
+                                        :}
+              | Expr:e1 BoolOp:attrib Expr:e2 {: if(attrib.equals("AND")) {RESULT = new AndNode(e1, e2); }
+                                                 else if(attrib.equals("OR")) { RESULT = new OrNode(e1, e2); }
+                                                 System.out.println(RESULT);
+                                              :}
+              | Expr:e1 RelOp:attrib Expr:e2 {: if(attrib.equals("GT")) { RESULT = new GTNode(e1, e2); }
+                                                else if(attrib.equals("GE")) { RESULT = new GENode(e1, e2); }
+                                                else if(attrib.equals("LT")) { RESULT = new LTNode(e1, e2); }
+                                                else if(attrib.equals("LE")) { RESULT = new LENode(e1, e2); }
+                                                else if(attrib.equals("EQ")) { RESULT = new EQNode(e1, e2); }
+                                                else if(attrib.equals("NE")) { RESULT = new NENode(e1, e2); }
+                                                System.out.println(RESULT);
+                                             :}
+              | LPAR Expr:e1 RPAR {: RESULT = e1; System.out.println(RESULT); :}
+              | MINUS Expr:e1 {: RESULT = new UMinusNode(e1); System.out.println(RESULT); :} %prec UMINUS
+              | NOT Expr:e1 {:  RESULT = new NotNode(e1); System.out.println(RESULT); :}
+              | ID:attrib {: RESULT = new IdNode(attrib); System.out.println(RESULT); :} //la System.out serve per verificare il funzionamento di toString()
+              | FunCall:attrib {: RESULT = attrib; System.out.println(RESULT); :}
+              | Constant:attrib {: RESULT = attrib; System.out.println(RESULT); :}
+              ;
+
+ArithOp ::= PLUS    {: RESULT = "PLUS"; :}
+        | MINUS {: RESULT = "MINUS"; :}
+        | TIMES {: RESULT = "TIMES"; :}
+        | DIV {: RESULT = "DIV"; :};
+
+BoolOp ::= AND {: RESULT = "AND"; :}
+       | OR {: RESULT = "OR"; :};
+
+RelOp ::= GT    {: RESULT = "GT"; :}
+      | GE  {: RESULT = "GE"; :}
+      | LT  {: RESULT = "LT"; :}
+      | LE  {: RESULT = "LE"; :}
+      | EQ  {: RESULT = "EQ"; :}
+      | NE  {: RESULT = "NE"; :};

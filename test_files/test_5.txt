@@ -1,0 +1,8 @@
+program
+
+defined | global | vas : string;
+
+begin
+    /* Whitout VarDecls */
+        if (id) then { i:int; c : 5; } else { /* Whitout VarDecls */ secondBody := 54 + 7 /2324.55-7 * var;}
+end

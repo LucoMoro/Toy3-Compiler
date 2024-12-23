@@ -1,0 +1,61 @@
+program
+
+def menuSelection() : int {
+    state := 1;
+    result : int;
+
+    while( state <> 0) do {
+    "Welcome. Select an operation" !>>;
+    "0. Exit" !>>;
+    "1. Continue" !>>;
+    "2. Sum" !>>;
+    "3. Minus" !>>;
+    "4. Multiply" !>>;
+    "5. Divide" !>>;
+    state <<;
+
+    if(state == 0) {
+    return state;
+    }
+
+    if(((state <> 1)) then { //excludes the 0 and 1 case
+        result := executeOperation(state);
+    }
+
+    "The result is: ", result !>>;
+    }
+
+}
+
+def executeOperation(state : int) : int {
+    first, second : int;
+    result : int; //result value of the operation
+
+    "First number:" !>>;
+    first <<;
+    "Second number:" !>>;
+    second <<;
+
+    if(state == 2) then {
+        result := first + second;
+    }
+    if(state == 3) then {
+        result := first - second;
+    }
+    if(state == 4) then {
+        result := first * second;
+    }
+    if(state == 5) then {
+        result := first / second;
+    } else {
+    "Unvalid state" !>>
+    result := -1;
+    }
+    return result;
+}
+
+begin
+
+menuSelection();
+
+end
