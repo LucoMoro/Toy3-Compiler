@@ -3,6 +3,7 @@ package esercitazione4.ast;
 import esercitazione4.ast.StatOp.StatOpNode;
 import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -26,6 +27,14 @@ public class ProgramNode implements Node{
         return stats;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -42,4 +51,6 @@ public class ProgramNode implements Node{
     private ArrayList<DeclOpNode> decls;
     private ArrayList<VarDeclNode> vars;
     private ArrayList<StatOpNode> stats;
+
+    private SymbolTable table;
 }
