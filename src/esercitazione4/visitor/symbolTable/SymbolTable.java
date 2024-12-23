@@ -9,6 +9,7 @@ public class SymbolTable {
     private String tableName;
 
     public SymbolTable(String name){
+        this.tableName = name;
         this.rows = new ArrayList<SymbolTableRow>();
     }
 
@@ -27,7 +28,7 @@ public class SymbolTable {
 
     public Object addRow(SymbolTableRow row) throws DuplicateSymbolException {
         if(this.rows.contains(row)){
-            throw new DuplicateSymbolException("Error: multiple declaration on:"  + row.getSymbol());
+            throw new DuplicateSymbolException("Error: multiple declaration on: "  + row.getSymbol());
         }else {
             this.rows.add(row);
         }
@@ -36,7 +37,7 @@ public class SymbolTable {
 
     @Override
     public String toString(){
-        return getClass().getSimpleName() + "{"
+        return this.tableName + "{"
                 + " rows: " + this.rows
                 + "}";
     }

@@ -27,12 +27,20 @@ public class ProgramNode implements Node{
         return stats;
     }
 
-    public SymbolTable getTable() {
-        return table;
+    public SymbolTable getProgramTable() {
+        return programTable;
     }
 
-    public void setTable(SymbolTable table) {
-        this.table = table;
+    public void setProgramTable(SymbolTable table) {
+        this.programTable = table;
+    }
+
+    public SymbolTable getBegindEndTable() {
+        return begindEndTable;
+    }
+
+    public void setBegindEndTable(SymbolTable begindEndTable) {
+        this.begindEndTable = begindEndTable;
     }
 
     @Override
@@ -52,5 +60,6 @@ public class ProgramNode implements Node{
     private ArrayList<VarDeclNode> vars;
     private ArrayList<StatOpNode> stats;
 
-    private SymbolTable table;
+    private SymbolTable programTable;
+    private SymbolTable begindEndTable;
 }

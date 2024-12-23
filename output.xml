@@ -86,6 +86,10 @@
       </ReturnNode>
     </Body>
   </DefDecl>
+  <VarDecl type='BOOL'>
+    <VarOptInit name='test'>
+    </VarOptInit>
+  </VarDecl>
   <AssignNode>
     <IdNode>sommapiccola</IdNode>
     <IdNode>sommagrande</IdNode>

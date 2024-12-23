@@ -68,27 +68,50 @@ public class ScopeVisitor implements Visitor{
                     programTable.addRow(row);
                 }
             }
-            decl.accept(this);
+            decl.accept(this); //propagates the accept() to the declarations contained in program-begin body
         }
 
+        node.setProgramTable(programTable);
         System.out.println(programTable);
 
+        //Start of the begin-end body
         ArrayList<VarDeclNode> vars = node.getVars();
-        ArrayList<StatOpNode> stats = node.getStats();
+
+
+        SymbolTable beginEndTable = new SymbolTable("Begin-End");
+        typeEnvironment.add(beginEndTable);
 
         if(vars != null){
             for(VarDeclNode var : vars){
+                String name;
+                String kind;
+                Firm type;
+                for(VarOptInitNode optVar : var.getVars()){//there could be defined multiple variables together
+                    name = optVar.getIdentifier().getValue();
+                    kind = "variable";
+                    type = new VariableType(var.getType());
+                    SymbolTableRow row = new SymbolTableRow(name, kind, type); //creates a new row (one for each variable defined).
+                                                                               // Multiple definitions on the same line are counted as separated rows
+                    beginEndTable.addRow(row);
+                }
+
                 var.accept(this);
             }
         }
 
+        node.setBegindEndTable(beginEndTable);
+        System.out.println(beginEndTable);
+
+        ArrayList<StatOpNode> stats = node.getStats();
         if(stats != null){
             for(StatOpNode stat : stats){
                 stat.accept(this);
             }
         }
 
-        node.setTable(programTable);
+        typeEnvironment.pop();
+        typeEnvironment.pop();
+
         return node;
     }
 
