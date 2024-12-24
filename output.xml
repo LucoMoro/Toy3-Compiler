@@ -52,10 +52,6 @@
           </MulNode>
         </VarOptInit>
       </VarDecl>
-      <VarDecl type='BOOL'>
-        <VarOptInit name='test'>
-        </VarOptInit>
-      </VarDecl>
       <IfThenElseNode>
         <GENode>
           <MulNode>

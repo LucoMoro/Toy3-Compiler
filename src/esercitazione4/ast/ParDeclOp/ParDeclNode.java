@@ -2,6 +2,7 @@ package esercitazione4.ast.ParDeclOp;
 
 import esercitazione4.ast.Type;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,14 @@ public class ParDeclNode implements  ParDeclOpNode {
         return right;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -34,4 +43,5 @@ public class ParDeclNode implements  ParDeclOpNode {
 
     private ArrayList<PVarNode> left;
     private Type right;
+    private SymbolTable table;
 }

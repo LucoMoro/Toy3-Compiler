@@ -22,6 +22,7 @@ public class ScopeVisitor implements Visitor{
     private SymbolTable table;
     private Stack<SymbolTable> typeEnvironment = new Stack<>();
 
+    /* Program */
     @Override
     public Object visit(ProgramNode node) {
 
@@ -62,7 +63,12 @@ public class ScopeVisitor implements Visitor{
                 for(VarOptInitNode var : ((VarDeclNode) decl).getVars()){ //there could be defined multiple variables together
                     name = var.getIdentifier().getValue();
                     kind = "variable";
-                    type = new VariableType(((VarDeclNode) decl).getType());
+
+                    if(((VarDeclNode) decl).getType() == null){ //used to check if the variable is initialized with a constant or a type
+                        type = new VariableType(((VarDeclNode) decl).getConstant());
+                    } else {
+                        type = new VariableType(((VarDeclNode) decl).getType());
+                    }
 
                     SymbolTableRow row = new SymbolTableRow(name, kind, type);
                     programTable.addRow(row);
@@ -89,7 +95,13 @@ public class ScopeVisitor implements Visitor{
                 for(VarOptInitNode optVar : var.getVars()){//there could be defined multiple variables together
                     name = optVar.getIdentifier().getValue();
                     kind = "variable";
-                    type = new VariableType(var.getType());
+
+                    if(var.getType() == null){
+                        type = new VariableType(var.getConstant());
+                    } else {
+                        type = new VariableType(var.getType());
+                    }
+
                     SymbolTableRow row = new SymbolTableRow(name, kind, type); //creates a new row (one for each variable defined).
                                                                                // Multiple definitions on the same line are counted as separated rows
                     beginEndTable.addRow(row);
@@ -99,9 +111,6 @@ public class ScopeVisitor implements Visitor{
             }
         }
 
-        node.setBegindEndTable(beginEndTable);
-        System.out.println(beginEndTable);
-
         ArrayList<StatOpNode> stats = node.getStats();
         if(stats != null){
             for(StatOpNode stat : stats){
@@ -109,12 +118,16 @@ public class ScopeVisitor implements Visitor{
             }
         }
 
+        node.setBegindEndTable(beginEndTable);
+        System.out.println(beginEndTable);
+
         typeEnvironment.pop();
         typeEnvironment.pop();
 
         return node;
     }
 
+    /* DefDecl */
     @Override
     public Object visit(DefDeclNode node) {
 
@@ -147,7 +160,12 @@ public class ScopeVisitor implements Visitor{
                 for(VarOptInitNode optvar : optvars){
                     name = optvar.getIdentifier().getValue();
                     kind = "variable";
-                    type = new VariableType(var.getType());
+
+                    if(var.getType() == null){
+                        type = new VariableType(var.getConstant());
+                    } else {
+                        type = new VariableType(var.getType());
+                    }
 
                     SymbolTableRow row = new SymbolTableRow(name, kind, type);
                     defDeclTable.addRow(row);
@@ -162,11 +180,48 @@ public class ScopeVisitor implements Visitor{
             }
         }
 
+        node.setTable(defDeclTable);
         System.out.println(defDeclTable);
         typeEnvironment.pop();
 
         return node;
     }
+
+    /* VarDecls */
+    @Override
+    public Object visit(VarDeclNode node) {
+
+        node.setTable(typeEnvironment.peek());
+        return node;
+    }
+    @Override
+    public Object visit(VarOptInitNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ParDeclNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        return null;
+    }
+
+    @Override
+    public Object visit(PVarNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visit(BodyNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visit(WhileNode node) {
+        return null;
+    }
+
 
     @Override
     public Object visit(IdNode node) {
@@ -303,34 +358,5 @@ public class ScopeVisitor implements Visitor{
         return null;
     }
 
-    @Override
-    public Object visit(WhileNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarOptInitNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarDeclNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(BodyNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(PVarNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ParDeclNode node) {
-        return null;
-    }
 
 }
