@@ -118,6 +118,53 @@ public class ScopeVisitor implements Visitor{
     @Override
     public Object visit(DefDeclNode node) {
 
+        SymbolTable defDeclTable = new SymbolTable("DefDecl(" +node.getName().getValue()+")");
+        typeEnvironment.add(defDeclTable);
+
+        String name;
+        String kind;
+        Firm type;
+        ArrayList<ParDeclNode> pars = node.getParams();
+
+        if(pars != null){
+           for(ParDeclNode par : pars){
+               ArrayList<PVarNode> pvars = par.getLeft();
+               for(PVarNode pvar : pvars){
+                   name = pvar.getVariable().getValue();
+                   kind = "variable";
+                   type = new VariableType(par.getRight());
+
+                   SymbolTableRow row = new SymbolTableRow(name, kind, type, "ref: " +pvar.getHasRef());
+                   defDeclTable.addRow(row);
+               }
+           }
+        }
+
+        ArrayList<VarDeclNode> vars = node.getBody().getLeft();
+        if(vars != null){
+            for(VarDeclNode var : vars){
+                ArrayList<VarOptInitNode> optvars = var.getVars();
+                for(VarOptInitNode optvar : optvars){
+                    name = optvar.getIdentifier().getValue();
+                    kind = "variable";
+                    type = new VariableType(var.getType());
+
+                    SymbolTableRow row = new SymbolTableRow(name, kind, type);
+                    defDeclTable.addRow(row);
+                }
+            }
+        }
+
+        ArrayList<StatOpNode> stats = node.getBody().getRight();
+        if(stats != null) {
+            for(StatOpNode stat : stats){
+                stat.accept(this);
+            }
+        }
+
+        System.out.println(defDeclTable);
+        typeEnvironment.pop();
+
         return node;
     }
 

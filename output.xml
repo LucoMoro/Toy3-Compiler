@@ -52,6 +52,10 @@
           </MulNode>
         </VarOptInit>
       </VarDecl>
+      <VarDecl type='BOOL'>
+        <VarOptInit name='test'>
+        </VarOptInit>
+      </VarDecl>
       <IfThenElseNode>
         <GENode>
           <MulNode>
@@ -86,10 +90,6 @@
       </ReturnNode>
     </Body>
   </DefDecl>
-  <VarDecl type='BOOL'>
-    <VarOptInit name='test'>
-    </VarOptInit>
-  </VarDecl>
   <AssignNode>
     <IdNode>sommapiccola</IdNode>
     <IdNode>sommagrande</IdNode>
