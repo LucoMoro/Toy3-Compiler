@@ -189,14 +189,48 @@ public class ScopeVisitor implements Visitor{
 
     /* VarDecls */
     @Override
-    public Object visit(VarDeclNode node) {
+    public Object visit(VarOptInitNode node) {
 
         node.setTable(typeEnvironment.peek());
+
+        IdNode id = node.getIdentifier();
+        id.accept(this);
+
+        ExprOpNode expr = node.getExpression();
+        if(expr != null){
+            expr.accept(this);
+        }
         return node;
     }
     @Override
-    public Object visit(VarOptInitNode node) {
-        return null;
+    public Object visit(VarDeclNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        ArrayList<VarOptInitNode> optVars = node.getVars();
+        if(optVars != null){
+            for(VarOptInitNode optVar: optVars){
+                optVar.accept(this);
+            }
+        }
+
+        ConstantNode constant = node.getConstant();
+        if(constant != null){
+            constant.accept(this);
+        }
+
+        return node;
+    }
+
+    /* PVar */
+    @Override
+    public Object visit(PVarNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        IdNode id = node.getVariable();
+        id.accept(this);
+        return node;
     }
 
     @Override
@@ -204,13 +238,17 @@ public class ScopeVisitor implements Visitor{
 
         node.setTable(typeEnvironment.peek());
 
+        ArrayList<PVarNode> pvars = node.getLeft();
+        if(pvars != null){
+            for(PVarNode pvar : pvars){
+                pvar.accept(this);
+            }
+        }
+
         return null;
     }
 
-    @Override
-    public Object visit(PVarNode node) {
-        return null;
-    }
+
 
     @Override
     public Object visit(BodyNode node) {

@@ -41,7 +41,7 @@ terminal            INT_CONST, DOUBLE_CONST;
 terminal            CHAR_CONST, STRING_CONST;
 
 /** Operators **/
-terminal            PLUS, MINUS, TIMES, DIV;
+terminal            PLUS, MINUS, TIMES, DIV, UMINUS;
 terminal            AND, OR, NOT;
 terminal            GT, GE, LT, LE, EQ, NE; //NE is missing in the syntactic specification
 

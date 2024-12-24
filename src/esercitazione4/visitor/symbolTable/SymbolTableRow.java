@@ -77,7 +77,7 @@ public class SymbolTableRow {
                     + "id: '" + this.symbol + "'; "
                     + "kind: '" + this.kind + "'; "
                     + "type: '" + this.type + "'; "
-                    + "params: '" + this.properties + "'"
+                    + "properties: '" + this.properties + "'"
                     + "}";
         }
         return output;

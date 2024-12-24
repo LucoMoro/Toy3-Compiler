@@ -1,4 +1,9 @@
 <Program>
+  <VarDecl>
+    <VarOptInit name='test_program'>
+    </VarOptInit>
+    <CharNode>m</CharNode>
+  </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='sommapiccola'>
     </VarOptInit>
@@ -81,11 +86,21 @@
   </DefDecl>
   <DefDecl name='saluto' type='STRING'>
     <Body>
+      <VarDecl>
+        <VarOptInit name='test_saluto'>
+        </VarOptInit>
+        <DoubleNode>2345.3</DoubleNode>
+      </VarDecl>
       <ReturnNode>
         <StringNode>ciao</StringNode>
       </ReturnNode>
     </Body>
   </DefDecl>
+  <VarDecl>
+    <VarOptInit name='test_begin'>
+    </VarOptInit>
+    <StringNode>hello world</StringNode>
+  </VarDecl>
   <AssignNode>
     <IdNode>sommapiccola</IdNode>
     <IdNode>sommagrande</IdNode>

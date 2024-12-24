@@ -2,6 +2,7 @@ package esercitazione4.ast.ParDeclOp;
 
 import esercitazione4.ast.IdNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class PVarNode implements ParDeclOpNode {
 
@@ -23,6 +24,14 @@ public class PVarNode implements ParDeclOpNode {
         return hasRef;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -37,4 +46,6 @@ public class PVarNode implements ParDeclOpNode {
 
     private IdNode variable;
     private Boolean hasRef;
+
+    private SymbolTable table;
 }
