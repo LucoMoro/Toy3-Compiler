@@ -3,6 +3,7 @@ package esercitazione4.ast;
 import esercitazione4.ast.StatOp.StatOpNode;
 import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,14 @@ public class BodyNode implements Node{
         return right;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -35,5 +44,7 @@ public class BodyNode implements Node{
 
     private ArrayList<VarDeclNode> left;
     private ArrayList<StatOpNode> right;
+
+    private SymbolTable table;
 
 }

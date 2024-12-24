@@ -2,6 +2,7 @@ package esercitazione4.ast.StatOp;
 
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class ReturnOpNode implements StatOpNode {
 
@@ -11,6 +12,14 @@ public class ReturnOpNode implements StatOpNode {
 
     public ExprOpNode getExpression() {
         return expression;
+    }
+
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
     }
 
     @Override
@@ -25,4 +34,5 @@ public class ReturnOpNode implements StatOpNode {
     }
 
     private ExprOpNode expression;
+    private SymbolTable table;
 }

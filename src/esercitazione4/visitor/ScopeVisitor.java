@@ -134,6 +134,9 @@ public class ScopeVisitor implements Visitor{
         SymbolTable defDeclTable = new SymbolTable("DefDecl(" +node.getName().getValue()+")");
         typeEnvironment.add(defDeclTable);
 
+        IdNode id = node.getName();
+        id.accept(this);
+
         String name;
         String kind;
         Firm type;
@@ -150,6 +153,7 @@ public class ScopeVisitor implements Visitor{
                    SymbolTableRow row = new SymbolTableRow(name, kind, type, "ref: " +pvar.getHasRef());
                    defDeclTable.addRow(row);
                }
+               par.accept(this);
            }
         }
 
@@ -170,6 +174,7 @@ public class ScopeVisitor implements Visitor{
                     SymbolTableRow row = new SymbolTableRow(name, kind, type);
                     defDeclTable.addRow(row);
                 }
+                var.accept(this);
             }
         }
 
@@ -232,7 +237,6 @@ public class ScopeVisitor implements Visitor{
         id.accept(this);
         return node;
     }
-
     @Override
     public Object visit(ParDeclNode node) {
 
@@ -245,13 +249,135 @@ public class ScopeVisitor implements Visitor{
             }
         }
 
-        return null;
+        return node;
+    }
+
+    /* Body */
+    @Override
+    public Object visit(BodyNode node) {
+
+        //add peek to change the name based on the called instruction
+        SymbolTable bodyTable = new SymbolTable("Body");
+        typeEnvironment.add(bodyTable);
+
+        String name;
+        String kind;
+        Firm type;
+
+        ArrayList<VarDeclNode> vars = node.getLeft();
+        if(vars != null){
+            for(VarDeclNode var: vars){
+                ArrayList<VarOptInitNode> optVars = var.getVars();
+                for(VarOptInitNode optVar : optVars){
+                    name = optVar.getIdentifier().getValue();
+                    kind = "variable";
+
+                    if(var.getType() == null){
+                        type = new VariableType(var.getConstant());
+                    } else {
+                        type = new VariableType(var.getType());
+                    }
+
+                    SymbolTableRow row = new SymbolTableRow(name, kind, type);
+                    bodyTable.addRow(row);
+
+                }
+
+                var.accept(this);
+            }
+        }
+
+        ArrayList<StatOpNode> stats = node.getRight();
+        if(stats != null){
+            for(StatOpNode stat: stats){
+                stat.accept(this);
+            }
+        }
+
+        node.setTable(bodyTable);
+        System.out.println(bodyTable);
+        typeEnvironment.pop();
+
+        return node;
     }
 
 
-
+    /* Statements */
     @Override
-    public Object visit(BodyNode node) {
+    public Object visit(ReadOpNode node) {
+
+        node.setTable(typeEnvironment.peek());
+        ArrayList<ExprOpNode> exprs = node.getIdentifiers();
+        if(exprs != null){
+            for(ExprOpNode expr: exprs){
+                expr.accept(this);
+            }
+        }
+
+        return node;
+    }
+    @Override
+    public Object visit(WriteOpNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        ArrayList<ExprOpNode> exprs = node.getExpressions();
+        if(exprs != null){
+            for(ExprOpNode expr: exprs){
+                expr.accept(this);
+            }
+        }
+        return node;
+    }
+    @Override
+    public Object visit(AssignOpNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        ArrayList<IdNode> ids = node.getIdentifiers();
+        for(IdNode id: ids){
+            id.accept(this);
+        }
+
+        ArrayList<ExprOpNode> exprs = node.getExpressions();
+        for(ExprOpNode expr: exprs){
+            expr.accept(this);
+        }
+
+        return node;
+    }
+    @Override
+    public Object visit(ReturnOpNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr = node.getExpression();
+        expr.accept(this);
+        return node;
+    }
+    @Override
+    public Object visit(IfThenElseNode node) {
+
+        SymbolTable ifThenElseTable = new SymbolTable("If Then Else");
+        typeEnvironment.add(ifThenElseTable);
+
+        ExprOpNode expr = node.getLeft();
+        expr.accept(this);
+
+        BodyNode ifThenBody = node.getMid();
+        ifThenBody.accept(this);
+
+        BodyNode elseBody = node.getRight();
+        elseBody.accept(this);
+
+        System.out.println(ifThenElseTable);
+        node.setTable(ifThenElseTable);
+        typeEnvironment.pop();
+
+        return node;
+    }
+    @Override
+    public Object visit(IfThenNode node) {
         return null;
     }
 
@@ -365,36 +491,5 @@ public class ScopeVisitor implements Visitor{
     public Object visit(FunCallNode node) {
         return null;
     }
-
-    @Override
-    public Object visit(ReadOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(WriteOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(AssignOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ReturnOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(IfThenElseNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(IfThenNode node) {
-        return null;
-    }
-
 
 }

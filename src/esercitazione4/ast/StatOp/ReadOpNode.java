@@ -2,6 +2,7 @@ package esercitazione4.ast.StatOp;
 
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -13,6 +14,14 @@ public class ReadOpNode implements StatOpNode {
 
     public ArrayList<ExprOpNode> getIdentifiers() {
         return identifiers;
+    }
+
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
     }
 
     @Override
@@ -27,4 +36,5 @@ public class ReadOpNode implements StatOpNode {
     }
 
     private ArrayList<ExprOpNode> identifiers;
+    private SymbolTable table;
 }
