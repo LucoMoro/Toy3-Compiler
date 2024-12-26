@@ -1,6 +1,7 @@
 package esercitazione4.ast.Constants;
 
 import esercitazione4.ast.ExprOpNode;
+import esercitazione4.ast.Type;
 import esercitazione4.visitor.Visitor;
 import esercitazione4.visitor.symbolTable.SymbolTable;
 
@@ -23,6 +24,16 @@ public class CharNode implements ConstantNode, ExprOpNode {
     }
 
     @Override
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    @Override
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName()+"{"
                 + "value: '"
@@ -36,4 +47,5 @@ public class CharNode implements ConstantNode, ExprOpNode {
     private char c;
 
     private SymbolTable table;
+    private Type returnType;
 }

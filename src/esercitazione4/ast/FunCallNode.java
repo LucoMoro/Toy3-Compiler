@@ -34,6 +34,16 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
     }
 
     @Override
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    @Override
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
                 + "name: '" + name + "'"
@@ -49,4 +59,6 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
     private ArrayList<ExprOpNode> parameters = new ArrayList<>();
 
     private SymbolTable table;
+
+    private Type returnType;
 }

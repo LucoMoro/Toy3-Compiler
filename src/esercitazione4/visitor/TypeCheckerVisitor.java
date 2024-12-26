@@ -133,11 +133,11 @@ public class TypeCheckerVisitor implements  Visitor{
                             throw new RuntimeException("The variable '" + optVar.getIdentifier().getValue() +
                                     "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + node.getType());
                         }
-                    } else {
+                    } else { //this case should be always covered by the ScopeVisitor, since it is not possible to have something like var = "test" : "a";
                         Type initializationConstantType = Type.convertType(node.getConstant()); //could be used the return value of constant.accept() but the code would become less clear
                         if(optVarType != initializationConstantType){
                             throw new RuntimeException("The variable '" + optVar.getIdentifier().getValue() +
-                                    "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + node.getType());
+                                    "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + initializationConstantType);
                         }
                     }
                 }
@@ -310,6 +310,11 @@ public class TypeCheckerVisitor implements  Visitor{
         return null;
     }
 
+    /**
+    * checks if the function is a procedure or a function and, in case it is a function,
+     * if it has at least one return statement
+    */
+
     public void checkReturnType(DefDeclNode node){
         boolean returnFlag = false;
 
@@ -345,6 +350,51 @@ public class TypeCheckerVisitor implements  Visitor{
                 }
             }
         }
+    }
+
+    public Type singleExpressionOperation(String operation, ExprOpNode expr1){
+        Type type = null;
+
+        if (operation.equals("MINUS") && expr1.getReturnType() == Type.INT ){
+            type = Type.INT;
+        } else if (operation.equals("MINUS") && expr1.getReturnType() == Type.DOUBLE){
+            type = Type.DOUBLE;
+        } else if (operation.equals("NOT") && expr1.getReturnType() == Type.BOOL){
+            type = Type.BOOL;
+        }
+        return type;
+    }
+
+    public Type doubleExpressionOperation(String operation, ExprOpNode expr1, ExprOpNode expr2){
+        Type type = null;
+
+        boolean arithOpCheck = operation.equals("PLUS") || operation.equals("TIMES") || operation.equals("MINUS") || operation.equals("DIV");
+        boolean boolOpCheck = operation.equals("AND") || operation.equals("OR");
+        boolean relOpCheck = operation.equals("GT") || operation.equals("GE") || operation.equals("LT") || operation.equals("LE") || operation.equals("EQ") || operation.equals("NE");
+
+        if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
+            type = Type.INT;
+        } else if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.DOUBLE;
+        } else if (arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
+            type = Type.DOUBLE;
+        } else if ( arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.DOUBLE;
+        } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            type = Type.STRING;
+        } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
+            type = Type.DOUBLE;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.BOOL;
+        }
+
+        return type;
     }
 
 }

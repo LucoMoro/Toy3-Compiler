@@ -22,6 +22,16 @@ public class IdNode implements ExprOpNode {
     }
 
     @Override
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    @Override
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName() + "{"
                 + "name: '" + name + "'"
@@ -35,4 +45,5 @@ public class IdNode implements ExprOpNode {
     private String name;
 
     private SymbolTable table;
+    private Type returnType;
 }

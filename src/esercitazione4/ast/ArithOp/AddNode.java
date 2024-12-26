@@ -1,6 +1,7 @@
 package esercitazione4.ast.ArithOp;
 
 import esercitazione4.ast.ExprOpNode;
+import esercitazione4.ast.Type;
 import esercitazione4.visitor.Visitor;
 import esercitazione4.visitor.symbolTable.SymbolTable;
 
@@ -32,6 +33,16 @@ public class AddNode implements ExprOpNode, ArithOpNode {
     }
 
     @Override
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    @Override
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    @Override
     public String toString(){
         return getClass().getSimpleName()+"{"
                 + "left: '" + left + "';"
@@ -47,4 +58,5 @@ public class AddNode implements ExprOpNode, ArithOpNode {
     private ExprOpNode left, right;
 
     private SymbolTable table;
+    private Type returnType;
 }

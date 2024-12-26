@@ -6,6 +6,6 @@ public interface ExprOpNode extends Node {
 
     Object accept(Visitor v);
 
-    //Type getReturnType(); todo add those methods
-    //Type setReturnType(Type returnType);
+    Type getReturnType();
+    void setReturnType(Type returnType);
 }
