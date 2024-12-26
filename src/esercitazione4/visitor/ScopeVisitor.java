@@ -139,6 +139,7 @@ public class ScopeVisitor implements Visitor{
     }
 
     /* DefDecl */
+    //todo change the "ref" position from scoping table of the method to firm of the method
     @Override
     public Object visit(DefDeclNode node) {
 

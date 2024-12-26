@@ -116,7 +116,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         return node.getReturnType();
     }
-
     @Override
     public Object visit(VarDeclNode node) {
 
@@ -153,6 +152,26 @@ public class TypeCheckerVisitor implements  Visitor{
         node.setReturnType(Type.NOTYPE);
 
         return node.getReturnType();
+    }
+
+    /* PVar */
+    @Override
+    public Object visit(PVarNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        IdNode id = node.getVariable();
+        id.accept(this);
+
+        typeEnvironment.pop();
+        node.setReturnType(id.getReturnType());
+
+        return id.getReturnType();
+    }
+
+    @Override
+    public Object visit(ParDeclNode node) {
+        return null;
     }
 
     @Override
@@ -300,21 +319,10 @@ public class TypeCheckerVisitor implements  Visitor{
         return null;
     }
 
-    @Override
-    public Object visit(PVarNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ParDeclNode node) {
-        return null;
-    }
-
     /**
     * checks if the function is a procedure or a function and, in case it is a function,
      * if it has at least one return statement
     */
-
     public void checkReturnType(DefDeclNode node){
         boolean returnFlag = false;
 
@@ -383,7 +391,7 @@ public class TypeCheckerVisitor implements  Visitor{
         } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
             type = Type.STRING;
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
-            type = Type.DOUBLE;
+            type = Type.BOOL;
         } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
             type = Type.BOOL;
         } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
