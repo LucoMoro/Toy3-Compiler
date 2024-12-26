@@ -2,6 +2,7 @@ package esercitazione4.ast.RelOp;
 
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class GTNode implements ExprOpNode, RelOpNode {
 
@@ -23,6 +24,14 @@ public class GTNode implements ExprOpNode, RelOpNode {
         return right;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName()+"{"
@@ -37,4 +46,6 @@ public class GTNode implements ExprOpNode, RelOpNode {
 
     private String operation;
     private ExprOpNode left, right;
+
+    private SymbolTable table;
 }

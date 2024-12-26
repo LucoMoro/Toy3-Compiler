@@ -564,34 +564,84 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
+    /* Relational Operators */
     @Override
     public Object visit(GTNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(GENode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(LTNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(LENode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(EQNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(NENode node) {
-        return null;
+
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
     }
 
     @Override
