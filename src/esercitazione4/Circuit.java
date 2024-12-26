@@ -3,6 +3,7 @@ package esercitazione4;
 import esercitazione4.ast.ProgramNode;
 import esercitazione4.visitor.ScopeVisitor;
 import esercitazione4.visitor.TreeVisitor;
+import esercitazione4.visitor.TypeCheckerVisitor;
 
 import java.io.*;
 
@@ -42,6 +43,9 @@ public class Circuit {
 
             ScopeVisitor scope = new ScopeVisitor();
             program.accept(scope);
+
+            TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
+            program.accept(typeChecker);
 
             output_file.close();
         }

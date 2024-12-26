@@ -43,6 +43,14 @@ public class ProgramNode implements Node{
         this.begindEndTable = begindEndTable;
     }
 
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -62,4 +70,6 @@ public class ProgramNode implements Node{
 
     private SymbolTable programTable;
     private SymbolTable begindEndTable;
+
+    private Type returnType;
 }

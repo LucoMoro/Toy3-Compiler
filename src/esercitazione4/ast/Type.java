@@ -6,5 +6,6 @@ public enum Type {
     BOOL,
     DOUBLE,
     STRING,
-    CHAR;
+    CHAR,
+    NOTYPE;
 }

@@ -302,7 +302,6 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
-
     /* Statements */
     @Override
     public Object visit(ReadOpNode node) {
