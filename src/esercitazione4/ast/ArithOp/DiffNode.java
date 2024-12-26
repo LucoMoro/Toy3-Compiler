@@ -2,6 +2,7 @@ package esercitazione4.ast.ArithOp;
 
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class DiffNode implements ExprOpNode, ArithOpNode {
 
@@ -23,6 +24,14 @@ public class DiffNode implements ExprOpNode, ArithOpNode {
         return right;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName()+"{"
@@ -37,4 +46,6 @@ public class DiffNode implements ExprOpNode, ArithOpNode {
 
     private String operation;
     private ExprOpNode left, right;
+
+    private SymbolTable table;
 }

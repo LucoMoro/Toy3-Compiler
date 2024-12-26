@@ -462,31 +462,71 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
+    /* Arithmetic Operators */
     @Override
     public Object visit(AddNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = (ExprOpNode) node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(DiffNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(MulNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(DivNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(UMinusNode node) {
-        return null;
+
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr = node.getLeft();
+        expr.accept(this);
+
+        return node;
     }
 
+    /* Boolean Operators */
     @Override
     public Object visit(AndNode node) {
         return null;
