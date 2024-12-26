@@ -3,6 +3,7 @@ package esercitazione4.ast.StatOp;
 import esercitazione4.ast.BodyNode;
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class WhileNode implements StatOpNode {
 
@@ -19,6 +20,14 @@ public class WhileNode implements StatOpNode {
         return right;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -33,4 +42,6 @@ public class WhileNode implements StatOpNode {
 
     private ExprOpNode left;
     private BodyNode right;
+
+    private SymbolTable table;
 }

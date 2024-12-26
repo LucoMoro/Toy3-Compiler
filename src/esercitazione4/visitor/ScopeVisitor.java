@@ -21,6 +21,7 @@ import java.util.Stack;
 public class ScopeVisitor implements Visitor{
     private SymbolTable table;
     private Stack<SymbolTable> typeEnvironment = new Stack<>();
+    private String bodyName=""; //used to give a name to the body table based on his parent
 
     /* Program */
     @Override
@@ -257,7 +258,7 @@ public class ScopeVisitor implements Visitor{
     public Object visit(BodyNode node) {
 
         //add peek to change the name based on the called instruction
-        SymbolTable bodyTable = new SymbolTable("Body");
+        SymbolTable bodyTable = new SymbolTable(bodyName);
         typeEnvironment.add(bodyTable);
 
         String name;
@@ -358,16 +359,19 @@ public class ScopeVisitor implements Visitor{
     @Override
     public Object visit(IfThenElseNode node) {
 
-        SymbolTable ifThenElseTable = new SymbolTable("If Then Else");
+        SymbolTable ifThenElseTable = new SymbolTable("IfThenElse");
         typeEnvironment.add(ifThenElseTable);
 
         ExprOpNode expr = node.getLeft();
         expr.accept(this);
 
         BodyNode ifThenBody = node.getMid();
+        bodyName = "ifThenBody";
         ifThenBody.accept(this);
 
+
         BodyNode elseBody = node.getRight();
+        bodyName = "ElseBody";
         elseBody.accept(this);
 
         System.out.println(ifThenElseTable);
@@ -378,12 +382,42 @@ public class ScopeVisitor implements Visitor{
     }
     @Override
     public Object visit(IfThenNode node) {
-        return null;
+
+        SymbolTable ifThenTable = new SymbolTable("IfThen");
+        typeEnvironment.add(ifThenTable);
+
+        ExprOpNode expr = node.getLeft();
+        expr.accept(this);
+
+        BodyNode body = node.getRight();
+        bodyName = "IfThenBody";
+        body.accept(this);
+
+        System.out.println(ifThenTable);
+        node.setTable(ifThenTable);
+        typeEnvironment.pop();
+
+        return node;
     }
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
+
+        SymbolTable whileTable = new SymbolTable("While");
+        typeEnvironment.add(whileTable);
+
+        ExprOpNode expr = node.getLeft();
+        expr.accept(this);
+
+        BodyNode body = node.getRight();
+        bodyName = "WhileBody";
+        body.accept(this);
+
+        System.out.println(whileTable);
+        node.setTable(whileTable);
+        typeEnvironment.pop();
+
+        return node;
     }
 
 
