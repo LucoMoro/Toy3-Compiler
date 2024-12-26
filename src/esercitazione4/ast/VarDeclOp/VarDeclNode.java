@@ -42,6 +42,14 @@ public class VarDeclNode implements DeclOpNode {
         this.table = table;
     }
 
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
     @Override
     public String toString(){
         String result="";
@@ -68,4 +76,6 @@ public class VarDeclNode implements DeclOpNode {
     private ConstantNode constant;
     private ArrayList<VarOptInitNode> vars;
     private SymbolTable table;
+
+    private Type returnType;
 }

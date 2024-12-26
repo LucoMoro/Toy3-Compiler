@@ -689,6 +689,7 @@ public class ScopeVisitor implements Visitor{
      *     var (VarDeclNode): The variable declaration node, representing the
      *                        list of variables initialized with a constant.
      */
+    //todo check if it is necessary to modify it in order to catch declarations such as 6*7
     public boolean checkVarDecl(VarDeclNode var){
 
         if(var.getVars().size() == 1){

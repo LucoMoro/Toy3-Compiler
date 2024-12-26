@@ -5,4 +5,7 @@ import esercitazione4.visitor.Visitor;
 public interface ExprOpNode extends Node {
 
     Object accept(Visitor v);
+
+    //Type getReturnType(); todo add those methods
+    //Type setReturnType(Type returnType);
 }

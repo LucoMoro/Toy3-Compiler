@@ -1,9 +1,6 @@
 package esercitazione4.ast.VarDeclOp;
 
-import esercitazione4.ast.DeclOpNode;
-import esercitazione4.ast.ExprOpNode;
-import esercitazione4.ast.IdNode;
-import esercitazione4.ast.Node;
+import esercitazione4.ast.*;
 import esercitazione4.visitor.Visitor;
 import esercitazione4.visitor.symbolTable.SymbolTable;
 
@@ -35,6 +32,14 @@ public class VarOptInitNode implements DeclOpNode {
         this.table = symbolTable;
     }
 
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -50,4 +55,6 @@ public class VarOptInitNode implements DeclOpNode {
     private IdNode identifier;
     private ExprOpNode expression;
     private SymbolTable table;
+
+    private Type returnType;
 }

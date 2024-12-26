@@ -97,6 +97,64 @@ public class TypeCheckerVisitor implements  Visitor{
         return Type.NOTYPE;
     }
 
+    /* VarDecls */
+    @Override
+    public Object visit(VarOptInitNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        IdNode id = node.getIdentifier();
+        id.accept(this);
+
+        ExprOpNode expr = node.getExpression();
+        if(expr != null){
+            expr.accept(this);
+        }
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.NOTYPE); //todo change in node.setReturnType(expr.getReturnType()); when the method will be implemented
+
+        return node.getReturnType();
+    }
+
+    @Override
+    public Object visit(VarDeclNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        ArrayList<VarOptInitNode> optVars = node.getVars();
+
+        if(optVars != null){
+            for(VarOptInitNode optVar : optVars){
+                Type optVarType = (Type) optVar.accept(this);
+                if(optVar.getExpression() != null){ //further checks are useless if the variable has not been initialized
+                    if(node.getType() != null){ //VarDecl could be initialized with a type or a constant, so a check is needed
+                        if(optVarType != node.getType()){
+                            throw new RuntimeException("The variable '" + optVar.getIdentifier().getValue() +
+                                    "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + node.getType());
+                        }
+                    } else {
+                        Type initializationConstantType = Type.convertType(node.getConstant()); //could be used the return value of constant.accept() but the code would become less clear
+                        if(optVarType != initializationConstantType){
+                            throw new RuntimeException("The variable '" + optVar.getIdentifier().getValue() +
+                                    "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + node.getType());
+                        }
+                    }
+                }
+            }
+        }
+
+        ConstantNode constant = node.getConstant();
+        if(constant != null){
+            constant.accept(this);
+        }
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();
+    }
+
     @Override
     public Object visit(IdNode node) {
         return null;
@@ -234,16 +292,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarOptInitNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarDeclNode node) {
         return null;
     }
 
