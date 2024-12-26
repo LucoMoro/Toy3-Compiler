@@ -2,6 +2,7 @@ package esercitazione4.ast.Constants;
 
 import esercitazione4.ast.ExprOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class CharNode implements ConstantNode, ExprOpNode {
 
@@ -11,6 +12,14 @@ public class CharNode implements ConstantNode, ExprOpNode {
 
     public char getValue(){
         return c;
+    }
+
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
     }
 
     @Override
@@ -25,4 +34,6 @@ public class CharNode implements ConstantNode, ExprOpNode {
     }
 
     private char c;
+
+    private SymbolTable table;
 }

@@ -420,35 +420,46 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
-
+    /* Identifier */
     @Override
     public Object visit(IdNode node) {
-        return null;
+
+        node.setTable(typeEnvironment.peek());
+
+        return node;
     }
 
+    /* Constants */
     @Override
     public Object visit(BoolNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        return node;
+    }
     @Override
     public Object visit(CharNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+        return node;
+    }
     @Override
     public Object visit(IntNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+        return node;
+    }
     @Override
     public Object visit(DoubleNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+        return node;
+    }
     @Override
     public Object visit(StringNode node) {
-        return null;
+
+        node.setTable(typeEnvironment.peek());
+        return node;
     }
 
     @Override
