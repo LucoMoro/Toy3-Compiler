@@ -6,7 +6,7 @@ begin
     (ciao<>hello) !>>;
 
     if( hello == when) then {
-    var : string;
+    var =1: string;
         "Yes" >>;
     } else {}
 
