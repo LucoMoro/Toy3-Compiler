@@ -2,6 +2,7 @@ package esercitazione4.ast;
 
 import esercitazione4.ast.StatOp.StatOpNode;
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.SymbolTable;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,14 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
         return parameters;
     }
 
+    public SymbolTable getTable() {
+        return table;
+    }
+
+    public void setTable(SymbolTable table) {
+        this.table = table;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -38,4 +47,6 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
 
     private IdNode name;
     private ArrayList<ExprOpNode> parameters = new ArrayList<>();
+
+    private SymbolTable table;
 }

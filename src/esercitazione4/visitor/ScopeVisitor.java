@@ -399,7 +399,6 @@ public class ScopeVisitor implements Visitor{
 
         return node;
     }
-
     @Override
     public Object visit(WhileNode node) {
 
@@ -416,6 +415,23 @@ public class ScopeVisitor implements Visitor{
         System.out.println(whileTable);
         node.setTable(whileTable);
         typeEnvironment.pop();
+
+        return node;
+    }
+    @Override
+    public Object visit(FunCallNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        IdNode id = node.getName();
+        id.accept(this);
+
+        ArrayList<ExprOpNode> exprs = node.getParameters();
+        if(exprs != null){
+            for(ExprOpNode expr : exprs){
+                expr.accept(this);
+            }
+        }
 
         return node;
     }
@@ -642,11 +658,6 @@ public class ScopeVisitor implements Visitor{
         expr2.accept(this);
 
         return node;
-    }
-
-    @Override
-    public Object visit(FunCallNode node) {
-        return null;
     }
 
 }
