@@ -1,6 +1,7 @@
 package esercitazione4.ast.StatOp;
 
 import esercitazione4.ast.ExprOpNode;
+import esercitazione4.ast.Type;
 import esercitazione4.visitor.Visitor;
 import esercitazione4.visitor.symbolTable.SymbolTable;
 
@@ -22,6 +23,14 @@ public class ReturnOpNode implements StatOpNode {
         this.table = table;
     }
 
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -35,4 +44,6 @@ public class ReturnOpNode implements StatOpNode {
 
     private ExprOpNode expression;
     private SymbolTable table;
+
+    private Type returnType;
 }

@@ -30,6 +30,14 @@ public class BodyNode implements Node{
         this.table = table;
     }
 
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -46,5 +54,7 @@ public class BodyNode implements Node{
     private ArrayList<StatOpNode> right;
 
     private SymbolTable table;
+
+    private Type returnType;
 
 }

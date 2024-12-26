@@ -64,10 +64,19 @@ public class DefDeclNode implements DeclOpNode {
         this.table = table;
     }
 
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
     private IdNode name;
     private ArrayList<ParDeclNode> params;
     private Type type;
     private BodyNode body;
 
     private SymbolTable table;
+    private Type returnType;
 }
