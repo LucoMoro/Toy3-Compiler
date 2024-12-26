@@ -529,17 +529,39 @@ public class ScopeVisitor implements Visitor{
     /* Boolean Operators */
     @Override
     public Object visit(AndNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(OrNode node) {
-        return null;
-    }
 
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        return node;
+    }
     @Override
     public Object visit(NotNode node) {
-        return null;
+
+        node.setTable(typeEnvironment.peek());
+
+        ExprOpNode expr = node.getLeft();
+        expr.accept(this);
+
+        return node;
     }
 
     @Override

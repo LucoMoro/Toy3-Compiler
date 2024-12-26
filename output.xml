@@ -61,22 +61,12 @@
           <IntNode>100</IntNode>
         </GENode>
         <Body>
-          <VarDecl>
-            <VarOptInit name='test3'>
-            </VarOptInit>
-            <StringNode>hello</StringNode>
-          </VarDecl>
           <AssignNode>
             <IdNode>grande</IdNode>
             <BoolNode>true</BoolNode>
           </AssignNode>
         </Body>
         <Body>
-          <VarDecl>
-            <VarOptInit name='test4'>
-            </VarOptInit>
-            <CharNode>c</CharNode>
-          </VarDecl>
           <AssignNode>
             <IdNode>grande</IdNode>
             <BoolNode>false</BoolNode>
@@ -142,10 +132,6 @@
       <IntNode>0</IntNode>
     </GTNode>
     <Body>
-      <VarDecl type='INT'>
-        <VarOptInit name='while_esterno'>
-        </VarOptInit>
-      </VarDecl>
       <AssignNode>
         <IdNode>x</IdNode>
         <UMinusNode>
@@ -200,10 +186,6 @@
       <IfThenElseNode>
         <IdNode>grande</IdNode>
         <Body>
-          <VarDecl type='BOOL'>
-            <VarOptInit name='test'>
-            </VarOptInit>
-          </VarDecl>
           <AssignNode>
             <IdNode>sommagrande</IdNode>
             <AddNode>
@@ -213,11 +195,6 @@
           </AssignNode>
         </Body>
         <Body>
-          <VarDecl>
-            <VarOptInit name='test1'>
-            </VarOptInit>
-            <IntNode>1</IntNode>
-          </VarDecl>
           <AssignNode>
             <IdNode>sommapiccola</IdNode>
             <AddNode>
