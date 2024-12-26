@@ -62,8 +62,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(DefDeclNode node) {
 
-        boolean returnFlag = false;
-
         typeEnvironment.add(node.getTable());
 
         IdNode id = node.getName();
@@ -79,42 +77,12 @@ public class TypeCheckerVisitor implements  Visitor{
         BodyNode body = node.getBody();
         body.accept(this);
 
-        body.setReturnType(Type.NOTYPE); //to remove when BodyNode will be implemented
+        body.setReturnType(Type.NOTYPE); //todo remove when BodyNode will be implemented
         if(body.getReturnType() != Type.NOTYPE){
             throw  new RuntimeException("Type system error: " + getClass().getSimpleName());
         }
 
-        ArrayList<StatOpNode> stats = node.getBody().getRight();
-
-        Type functionType = node.getType();
-        if(functionType == null){
-            if(stats != null){
-                for(StatOpNode stat : stats){
-                    if(stat instanceof ReturnOpNode){
-                        throw new RuntimeException("The procedure " + node.getName().getValue() + " should not contain a return statement");
-                    }
-                }
-            }
-        } else {
-            if(stats != null){
-                for(StatOpNode stat : stats){
-                    if(stat instanceof ReturnOpNode){ //searches for the return statement
-                        returnFlag = true;
-                        ReturnOpNode tmpStat = (ReturnOpNode) stat; //if the return statement is found I create a temporary statemnt
-                        Type tmpType = null;
-                        if(tmpStat.getReturnType() == null && (tmpStat.getExpression() instanceof ConstantNode)){
-                            tmpType = convertType((ConstantNode) tmpStat.getExpression());
-                        }
-                        if(tmpType != functionType){
-                            throw new RuntimeException("The return type for " + node.getName().getValue() +" is incorrect");
-                        }
-                    }
-                }
-                if (returnFlag == false) {
-                    throw new RuntimeException("The function " + node.getName().getValue() +" must contain at least one return statement");
-                }
-            }
-        }
+        checkReturnType(node);
 
         typeEnvironment.pop();
         node.setReturnType(Type.NOTYPE);
@@ -287,25 +255,41 @@ public class TypeCheckerVisitor implements  Visitor{
         return null;
     }
 
-    /**
-     * Function that converts the constant into the corresponding type
-     */
-    public Type convertType(ConstantNode constant){
-        Type convertedType = null;
+    public void checkReturnType(DefDeclNode node){
+        boolean returnFlag = false;
 
-        if(constant instanceof BodyNode){
-            convertedType = Type.BOOL;
-        } else if (constant instanceof IntNode){
-            convertedType = Type.INT;
-        } else if (constant instanceof DoubleNode){
-            convertedType = Type.DOUBLE;
-        } else if (constant instanceof CharNode){
-            convertedType = Type.CHAR;
-        } else if (constant instanceof StringNode){
-            convertedType = Type.STRING;
+        ArrayList<StatOpNode> stats = node.getBody().getRight();
+
+        Type functionType = node.getType();
+        if(functionType == null){
+            if(stats != null){
+                for(StatOpNode stat : stats){
+                    if(stat instanceof ReturnOpNode){
+                        throw new RuntimeException("The procedure " + node.getName().getValue() + " should not contain a return statement");
+                    }
+                }
+            }
+        } else {
+            if(stats != null){
+                for(StatOpNode stat : stats){
+                    if(stat instanceof ReturnOpNode){ //searches for the return statement
+                        returnFlag = true;
+                        ReturnOpNode tmpStat = (ReturnOpNode) stat; //if the return statement is found I create a temporary statemnt
+                        Type tmpType = null;
+                        if(tmpStat.getReturnType() == null && (tmpStat.getExpression() instanceof ConstantNode)){ //todo modify when implementing visitors on arithmetic operators
+                            tmpType = Type.convertType((ConstantNode) tmpStat.getExpression()); //also VariableType could be used since it does the same
+                                                                                                //if a constant is provided
+                        }
+                        if(tmpType != functionType){
+                            throw new RuntimeException("The return type for " + node.getName().getValue() +" is incorrect");
+                        }
+                    }
+                }
+                if (returnFlag == false) {
+                    throw new RuntimeException("The function " + node.getName().getValue() +" must contain at least one return statement");
+                }
+            }
         }
-
-        return convertedType;
     }
 
 }
