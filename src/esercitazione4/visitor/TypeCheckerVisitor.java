@@ -82,7 +82,14 @@ public class TypeCheckerVisitor implements  Visitor{
             throw  new RuntimeException("Type system error: " + getClass().getSimpleName());
         }
 
-        checkReturnType(node);
+        checkReturnType(node); //could be implemented after the accept()
+
+        ArrayList<StatOpNode> stats = node.getBody().getRight();
+        if(stats != null){
+            for(StatOpNode stat : stats){
+                stat.accept(this);
+            }
+        }
 
         typeEnvironment.pop();
         node.setReturnType(Type.NOTYPE);

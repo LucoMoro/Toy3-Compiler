@@ -14,7 +14,8 @@ program
 
  def moltiplicazione( x: double; y: double; ref res : double; ref  grande: bool)
  {
-	risultato= x*y | nonusata : double;
+
+    risultato= x*y | nonusata : double;
 
 	if ((x*y) >= 100) then {
 		grande := true;

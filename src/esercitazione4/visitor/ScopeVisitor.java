@@ -66,7 +66,12 @@ public class ScopeVisitor implements Visitor{
                     kind = "variable";
 
                     if(((VarDeclNode) decl).getType() == null){ //used to check if the variable is initialized with a constant or a type
-                        type = new VariableType(((VarDeclNode) decl).getConstant());
+                        boolean check = checkVarDecl((VarDeclNode) decl); //checks if there is only one unititialized variable
+                        if(check) {
+                            type = new VariableType(((VarDeclNode) decl).getConstant());
+                        } else {
+                            throw new RuntimeException("Incorrect variables declaration in " + node );
+                        }
                     } else {
                         type = new VariableType(((VarDeclNode) decl).getType());
                     }
@@ -97,8 +102,13 @@ public class ScopeVisitor implements Visitor{
                     name = optVar.getIdentifier().getValue();
                     kind = "variable";
 
-                    if(var.getType() == null){
-                        type = new VariableType(var.getConstant());
+                    if(var.getType() == null){ //used to check if the variable is initialized with a constant or a type
+                        boolean check = checkVarDecl(var); //checks if there is only one unititialized variable
+                        if(check) {
+                            type = new VariableType(var.getConstant());
+                        } else {
+                            throw new RuntimeException("Incorrect variables declaration in " + node );
+                        }
                     } else {
                         type = new VariableType(var.getType());
                     }
@@ -166,8 +176,13 @@ public class ScopeVisitor implements Visitor{
                     name = optvar.getIdentifier().getValue();
                     kind = "variable";
 
-                    if(var.getType() == null){
-                        type = new VariableType(var.getConstant());
+                    if(var.getType() == null){ //used to check if the variable is initialized with a constant or a type
+                        boolean check = checkVarDecl(var); //checks if there is only one unititialized variable
+                        if(check) {
+                            type = new VariableType(var.getConstant());
+                        } else {
+                            throw new RuntimeException("Incorrect variables declaration in " + node );
+                        }
                     } else {
                         type = new VariableType(var.getType());
                     }
@@ -267,14 +282,19 @@ public class ScopeVisitor implements Visitor{
 
         ArrayList<VarDeclNode> vars = node.getLeft();
         if(vars != null){
-            for(VarDeclNode var: vars){
+            for(VarDeclNode var: vars){ //todo refactor and extract this method
                 ArrayList<VarOptInitNode> optVars = var.getVars();
                 for(VarOptInitNode optVar : optVars){
                     name = optVar.getIdentifier().getValue();
                     kind = "variable";
 
-                    if(var.getType() == null){
-                        type = new VariableType(var.getConstant());
+                    if(var.getType() == null){ //used to check if the variable is initialized with a constant or a type
+                        boolean check = checkVarDecl(var); //checks if there is only one unititialized variable
+                        if(check) {
+                            type = new VariableType(var.getConstant());
+                        } else {
+                            throw new RuntimeException("Incorrect variables declaration in " + node );
+                        }
                     } else {
                         type = new VariableType(var.getType());
                     }
@@ -659,4 +679,26 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
+
+    /**
+     * Checks if there is only one variable that is not initialized. This rule
+     * applies only when the variable is defined using a constant, not a type.
+     *
+     *
+     * Args:
+     *     var (VarDeclNode): The variable declaration node, representing the
+     *                        list of variables initialized with a constant.
+     */
+    public boolean checkVarDecl(VarDeclNode var){
+
+        if(var.getVars().size() == 1){
+            VarOptInitNode varOpt  = var.getVars().get(0);
+            if(varOpt.getExpression() == null) {
+                return true; //correct
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
