@@ -29,6 +29,14 @@ public class ParDeclNode implements  ParDeclOpNode {
         this.table = table;
     }
 
+    public void setReturnType(Type returnType) {
+        this.returnType = returnType;
+    }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -44,4 +52,6 @@ public class ParDeclNode implements  ParDeclOpNode {
     private ArrayList<PVarNode> left;
     private Type right;
     private SymbolTable table;
+
+    private Type returnType;
 }

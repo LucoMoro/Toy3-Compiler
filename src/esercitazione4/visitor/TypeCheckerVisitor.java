@@ -168,10 +168,53 @@ public class TypeCheckerVisitor implements  Visitor{
 
         return id.getReturnType();
     }
-
     @Override
     public Object visit(ParDeclNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ArrayList<PVarNode> pVars = node.getLeft();
+        if(pVars != null){
+            for(PVarNode pVar : pVars) {
+                pVar.accept(this);
+            }
+        }
+
+        typeEnvironment.pop();
+        node.setReturnType(node.getRight());
+
+        return node.getRight();
+    }
+
+    /* Body */
+    @Override
+    public Object visit(BodyNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        ArrayList<VarDeclNode> vars = node.getLeft();
+        if(vars != null){
+            for(VarDeclNode var : vars){
+                var.accept(this);
+            }
+        }
+
+        ArrayList<StatOpNode> stats = node.getRight();
+
+        if(stats != null){
+            for(StatOpNode stat : stats){
+                Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
+                if(tmpStatType != Type.NOTYPE){
+                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                                                                                                       //it would be caught before arriving to BodyNode
+                }
+            }
+        }
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();
     }
 
     @Override
@@ -311,11 +354,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(BodyNode node) {
         return null;
     }
 

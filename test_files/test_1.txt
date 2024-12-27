@@ -2,7 +2,7 @@ program
 
 begin
     var1 : int;
-    var2 ="ciao" | hello = 56.3*75-7 : int;
+    var2 | hello = 56.3*75-7 : int;
     (ciao<>hello) !>>;
 
     if( hello == when) then {
