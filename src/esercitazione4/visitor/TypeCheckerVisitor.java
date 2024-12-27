@@ -64,8 +64,8 @@ public class TypeCheckerVisitor implements  Visitor{
 
         typeEnvironment.add(node.getTable());
 
-        IdNode id = node.getName();
-        id.accept(this);
+        //IdNode id = node.getName();
+        //id.accept(this);
 
         ArrayList<ParDeclNode> pars = node.getParams();
         if(pars != null){
@@ -223,7 +223,17 @@ public class TypeCheckerVisitor implements  Visitor{
 
     @Override
     public Object visit(IdNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+        Stack<SymbolTable> clonedTypeEnvironment;
+
+        //System.out.println("a" +typeEnvironment);
+        //clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
+        //System.out.println("b" +clonedTypeEnvironment);
+
+        typeEnvironment.pop();
+
+        return node.getReturnType();
     }
 
     /* Arithmetic Operators */
@@ -307,7 +317,7 @@ public class TypeCheckerVisitor implements  Visitor{
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
-        Type exprType = this.singleExpressionOperation("MINUS", expr1);
+        Type exprType = this.singleExpressionOperation("UMINUS", expr1);
 
         typeEnvironment.pop();
         node.setReturnType(exprType);
@@ -532,7 +542,7 @@ public class TypeCheckerVisitor implements  Visitor{
     }
 
     @Override
-    public Object visit(FunCallNode node) {
+    public Object visit(FunCallNode node) { //lookup(..., "function" | "procedure")
         return null;
     }
 
@@ -596,12 +606,11 @@ public class TypeCheckerVisitor implements  Visitor{
                         returnFlag = true;
                         ReturnOpNode tmpStat = (ReturnOpNode) stat; //if the return statement is found I create a temporary statemnt
                         Type tmpType = null;
-                        if(tmpStat.getReturnType() == null && (tmpStat.getExpression() instanceof ConstantNode)){ //todo modify when implementing visitors on arithmetic operators
-                            tmpType = Type.convertType((ConstantNode) tmpStat.getExpression()); //also VariableType could be used since it does the same
-                                                                                                //if a constant is provided
+                        if(tmpStat.getReturnType() == null){//checks if the returnType is null todo check, after the implementation of ReturnOpNode, if this check is usefull
+                            tmpType = (Type) tmpStat.getExpression().accept(this);
                         }
                         if(tmpType != functionType){
-                            throw new RuntimeException("The return type for " + node.getName().getValue() +" is incorrect");
+                            throw new RuntimeException("The return type for '" + node.getName().getValue() +"' is incorrect: expected: " + functionType + " and got " + tmpType);
                         }
                     }
                 }
@@ -612,13 +621,12 @@ public class TypeCheckerVisitor implements  Visitor{
         }
     }
 
-    //todo change MINUS in UMINUS
     public Type singleExpressionOperation(String operation, ExprOpNode expr1){
         Type type = null;
 
-        if (operation.equals("MINUS") && expr1.getReturnType() == Type.INT ){
+        if (operation.equals("UMINUS") && expr1.getReturnType() == Type.INT ){
             type = Type.INT;
-        } else if (operation.equals("MINUS") && expr1.getReturnType() == Type.DOUBLE){
+        } else if (operation.equals("UMINUS") && expr1.getReturnType() == Type.DOUBLE){
             type = Type.DOUBLE;
         } else if (operation.equals("NOT") && expr1.getReturnType() == Type.BOOL){
             type = Type.BOOL;
@@ -658,6 +666,21 @@ public class TypeCheckerVisitor implements  Visitor{
         }
 
         return type;
+    }
+
+    public Type lookUp(Stack<SymbolTable> typeEnvironment, IdNode node, String kind){
+        Type variableType=null;
+        return variableType;
+    }
+
+    public Stack<SymbolTable> cloneTypeEnvironment(Stack<SymbolTable> typeEnvironment){
+        Stack<SymbolTable> clonedStack = new Stack<SymbolTable>();
+
+        for(SymbolTable currSymbolTable: typeEnvironment){
+            clonedStack.push(currSymbolTable);
+        }
+
+        return clonedStack;
     }
 
 }

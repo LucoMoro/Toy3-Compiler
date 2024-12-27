@@ -60,7 +60,7 @@ public class SymbolTableRow {
     @Override
     public boolean equals(Object obj) { //needed to throw the DuplicateSymbolException
         SymbolTableRow row = (SymbolTableRow) obj;
-        return this.symbol.equals(row.getSymbol());
+        return this.symbol.equals(row.getSymbol()) && this.kind.equals(row.getKind());
     }
 
     @Override
