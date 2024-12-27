@@ -109,10 +109,12 @@ public class TypeCheckerVisitor implements  Visitor{
         ExprOpNode expr = node.getExpression();
         if(expr != null){
             expr.accept(this);
+            node.setReturnType(expr.getReturnType()); //todo change in node.setReturnType(expr.getReturnType()); when the method will be implemented
+        } else {
+            node.setReturnType(null); //in this case it has to be null since there is no expression to check
         }
 
         typeEnvironment.pop();
-        node.setReturnType(Type.NOTYPE); //todo change in node.setReturnType(expr.getReturnType()); when the method will be implemented
 
         return node.getReturnType();
     }
@@ -126,11 +128,12 @@ public class TypeCheckerVisitor implements  Visitor{
         if(optVars != null){
             for(VarOptInitNode optVar : optVars){
                 Type optVarType = (Type) optVar.accept(this);
+                //System.out.println("Check on optVarType The variable " + optVar.getIdentifier().getValue() + " has type " + optVarType);
                 if(optVar.getExpression() != null){ //further checks are useless if the variable has not been initialized
                     if(node.getType() != null){ //VarDecl could be initialized with a type or a constant, so a check is needed
                         if(optVarType != node.getType()){
                             throw new RuntimeException("The variable '" + optVar.getIdentifier().getValue() +
-                                    "' initialized with: " + optVar.getExpression() + " does not match the declaration type: " + node.getType());
+                                    "' initialized with: " + optVar.getExpression() + " (" + optVar.getExpression().getReturnType() + ") does not match the declaration type: " + node.getType());
                         }
                     } else { //this case should be always covered by the ScopeVisitor, since it is not possible to have something like var = "test" : "a";
                         Type initializationConstantType = Type.convertType(node.getConstant()); //could be used the return value of constant.accept() but the code would become less clear
@@ -204,6 +207,7 @@ public class TypeCheckerVisitor implements  Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
+                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
                 if(tmpStatType != Type.NOTYPE){
                     throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
                                                                                                        //it would be caught before arriving to BodyNode
@@ -222,99 +226,309 @@ public class TypeCheckerVisitor implements  Visitor{
         return null;
     }
 
-    @Override
-    public Object visit(BoolNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(CharNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(IntNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(DoubleNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(StringNode node) {
-        return null;
-    }
-
+    /* Arithmetic Operators */
     @Override
     public Object visit(AddNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = (ExprOpNode) node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("PLUS", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(DiffNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("MINUS", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(MulNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("TIMES", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(DivNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("DIV", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(UMinusNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        Type exprType = this.singleExpressionOperation("MINUS", expr1);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
     }
 
+    /* Boolean Operators */
     @Override
     public Object visit(AndNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("AND", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType); //change
+
+        return exprType;
+    }
     @Override
     public Object visit(OrNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("OR", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(NotNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        Type exprType = this.singleExpressionOperation("NOT", expr1);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
     }
 
+    /* Relational Operators */
     @Override
     public Object visit(GTNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("GT", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(GENode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("GE", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(LTNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("LT", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(LENode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("LE", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(EQNode node) {
-        return null;
-    }
 
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("EQ", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
     @Override
     public Object visit(NENode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr1 = node.getLeft();
+        expr1.accept(this);
+
+        ExprOpNode expr2 = node.getRight();
+        expr2.accept(this);
+
+        Type exprType = this.doubleExpressionOperation("NE", expr1, expr2);
+
+        typeEnvironment.pop();
+        node.setReturnType(exprType);
+
+        return exprType;
+    }
+
+
+    /* Constants */
+    @Override
+    public Object visit(BoolNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.BOOL);
+
+        return node.getReturnType();
+    }
+    @Override
+    public Object visit(CharNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.CHAR);
+
+        return node.getReturnType();
+    }
+    @Override
+    public Object visit(IntNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.INT);
+
+        return node.getReturnType();
+    }
+    @Override
+    public Object visit(DoubleNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.DOUBLE);
+
+        return node.getReturnType();
+    }
+    @Override
+    public Object visit(StringNode node) {
+
+        typeEnvironment.add(node.getTable());
+
+        typeEnvironment.pop();
+        node.setReturnType(Type.STRING);
+
+        return node.getReturnType();
     }
 
     @Override
@@ -398,6 +612,7 @@ public class TypeCheckerVisitor implements  Visitor{
         }
     }
 
+    //todo change MINUS in UMINUS
     public Type singleExpressionOperation(String operation, ExprOpNode expr1){
         Type type = null;
 
@@ -438,6 +653,8 @@ public class TypeCheckerVisitor implements  Visitor{
             type = Type.BOOL;
         } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
             type = Type.BOOL;
+        } else {
+            throw new RuntimeException("The expressions: '" + expr1 + "' and '" + expr2 + "' do not have a match in the table");
         }
 
         return type;
