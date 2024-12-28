@@ -37,6 +37,7 @@ public class ScopeVisitor implements Visitor{
             String name;
             String kind;
             Firm type; //variable used to indicate the firm of the method or the type of the function
+            ArrayList<Boolean> references = new ArrayList<>();
             Type return_type = null;
             ArrayList<Type> inputs_type = new ArrayList<>(); //variable used to temporarily contain the parameters' type of the function
             if(decl instanceof DefDeclNode){
@@ -51,11 +52,15 @@ public class ScopeVisitor implements Visitor{
                     inputs_type = null;
                 }else {
                     for(ParDeclNode par : ((DefDeclNode) decl).getParams()){ //gets the type of each parameter
-                        inputs_type.add(0, par.getRight());
+                        for(PVarNode pVar: par.getLeft()){ //if a parameter is composed by multiple pvars, it iterates on each pvar
+                                                           //todo remove if it is necessary to check the number of types and not the number of parameters, in that case it is not necessary to iterate on each pvar
+                            inputs_type.add(par.getRight());
+                            references.add(pVar.getHasRef());
+                        }
                     }
                 }
 
-                type = new FunctionType(inputs_type, return_type);
+                type = new FunctionType(inputs_type, return_type, references);
 
                 SymbolTableRow row = new SymbolTableRow(name, kind, type);
                 programTable.addRow(row);
@@ -149,7 +154,6 @@ public class ScopeVisitor implements Visitor{
         IdNode id = node.getName();
         id.accept(this);
 
-        //todo add list of references
         String name;
         String kind;
         Firm type;

@@ -502,6 +502,33 @@ public class TypeCheckerVisitor implements  Visitor{
             throw new RuntimeException("The function or procedure: '" + node.getName() + "' has not been declared");
         }
 
+        references = tmpFunctionType.getReferences();
+
+        //checks if the number of actual and formal parameters is the same
+        int numberOfFormalParameters = tmpFunctionType.getInput_types().size();
+        int numberOfActualParameters = node.getParameters().size();
+        if(numberOfFormalParameters != numberOfActualParameters){
+            throw new RuntimeException("The number of formal parameters (" + numberOfFormalParameters + ") and the number of actual parameters (" + numberOfActualParameters + ") is different");
+        }
+
+        //checks if each type the of actual and formal parameters are the same (both lists are in the reverse oreder)
+        for(int i = 0; i < numberOfFormalParameters; i++){
+            Type actualType = (Type) node.getParameters().get(i).accept(this); //accept is needed in order to check the type of the expression
+            Type formalType = tmpFunctionType.getInput_types().get(i);
+            if(actualType != formalType){
+                throw new RuntimeException("The parameter " + node.getParameters().get(i) + " (position " + i + "; type " + node.getParameters().get(i).getReturnType() +") has a different actual type from the formal one");
+            }
+        }
+
+        //checks, based on the reference, if the expression associated is a variable (only variables are accepted)
+        for(int i = 0; i < numberOfFormalParameters; i++){
+            boolean hasRef = references.get(i);
+            ExprOpNode expr = node.getParameters().get(i);
+            if(hasRef && !(expr instanceof IdNode)){
+                throw new RuntimeException("The referenced parameter " + node.getParameters().get(i) + " (position " + i + "; type " + node.getParameters().get(i).getReturnType() +") is not a variable");
+            }
+        }
+
         returnType = tmpFunctionType.getReturn_type();
         inputTypes = tmpFunctionType.getInput_types();
 
@@ -511,8 +538,7 @@ public class TypeCheckerVisitor implements  Visitor{
             node.setReturnType(Type.NOTYPE);
         }
         node.setInputTypes(inputTypes);
-
-        System.out.println("Firm: " + node.getReturnType());
+        //System.out.println("Firm: " + tmpFunctionType);
 
         return node.getReturnType();
     }

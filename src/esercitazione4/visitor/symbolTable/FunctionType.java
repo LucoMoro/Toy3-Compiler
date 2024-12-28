@@ -26,6 +26,9 @@ public class FunctionType implements Firm {
         this.return_type = return_type;
     }
 
+    /**
+     * returns the list in the reverse order (logically correct)
+     * */
     public ArrayList<Type> getInput_types() {
         return input_types;
     }
@@ -42,9 +45,17 @@ public class FunctionType implements Firm {
         this.return_type = return_type;
     }
 
+    public ArrayList<Boolean> getReferences() {
+        return references;
+    }
+
+    public void setReferences(ArrayList<Boolean> references) {
+        this.references = references;
+    }
+
     @Override
     public String toString(){
-        return "" + this.input_types + "->" + this.return_type;
+        return "" + this.input_types + "->" + this.return_type + "; references: " + this.references;
     }
 
     public Type getSingleType(){
