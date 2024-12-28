@@ -577,7 +577,28 @@ public class TypeCheckerVisitor implements  Visitor{
 
     @Override
     public Object visit(AssignOpNode node) {
-        return null;
+
+        ArrayList<IdNode> ids = node.getIdentifiers();
+        for(IdNode id : ids){
+            id.accept(this);
+        }
+
+        ArrayList<ExprOpNode> exprs = node.getExpressions();
+        for(ExprOpNode expr : exprs){
+            expr.accept(this);
+        }
+
+        for(int i = 0; i < ids.size(); i++){
+            Type tmpId = ids.get(i).getReturnType();
+            Type tmpExpr = exprs.get(i).getReturnType();
+            if(tmpId != tmpExpr){
+                throw new RuntimeException("The id: '" + ids.get(i).getValue() +"' (" +tmpId+ ") has a different type from: " + tmpExpr);
+            }
+        }
+
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();
     }
 
     @Override
