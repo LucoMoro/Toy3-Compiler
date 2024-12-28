@@ -149,6 +149,7 @@ public class ScopeVisitor implements Visitor{
         IdNode id = node.getName();
         id.accept(this);
 
+        //todo add list of references
         String name;
         String kind;
         Firm type;

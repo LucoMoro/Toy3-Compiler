@@ -13,10 +13,7 @@ import esercitazione4.ast.RelOp.*;
 import esercitazione4.ast.StatOp.*;
 import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.ast.VarDeclOp.VarOptInitNode;
-import esercitazione4.visitor.symbolTable.Firm;
-import esercitazione4.visitor.symbolTable.SymbolTable;
-import esercitazione4.visitor.symbolTable.SymbolTableRow;
-import esercitazione4.visitor.symbolTable.VariableType;
+import esercitazione4.visitor.symbolTable.*;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -495,8 +492,29 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(FunCallNode node) {
 
-        //x() x.accept() -> lookup(x kind = "function/ procedure")
-        return null;
+        FunctionType tmpFunctionType;
+        Type returnType;
+        ArrayList<Type> inputTypes = new ArrayList<>();
+        ArrayList<Boolean> references = new ArrayList<>();
+
+        tmpFunctionType = lookUpFunction(typeEnvironment, node.getName());
+        if(tmpFunctionType == null){
+            throw new RuntimeException("The function or procedure: '" + node.getName() + "' has not been declared");
+        }
+
+        returnType = tmpFunctionType.getReturn_type();
+        inputTypes = tmpFunctionType.getInput_types();
+
+        if(tmpFunctionType.getReturn_type() != null){
+            node.setReturnType(returnType);
+        }else {
+            node.setReturnType(Type.NOTYPE);
+        }
+        node.setInputTypes(inputTypes);
+
+        System.out.println("Firm: " + node.getReturnType());
+
+        return node.getReturnType();
     }
 
     @Override
@@ -631,13 +649,36 @@ public class TypeCheckerVisitor implements  Visitor{
                 for(SymbolTable clonedSymbolTable : clonedTypeEnvironment){
                     if(clonedSymbolTable.contains(node, "variable")){ //todo can be refactored
                         SymbolTableRow row = clonedSymbolTable.getRow(node, "variable");
-                            variableType = row.getType().getSingleType();
+                        variableType = row.getType().getSingleType();
                         return variableType;
                     }
                 }
             }
 
         return variableType;
+    }
+
+    public FunctionType lookUpFunction(Stack<SymbolTable> typeEnvironment, IdNode node){
+        FunctionType returnType = null;
+
+        Stack<SymbolTable> clonedTypeEnvironment;
+        clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
+
+        if(clonedTypeEnvironment != null){
+            for(SymbolTable clonedSymbolTable : clonedTypeEnvironment){
+                if(clonedSymbolTable.contains(node, "function")){//checks if the variable is in the scoping table as a function
+                    SymbolTableRow row = clonedSymbolTable.getRow(node, "function");
+                    returnType = (FunctionType) row.getType();
+                    return returnType;
+                } else if (clonedSymbolTable.contains(node, "procedure")){//checks if the variable is in the scoping table as a procedure
+                    SymbolTableRow row = clonedSymbolTable.getRow(node, "procedure");
+                    returnType = (FunctionType) row.getType();
+                    return returnType;
+                }
+            }
+        }
+
+        return returnType;
     }
 
     public Stack<SymbolTable> cloneTypeEnvironment(Stack<SymbolTable> typeEnvironment){

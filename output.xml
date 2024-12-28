@@ -1,9 +1,4 @@
 <Program>
-  <VarDecl>
-    <VarOptInit name='test'>
-    </VarOptInit>
-    <StringNode>'</StringNode>
-  </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='sommapiccola'>
     </VarOptInit>
@@ -17,10 +12,6 @@
   </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='risultato'>
-      <AddNode>
-        <IdNode>x</IdNode>
-        <IdNode>y</IdNode>
-      </AddNode>
     </VarOptInit>
     <VarOptInit name='y'>
     </VarOptInit>
@@ -90,6 +81,8 @@
   </DefDecl>
   <DefDecl name='saluto' type='STRING'>
     <Body>
+      <FunCallNode name='saluto'>
+      </FunCallNode>
       <ReturnNode>
         <StringNode>ciao</StringNode>
       </ReturnNode>

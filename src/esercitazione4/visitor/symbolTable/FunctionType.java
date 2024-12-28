@@ -5,6 +5,12 @@ import java.util.ArrayList;
 
 public class FunctionType implements Firm {
 
+    public FunctionType(ArrayList<Type> input_types, Type return_type, ArrayList<Boolean> references){
+        this.input_types = input_types;
+        this.return_type = return_type;
+        this.references = references;
+    }
+
     public FunctionType(ArrayList<Type> input_types, Type return_type){
         this.input_types = input_types;
         this.return_type = return_type;
@@ -51,4 +57,5 @@ public class FunctionType implements Firm {
 
     private ArrayList<Type> input_types;
     private Type return_type;
+    private ArrayList<Boolean> references;
 }

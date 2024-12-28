@@ -43,6 +43,14 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
         this.returnType = returnType;
     }
 
+    public ArrayList<Type> getInputTypes() {
+        return inputTypes;
+    }
+
+    public void setInputTypes(ArrayList<Type> inputTypes) {
+        this.inputTypes = inputTypes;
+    }
+
     @Override
     public String toString(){
         return getClass().getSimpleName() + "{"
@@ -61,4 +69,5 @@ public class FunCallNode implements ExprOpNode, StatOpNode {
     private SymbolTable table;
 
     private Type returnType;
+    private ArrayList<Type> inputTypes;
 }
