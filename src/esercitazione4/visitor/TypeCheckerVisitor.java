@@ -57,7 +57,7 @@ public class TypeCheckerVisitor implements  Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
+                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
                 if(tmpStatType != Type.NOTYPE){
                     throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
                     //it would be caught before arriving to BodyNode
@@ -102,7 +102,7 @@ public class TypeCheckerVisitor implements  Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
+                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
                 if(tmpStatType != Type.NOTYPE){
                     throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
                     //it would be caught before arriving to BodyNode
@@ -215,7 +215,7 @@ public class TypeCheckerVisitor implements  Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
+                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
                 if(tmpStatType != Type.NOTYPE){
                     throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
                                                                                                        //it would be caught before arriving to BodyNode
@@ -614,17 +614,84 @@ public class TypeCheckerVisitor implements  Visitor{
 
     @Override
     public Object visit(IfThenElseNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr = node.getLeft();
+        Type exprType = (Type) expr.accept(this);
+
+        if(exprType != Type.BOOL){
+            throw new RuntimeException("The expression in IfThenElse is not BOOL but rather " + exprType);
+        }
+
+        BodyNode body1 = node.getMid();
+        Type bodyType1 = (Type) body1.accept(this);
+
+        if(bodyType1 != Type.NOTYPE){
+            throw new RuntimeException("The Then body in IfThenElse is not NOTYPE but rather " + bodyType1);
+        }
+
+        BodyNode body2 = node.getRight();
+        Type bodyType2 = (Type) body2.accept(this);
+
+        if(bodyType2 != Type.NOTYPE){
+            throw new RuntimeException("The Else body in IfThenElse is not NOTYPE but rather " + bodyType2);
+        }
+
+        node.setReturnType(Type.NOTYPE);
+        typeEnvironment.pop();
+
+        return node.getReturnType();
     }
 
     @Override
     public Object visit(IfThenNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr = node.getLeft();
+        Type exprType = (Type) expr.accept(this);
+
+        if(exprType != Type.BOOL){
+            throw new RuntimeException("The expression in IfThen is not BOOL, but rather " + exprType);
+        }
+
+        BodyNode bodyNode = node.getRight();
+        Type bodyType = (Type) bodyNode.accept(this);
+
+        if(bodyType != Type.NOTYPE){
+            throw new RuntimeException("The body of IfThen is not NOTYPE but rather " + bodyType);
+        }
+
+        node.setReturnType(Type.NOTYPE);
+        typeEnvironment.pop();
+
+        return node.getReturnType();
     }
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
+
+        typeEnvironment.add(node.getTable());
+
+        ExprOpNode expr = node.getLeft();
+        Type tmpExpr = (Type) expr.accept(this);
+
+        if(tmpExpr != Type.BOOL){
+            throw new RuntimeException("The while expression is not boolean");
+        }
+
+        BodyNode body = node.getRight();
+        body.accept(this);
+
+        if(body.getReturnType() != Type.NOTYPE){
+            throw new RuntimeException("The while body is not NOTYPE");
+        }
+
+        node.setReturnType(Type.NOTYPE);
+        typeEnvironment.pop();
+
+        return node.getReturnType();
     }
 
     /**
