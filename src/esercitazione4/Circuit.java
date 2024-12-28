@@ -44,6 +44,8 @@ public class Circuit {
             ScopeVisitor scope = new ScopeVisitor();
             program.accept(scope);
 
+            System.out.println("/*********************************** Type Checking *************************************************/");
+
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
             program.accept(typeChecker);
 

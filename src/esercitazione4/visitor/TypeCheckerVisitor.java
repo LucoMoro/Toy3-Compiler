@@ -27,6 +27,7 @@ public class TypeCheckerVisitor implements  Visitor{
     public Object visit(ProgramNode node) {
 
         typeEnvironment.add(node.getProgramTable());
+        System.out.println("ProgramNode: " + node.getProgramTable());
 
         ArrayList<DeclOpNode> decls = node.getDecls();
         if(decls != null){
@@ -36,6 +37,7 @@ public class TypeCheckerVisitor implements  Visitor{
         }
 
         typeEnvironment.add(node.getBegindEndTable());
+        System.out.println("BeginEndTable: " + node.getBegindEndTable());
 
         ArrayList<VarDeclNode> vars = node.getVars();
         if(vars != null){
@@ -44,10 +46,22 @@ public class TypeCheckerVisitor implements  Visitor{
             }
         }
 
-        ArrayList<StatOpNode> stats = node.getStats();
+        /*ArrayList<StatOpNode> stats = node.getStats(); //todo add check for list of statements
         if(stats != null){
             for(StatOpNode stat : stats){
                 stat.accept(this);
+            }
+        }*/
+
+        ArrayList<StatOpNode> stats = node.getStats();
+        if(stats != null){
+            for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
+                Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
+                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
+                if(tmpStatType != Type.NOTYPE){
+                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                    //it would be caught before arriving to BodyNode
+                }
             }
         }
 
@@ -63,9 +77,7 @@ public class TypeCheckerVisitor implements  Visitor{
     public Object visit(DefDeclNode node) {
 
         typeEnvironment.add(node.getTable());
-
-        //IdNode id = node.getName();
-        //id.accept(this);
+        System.out.println("DefDecl: " + node.getTable());
 
         ArrayList<ParDeclNode> pars = node.getParams();
         if(pars != null){
@@ -74,22 +86,31 @@ public class TypeCheckerVisitor implements  Visitor{
             }
         }
 
-        BodyNode body = node.getBody();
-        body.accept(this);
-
-        body.setReturnType(Type.NOTYPE); //todo remove when BodyNode will be implemented
-        if(body.getReturnType() != Type.NOTYPE){
-            throw  new RuntimeException("Type system error: " + getClass().getSimpleName());
-        }
-
         checkReturnType(node); //could be implemented after the accept()
 
-        ArrayList<StatOpNode> stats = node.getBody().getRight();
-        if(stats != null){
-            for(StatOpNode stat : stats){
-                stat.accept(this);
+        //function body
+        BodyNode body = node.getBody();
+        ArrayList<VarDeclNode> vars = body.getLeft();
+        if(vars != null){
+            for(VarDeclNode var : vars){
+                var.accept(this);
             }
         }
+
+        ArrayList<StatOpNode> stats = body.getRight();
+
+        if(stats != null){
+            for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
+                Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
+                tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
+                if(tmpStatType != Type.NOTYPE){
+                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                    //it would be caught before arriving to BodyNode
+                }
+            }
+        }
+
+        body.setReturnType(Type.NOTYPE);
 
         typeEnvironment.pop();
         node.setReturnType(Type.NOTYPE);
@@ -101,10 +122,8 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(VarOptInitNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        IdNode id = node.getIdentifier();
-        id.accept(this);
+        //IdNode id = node.getIdentifier();
+        //id.accept(this);
 
         ExprOpNode expr = node.getExpression();
         if(expr != null){
@@ -114,14 +133,10 @@ public class TypeCheckerVisitor implements  Visitor{
             node.setReturnType(null); //in this case it has to be null since there is no expression to check
         }
 
-        typeEnvironment.pop();
-
         return node.getReturnType();
     }
     @Override
     public Object visit(VarDeclNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ArrayList<VarOptInitNode> optVars = node.getVars();
 
@@ -151,7 +166,6 @@ public class TypeCheckerVisitor implements  Visitor{
             constant.accept(this);
         }
 
-        typeEnvironment.pop();
         node.setReturnType(Type.NOTYPE);
 
         return node.getReturnType();
@@ -161,20 +175,15 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(PVarNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         IdNode id = node.getVariable();
-        id.accept(this);
+        //id.accept(this);
 
-        typeEnvironment.pop();
         node.setReturnType(id.getReturnType());
 
         return id.getReturnType();
     }
     @Override
     public Object visit(ParDeclNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ArrayList<PVarNode> pVars = node.getLeft();
         if(pVars != null){
@@ -183,7 +192,6 @@ public class TypeCheckerVisitor implements  Visitor{
             }
         }
 
-        typeEnvironment.pop();
         node.setReturnType(node.getRight());
 
         return node.getRight();
@@ -224,14 +232,12 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(IdNode node) {
 
-        typeEnvironment.add(node.getTable());
         Stack<SymbolTable> clonedTypeEnvironment;
 
-        //System.out.println("a" +typeEnvironment);
-        //clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
-        //System.out.println("b" +clonedTypeEnvironment);
+        System.out.println("a" +typeEnvironment);
+        clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
+        System.out.println("b" +clonedTypeEnvironment);
 
-        typeEnvironment.pop();
 
         return node.getReturnType();
     }
@@ -239,8 +245,6 @@ public class TypeCheckerVisitor implements  Visitor{
     /* Arithmetic Operators */
     @Override
     public Object visit(AddNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = (ExprOpNode) node.getLeft();
         expr1.accept(this);
@@ -250,7 +254,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("PLUS", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -258,7 +261,8 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(DiffNode node) {
 
-        typeEnvironment.add(node.getTable());
+        System.out.println("AddNode: " + node.getTable());
+        System.out.println("typeEnvironment: " + typeEnvironment);
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -268,7 +272,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("MINUS", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -591,7 +594,7 @@ public class TypeCheckerVisitor implements  Visitor{
         ArrayList<StatOpNode> stats = node.getBody().getRight();
 
         Type functionType = node.getType();
-        if(functionType == null){
+        if(functionType == null){ //procedure
             if(stats != null){
                 for(StatOpNode stat : stats){
                     if(stat instanceof ReturnOpNode){
@@ -599,7 +602,7 @@ public class TypeCheckerVisitor implements  Visitor{
                     }
                 }
             }
-        } else {
+        } else { //function
             if(stats != null){
                 for(StatOpNode stat : stats){
                     if(stat instanceof ReturnOpNode){ //searches for the return statement
