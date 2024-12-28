@@ -1,6 +1,7 @@
 package esercitazione4.ast;
 
 import esercitazione4.visitor.Visitor;
+import esercitazione4.visitor.symbolTable.Firm;
 import esercitazione4.visitor.symbolTable.SymbolTable;
 
 public class IdNode implements ExprOpNode {

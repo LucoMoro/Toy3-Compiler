@@ -13,7 +13,10 @@ import esercitazione4.ast.RelOp.*;
 import esercitazione4.ast.StatOp.*;
 import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.ast.VarDeclOp.VarOptInitNode;
+import esercitazione4.visitor.symbolTable.Firm;
 import esercitazione4.visitor.symbolTable.SymbolTable;
+import esercitazione4.visitor.symbolTable.SymbolTableRow;
+import esercitazione4.visitor.symbolTable.VariableType;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -232,12 +235,11 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(IdNode node) {
 
-        Stack<SymbolTable> clonedTypeEnvironment;
-
-        System.out.println("a" +typeEnvironment);
-        clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
-        System.out.println("b" +clonedTypeEnvironment);
-
+        Type tmpType = lookUpVariable(typeEnvironment, node);
+        node.setReturnType(tmpType);
+        if(node.getReturnType() == null) {
+            throw new RuntimeException("The variable: '" + node.getValue() + "' has not been declared");
+        }
 
         return node.getReturnType();
     }
@@ -491,7 +493,9 @@ public class TypeCheckerVisitor implements  Visitor{
     }
 
     @Override
-    public Object visit(FunCallNode node) { //lookup(..., "function" | "procedure")
+    public Object visit(FunCallNode node) {
+
+        //x() x.accept() -> lookup(x kind = "function/ procedure")
         return null;
     }
 
@@ -617,8 +621,22 @@ public class TypeCheckerVisitor implements  Visitor{
         return type;
     }
 
-    public Type lookUp(Stack<SymbolTable> typeEnvironment, IdNode node, String kind){
+    public Type lookUpVariable(Stack<SymbolTable> typeEnvironment, IdNode node){
         Type variableType=null;
+
+        Stack<SymbolTable> clonedTypeEnvironment;
+        clonedTypeEnvironment = cloneTypeEnvironment(typeEnvironment);
+
+            if(clonedTypeEnvironment != null){
+                for(SymbolTable clonedSymbolTable : clonedTypeEnvironment){
+                    if(clonedSymbolTable.contains(node, "variable")){ //todo can be refactored
+                        SymbolTableRow row = clonedSymbolTable.getRow(node, "variable");
+                            variableType = row.getType().getSingleType();
+                        return variableType;
+                    }
+                }
+            }
+
         return variableType;
     }
 

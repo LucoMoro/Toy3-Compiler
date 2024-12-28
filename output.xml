@@ -2,7 +2,7 @@
   <VarDecl>
     <VarOptInit name='test'>
     </VarOptInit>
-    <StringNode>hello</StringNode>
+    <StringNode>'</StringNode>
   </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='sommapiccola'>
@@ -17,6 +17,10 @@
   </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='risultato'>
+      <AddNode>
+        <IdNode>x</IdNode>
+        <IdNode>y</IdNode>
+      </AddNode>
     </VarOptInit>
     <VarOptInit name='y'>
     </VarOptInit>
@@ -51,12 +55,11 @@
         <VarOptInit name='nonusata'>
         </VarOptInit>
         <VarOptInit name='risultato'>
+          <AddNode>
+            <IdNode>x</IdNode>
+            <IdNode>y</IdNode>
+          </AddNode>
         </VarOptInit>
-      </VarDecl>
-      <VarDecl>
-        <VarOptInit name='test'>
-        </VarOptInit>
-        <StringNode>test</StringNode>
       </VarDecl>
       <IfThenElseNode>
         <GENode>

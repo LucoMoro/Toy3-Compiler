@@ -3,6 +3,8 @@ package esercitazione4.visitor.symbolTable;
 import esercitazione4.ast.Constants.*;
 import esercitazione4.ast.Type;
 
+import java.util.ArrayList;
+
 public class VariableType implements Firm{
 
     public VariableType(Type type){
@@ -30,6 +32,16 @@ public class VariableType implements Firm{
 
     public void setType(Type type) {
         this.type = type;
+    }
+
+    @Override
+    public Type getSingleType() {
+        return type;
+    }
+
+    @Override
+    public ArrayList<Type> getListOfTypes() {
+        return null;
     }
 
     @Override

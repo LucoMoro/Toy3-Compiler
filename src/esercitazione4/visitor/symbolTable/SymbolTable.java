@@ -1,5 +1,7 @@
 package esercitazione4.visitor.symbolTable;
 
+import esercitazione4.ast.IdNode;
+
 import java.util.ArrayList;
 
 public class SymbolTable {
@@ -49,6 +51,32 @@ public class SymbolTable {
             this.rows.add(row);
         }
         return this;
+    }
+
+    public boolean contains(IdNode id, String kind){
+        SymbolTableRow externalRow = new SymbolTableRow(id.getValue(), kind);
+
+        if(rows != null){
+            for(SymbolTableRow row : rows){
+                if (row.equals(externalRow)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public SymbolTableRow getRow(IdNode id, String kind){
+        SymbolTableRow externalRow = new SymbolTableRow(id.getValue(), kind);
+
+        if(rows != null){
+            for(SymbolTableRow row : rows){
+                if (row.equals(externalRow)){
+                    return row;
+                }
+            }
+        }
+        return null;
     }
 
     @Override

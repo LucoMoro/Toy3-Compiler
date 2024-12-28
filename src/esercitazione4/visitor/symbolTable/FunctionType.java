@@ -41,6 +41,14 @@ public class FunctionType implements Firm {
         return "" + this.input_types + "->" + this.return_type;
     }
 
+    public Type getSingleType(){
+        return return_type;
+    }
+
+    public ArrayList<Type> getListOfTypes(){
+        return input_types;
+    }
+
     private ArrayList<Type> input_types;
     private Type return_type;
 }

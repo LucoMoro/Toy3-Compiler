@@ -1,6 +1,7 @@
 package esercitazione4.visitor.symbolTable;
 
 import esercitazione4.ast.Node;
+import esercitazione4.ast.Type;
 
 /**
  * Class that represents the single row of a symbol table
@@ -23,6 +24,11 @@ public class SymbolTableRow {
         this.kind = kind;
         this.type = type;
         this.properties = properties;
+    }
+
+    public SymbolTableRow(String symbol, String kind){
+        this.symbol = symbol;
+        this.kind = kind;
     }
 
     public String getSymbol() {
