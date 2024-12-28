@@ -1,4 +1,9 @@
 <Program>
+  <VarDecl>
+    <VarOptInit name='test'>
+    </VarOptInit>
+    <StringNode>hello</StringNode>
+  </VarDecl>
   <VarDecl type='DOUBLE'>
     <VarOptInit name='sommapiccola'>
     </VarOptInit>
@@ -46,11 +51,12 @@
         <VarOptInit name='nonusata'>
         </VarOptInit>
         <VarOptInit name='risultato'>
-          <DiffNode>
-            <IntNode>5</IntNode>
-            <DoubleNode>4.7</DoubleNode>
-          </DiffNode>
         </VarOptInit>
+      </VarDecl>
+      <VarDecl>
+        <VarOptInit name='test'>
+        </VarOptInit>
+        <StringNode>test</StringNode>
       </VarDecl>
       <IfThenElseNode>
         <GENode>

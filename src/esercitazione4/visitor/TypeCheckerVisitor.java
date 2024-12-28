@@ -261,9 +261,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(DiffNode node) {
 
-        System.out.println("AddNode: " + node.getTable());
-        System.out.println("typeEnvironment: " + typeEnvironment);
-
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
@@ -279,8 +276,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(MulNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         ExprOpNode expr1 = (ExprOpNode) node.getLeft();
         expr1.accept(this);
 
@@ -289,15 +284,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("TIMES", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(DivNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -307,7 +299,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("DIV", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -315,14 +306,11 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(UMinusNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
         Type exprType = this.singleExpressionOperation("UMINUS", expr1);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -332,8 +320,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(AndNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
@@ -342,15 +328,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("AND", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType); //change
 
         return exprType;
     }
     @Override
     public Object visit(OrNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -360,7 +343,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("OR", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -368,14 +350,11 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(NotNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
         Type exprType = this.singleExpressionOperation("NOT", expr1);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -385,8 +364,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(GTNode node) {
 
-        typeEnvironment.add(node.getTable());
-
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
 
@@ -395,15 +372,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("GT", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(GENode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -413,15 +387,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("GE", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(LTNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -431,15 +402,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("LT", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(LENode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -449,15 +417,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("LE", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(EQNode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -467,15 +432,12 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("EQ", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
     }
     @Override
     public Object visit(NENode node) {
-
-        typeEnvironment.add(node.getTable());
 
         ExprOpNode expr1 = node.getLeft();
         expr1.accept(this);
@@ -485,7 +447,6 @@ public class TypeCheckerVisitor implements  Visitor{
 
         Type exprType = this.doubleExpressionOperation("NE", expr1, expr2);
 
-        typeEnvironment.pop();
         node.setReturnType(exprType);
 
         return exprType;
@@ -496,9 +457,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(BoolNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        typeEnvironment.pop();
         node.setReturnType(Type.BOOL);
 
         return node.getReturnType();
@@ -506,9 +464,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(CharNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        typeEnvironment.pop();
         node.setReturnType(Type.CHAR);
 
         return node.getReturnType();
@@ -516,9 +471,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(IntNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        typeEnvironment.pop();
         node.setReturnType(Type.INT);
 
         return node.getReturnType();
@@ -526,9 +478,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(DoubleNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        typeEnvironment.pop();
         node.setReturnType(Type.DOUBLE);
 
         return node.getReturnType();
@@ -536,9 +485,6 @@ public class TypeCheckerVisitor implements  Visitor{
     @Override
     public Object visit(StringNode node) {
 
-        typeEnvironment.add(node.getTable());
-
-        typeEnvironment.pop();
         node.setReturnType(Type.STRING);
 
         return node.getReturnType();
