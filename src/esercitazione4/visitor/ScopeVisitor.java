@@ -370,6 +370,23 @@ public class ScopeVisitor implements Visitor{
             expr.accept(this);
         }
 
+        if(ids.size() > 1){
+            if(exprs != null){
+                for(ExprOpNode expr : exprs){
+                    if(expr instanceof FunCallNode){
+                        throw new RuntimeException("There was a multiple assignment while trying to initialize a variable using the function: '" + expr + "'");
+                    }
+                }
+            }
+        }
+
+        int idsSize = ids.size();
+        int exprsSize = exprs.size();
+
+        if(idsSize != exprsSize){
+            throw new RuntimeException("The size of the variables and expressions is different: (" + idsSize + " and " + exprsSize +")" );
+        }
+
         return node;
     }
     @Override
