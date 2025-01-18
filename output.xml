@@ -1,212 +1,250 @@
 <Program>
-  <DefDecl name='scoping' type='null'>
-    <ParDecl type='STRING'>
-      <PVar hasRef='true'  name='message'>
+  <VarDecl type='DOUBLE'>
+    <VarOptInit name='sommapiccola'>
+    </VarOptInit>
+    <VarOptInit name='sommagrande'>
+    </VarOptInit>
+  </VarDecl>
+  <VarDecl>
+    <VarOptInit name='i'>
+    </VarOptInit>
+    <IntNode>0</IntNode>
+  </VarDecl>
+  <VarDecl type='DOUBLE'>
+    <VarOptInit name='risultato'>
+    </VarOptInit>
+    <VarOptInit name='y'>
+    </VarOptInit>
+    <VarOptInit name='x'>
+    </VarOptInit>
+  </VarDecl>
+  <VarDecl type='BOOL'>
+    <VarOptInit name='nonusata'>
+    </VarOptInit>
+    <VarOptInit name='grande'>
+    </VarOptInit>
+  </VarDecl>
+  <DefDecl name='moltiplicazione' type='null'>
+    <ParDecl type='BOOL'>
+      <PVar hasRef='true'  name='grande'>
       </PVar>
     </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='m'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='true'  name='res'>
       </PVar>
     </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='n'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='y'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='x'>
       </PVar>
     </ParDecl>
     <Body>
-      <AssignNode>
-        <IdNode>message</IdNode>
-        <StringNode>level 1</StringNode>
-      </AssignNode>
+      <VarDecl type='DOUBLE'>
+        <VarOptInit name='nonusata'>
+        </VarOptInit>
+        <VarOptInit name='risultato'>
+          <AddNode>
+            <IdNode>x</IdNode>
+            <IdNode>y</IdNode>
+          </AddNode>
+        </VarOptInit>
+      </VarDecl>
       <IfThenElseNode>
-        <LENode>
-          <IdNode>n</IdNode>
-          <IntNode>1</IntNode>
-        </LENode>
+        <GENode>
+          <MulNode>
+            <IdNode>x</IdNode>
+            <IdNode>y</IdNode>
+          </MulNode>
+          <IntNode>100</IntNode>
+        </GENode>
         <Body>
           <AssignNode>
-            <IdNode>message</IdNode>
-            <StringNode>level 2.1</StringNode>
+            <IdNode>grande</IdNode>
+            <BoolNode>true</BoolNode>
           </AssignNode>
-          <IfThenElseNode>
-            <LENode>
-              <IdNode>m</IdNode>
-              <IntNode>1</IntNode>
-            </LENode>
-            <Body>
-              <AssignNode>
-                <IdNode>message</IdNode>
-                <StringNode>level 3.1</StringNode>
-              </AssignNode>
-              <WriteNode isNewLine='true'>
-                <IdNode>message</IdNode>
-              </WriteNode>
-            </Body>
-            <Body>
-              <IfThenElseNode>
-                <AndNode>
-                  <GTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>1</IntNode>
-                  </GTNode>
-                  <LTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>5</IntNode>
-                  </LTNode>
-                </AndNode>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.2</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.3</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-              </IfThenElseNode>
-            </Body>
-          </IfThenElseNode>
-          <WriteNode isNewLine='true'>
-            <IdNode>message</IdNode>
-          </WriteNode>
         </Body>
         <Body>
           <AssignNode>
-            <IdNode>message</IdNode>
-            <StringNode>level 2.2</StringNode>
+            <IdNode>grande</IdNode>
+            <BoolNode>false</BoolNode>
           </AssignNode>
-          <IfThenElseNode>
-            <LENode>
-              <IdNode>m</IdNode>
-              <IntNode>1</IntNode>
-            </LENode>
-            <Body>
-              <AssignNode>
-                <IdNode>message</IdNode>
-                <StringNode>level 3.4</StringNode>
-              </AssignNode>
-              <WriteNode isNewLine='true'>
-                <IdNode>message</IdNode>
-              </WriteNode>
-            </Body>
-            <Body>
-              <IfThenElseNode>
-                <AndNode>
-                  <GTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>1</IntNode>
-                  </GTNode>
-                  <LTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>5</IntNode>
-                  </LTNode>
-                </AndNode>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.5</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.6</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-              </IfThenElseNode>
-            </Body>
-          </IfThenElseNode>
-          <WriteNode isNewLine='true'>
-            <IdNode>message</IdNode>
-          </WriteNode>
         </Body>
       </IfThenElseNode>
-      <WriteNode isNewLine='true'>
-        <IdNode>message</IdNode>
-      </WriteNode>
+      <AssignNode>
+        <IdNode>res</IdNode>
+        <IdNode>risultato</IdNode>
+      </AssignNode>
     </Body>
   </DefDecl>
-  <DefDecl name='glob' type='INT'>
+  <DefDecl name='saluto' type='STRING'>
     <Body>
+      <VarDecl type='STRING'>
+        <VarOptInit name='test'>
+        </VarOptInit>
+      </VarDecl>
+      <AssignNode>
+        <IdNode>test</IdNode>
+        <FunCallNode name='saluto'>
+        </FunCallNode>
+      </AssignNode>
+      <AssignNode>
+        <IdNode>y</IdNode>
+        <IdNode>x</IdNode>
+        <DoubleNode>5.6</DoubleNode>
+        <DoubleNode>3.5</DoubleNode>
+      </AssignNode>
+      <FunCallNode name='moltiplicazione'>
+        <IdNode>grande</IdNode>
+        <IdNode>sommagrande</IdNode>
+        <IdNode>y</IdNode>
+        <IdNode>x</IdNode>
+      </FunCallNode>
+      <WriteNode isNewLine='true'>
+        <CharNode>a</CharNode>
+        <AddNode>
+          <IntNode>6</IntNode>
+          <DoubleNode>590.6</DoubleNode>
+        </AddNode>
+        <StringNode>why not</StringNode>
+        <IdNode>test</IdNode>
+        <IdNode>x</IdNode>
+        <StringNode>a</StringNode>
+        <StringNode>am</StringNode>
+        <StringNode>i</StringNode>
+      </WriteNode>
       <ReturnNode>
-        <IntNode>100</IntNode>
+        <StringNode>ciao</StringNode>
       </ReturnNode>
     </Body>
   </DefDecl>
-  <VarDecl>
-    <VarOptInit name='message'>
-    </VarOptInit>
-    <StringNode>level 0</StringNode>
-  </VarDecl>
-  <VarDecl type='INT'>
-    <VarOptInit name='k'>
-    </VarOptInit>
-    <VarOptInit name='m'>
-    </VarOptInit>
-    <VarOptInit name='n'>
-    </VarOptInit>
-  </VarDecl>
   <AssignNode>
-    <IdNode>k</IdNode>
-    <IntNode>6</IntNode>
+    <IdNode>sommapiccola</IdNode>
+    <IdNode>sommagrande</IdNode>
+    <DoubleNode>0.0</DoubleNode>
+    <DoubleNode>0.0</DoubleNode>
+  </AssignNode>
+  <WriteNode isNewLine='true'>
+    <StringNode>Questo programma permette di svolgere una serie di moltiplicazioni</StringNode>
+  </WriteNode>
+  <WriteNode isNewLine='true'>
+    <StringNode>accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola</StringNode>
+  </WriteNode>
+  <AssignNode>
+    <IdNode>i</IdNode>
+    <UMinusNode>
+      <IntNode>1</IntNode>
+    </UMinusNode>
   </AssignNode>
   <WhileNode>
-    <GENode>
-      <IdNode>k</IdNode>
-      <IntNode>1</IntNode>
-    </GENode>
+    <LENode>
+      <IdNode>i</IdNode>
+      <IntNode>0</IntNode>
+    </LENode>
     <Body>
+      <VarDecl>
+        <VarOptInit name='saluto'>
+        </VarOptInit>
+        <StringNode>ciao</StringNode>
+      </VarDecl>
       <WriteNode isNewLine='false'>
-        <StringNode>Inserisci n: </StringNode>
+        <StringNode>Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)</StringNode>
       </WriteNode>
       <ReadNode>
-        <IdNode>n</IdNode>
-      </ReadNode>
-      <WriteNode isNewLine='false'>
-        <StringNode>Inserisci m: </StringNode>
-      </WriteNode>
-      <ReadNode>
-        <IdNode>m</IdNode>
+        <IdNode>i</IdNode>
       </ReadNode>
       <WriteNode isNewLine='true'>
-        <IdNode>m</IdNode>
-        <StringNode> e </StringNode>
-        <IdNode>n</IdNode>
-        <StringNode>I valori inseriti sono </StringNode>
+        <IdNode>saluto</IdNode>
       </WriteNode>
-      <FunCallNode name='scoping'>
-        <IdNode>message</IdNode>
-        <IdNode>m</IdNode>
-        <IdNode>n</IdNode>
-      </FunCallNode>
+    </Body>
+  </WhileNode>
+  <WhileNode>
+    <GTNode>
+      <IdNode>i</IdNode>
+      <IntNode>0</IntNode>
+    </GTNode>
+    <Body>
       <AssignNode>
-        <IdNode>k</IdNode>
+        <IdNode>x</IdNode>
+        <UMinusNode>
+          <DoubleNode>1.0</DoubleNode>
+        </UMinusNode>
+      </AssignNode>
+      <AssignNode>
+        <IdNode>y</IdNode>
+        <UMinusNode>
+          <DoubleNode>1.0</DoubleNode>
+        </UMinusNode>
+      </AssignNode>
+      <WhileNode>
+        <NotNode>
+          <AndNode>
+            <GTNode>
+              <IdNode>x</IdNode>
+              <IntNode>0</IntNode>
+            </GTNode>
+            <GTNode>
+              <IdNode>y</IdNode>
+              <IntNode>0</IntNode>
+            </GTNode>
+          </AndNode>
+        </NotNode>
+        <Body>
+          <VarDecl>
+            <VarOptInit name='saluto'>
+            </VarOptInit>
+            <StringNode>byebye</StringNode>
+          </VarDecl>
+          <WriteNode isNewLine='true'>
+            <StringNode>: inserisci due numeri positivi</StringNode>
+            <IdNode>i</IdNode>
+            <StringNode>Moltiplicazione </StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>y</IdNode>
+            <IdNode>x</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>saluto</IdNode>
+          </WriteNode>
+        </Body>
+      </WhileNode>
+      <FunCallNode name='moltiplicazione'>
+        <IdNode>grande</IdNode>
+        <IdNode>risultato</IdNode>
+        <IdNode>y</IdNode>
+        <IdNode>x</IdNode>
+      </FunCallNode>
+      <IfThenElseNode>
+        <IdNode>grande</IdNode>
+        <Body>
+          <AssignNode>
+            <IdNode>sommagrande</IdNode>
+            <AddNode>
+              <IdNode>sommagrande</IdNode>
+              <IdNode>risultato</IdNode>
+            </AddNode>
+          </AssignNode>
+        </Body>
+        <Body>
+          <AssignNode>
+            <IdNode>sommapiccola</IdNode>
+            <AddNode>
+              <IdNode>sommapiccola</IdNode>
+              <IdNode>risultato</IdNode>
+            </AddNode>
+          </AssignNode>
+        </Body>
+      </IfThenElseNode>
+      <AssignNode>
+        <IdNode>i</IdNode>
         <DiffNode>
-          <IdNode>k</IdNode>
+          <IdNode>i</IdNode>
           <IntNode>1</IntNode>
         </DiffNode>
       </AssignNode>
     </Body>
   </WhileNode>
-  <WriteNode isNewLine='true'>
-    <IdNode>message</IdNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <FunCallNode name='glob'>
-    </FunCallNode>
-  </WriteNode>
 </Program>

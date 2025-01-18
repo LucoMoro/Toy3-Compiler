@@ -95,9 +95,59 @@ public class TranslationVisitor implements Visitor{
         return builder.toString();
     }
 
+
+    @Override
+    public Object visit(VarDeclNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        ArrayList<VarOptInitNode> optVars = node.getVars();
+        if(optVars != null){
+
+        if(node.getType() == null){ //checks if the variable has a constant or a type
+                Type tmpType = Type.convertType(node.getConstant());
+                builder.append(getCType(tmpType)).append(" ");
+                builder.append(optVars.get(0).accept(this)); //if there is a constant, the declaration can have only 1 variable so a loop is useless
+                builder.append(" = ");
+                builder.append(node.getConstant().accept(this));
+        }else {
+             builder.append(getCType(node.getType())).append(" ");
+             for(int i = optVars.size()-1; i>= 0; i--){
+                 VarOptInitNode optVar = optVars.get(i);
+                 if(i == 0){ //needed in order to avoid the symbol , on the last variable
+                     builder.append(optVar.accept(this));
+                 } else {
+                     builder.append(optVar.accept(this)).append(", ");
+                        }
+                    }
+                }
+        }
+
+        builder.append(";").append("\n");
+        return builder.toString();
+    }
+
+    @Override
+    public Object visit(VarOptInitNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(node.getIdentifier().accept(this));
+
+        ExprOpNode expr = node.getExpression();
+        if(expr != null) {
+            builder.append(" = ");
+            builder.append(expr.accept(this));
+        }
+
+        return builder.toString();
+    }
+
     @Override
     public Object visit(IdNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(node.getValue());
+
+        return builder.toString();
     }
 
     @Override
@@ -232,16 +282,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarOptInitNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(VarDeclNode node) {
         return null;
     }
 
