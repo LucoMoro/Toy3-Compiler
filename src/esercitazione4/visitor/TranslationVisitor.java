@@ -40,7 +40,7 @@ public class TranslationVisitor implements Visitor{
             }
         }
 
-        builder.append("int main() {\n");
+        builder.append("\n\nint main() {\n");
 
         ArrayList<VarDeclNode> vars = node.getVars();
         if(vars != null){
@@ -64,6 +64,35 @@ public class TranslationVisitor implements Visitor{
     @Override
     public Object visit(DefDeclNode node) {
         return null;
+    }
+
+    @Override
+    public Object visit(ParDeclNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        ArrayList<PVarNode> pVars = node.getLeft();
+
+        if(pVars != null){
+            for(int i = pVars.size() -1 ; i >= 0; i--){ //needed to reverse the parameters take in input
+                PVarNode pVar =  pVars.get(i);
+                builder.append(getCType(node.getRight())).append(" ");
+                if(pVar.getHasRef()){
+                    builder.append("*");
+                }
+                builder.append(pVar.accept(this)).append(", ");
+            }
+        }
+
+        return builder.toString();
+    }
+
+    @Override
+    public Object visit(PVarNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(node.getVariable().getValue());
+
+        return builder.toString();
     }
 
     @Override
@@ -221,17 +250,6 @@ public class TranslationVisitor implements Visitor{
         return null;
     }
 
-    @Override
-    public Object visit(PVarNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ParDeclNode node) {
-        return null;
-    }
-
-
     /**
      * Converts a custom Type enumeration to its equivalent C type as a string.
      *
@@ -323,8 +341,8 @@ public class TranslationVisitor implements Visitor{
 
         ArrayList<ParDeclNode> params = node.getParams();
         if(params != null){
-            for(ParDeclNode param : params) {//iterates on each parDecl which may be composed by multiple pVars
-                buildPrototype.append(param.accept(this)).append(",").append(" ");
+            for(int i = params.size() -1; i >= 0; i--) {//iterates in reverse on each parDecl which may be composed by multiple pVars
+                buildPrototype.append(params.get(i).accept(this));
             }
             if (!buildPrototype.isEmpty()) { //instead of calculating the number of parameters, I simply delete the last "," and the last " "
                 buildPrototype.deleteCharAt(buildPrototype.length() - 1);
