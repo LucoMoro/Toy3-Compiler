@@ -126,7 +126,7 @@ public class TypeCheckerVisitor implements  Visitor{
         ExprOpNode expr = node.getExpression();
         if(expr != null){
             expr.accept(this);
-            node.setReturnType(expr.getReturnType()); //todo change in node.setReturnType(expr.getReturnType()); when the method will be implemented
+            node.setReturnType(expr.getReturnType());
         } else {
             node.setReturnType(null); //in this case it has to be null since there is no expression to check
         }

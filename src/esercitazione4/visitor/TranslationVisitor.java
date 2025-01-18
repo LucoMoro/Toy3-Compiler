@@ -67,9 +67,11 @@ public class TranslationVisitor implements Visitor{
         StringBuilder builder = new StringBuilder();
 
         builder.append(createFirm(node));
-        builder.append(" {");
 
-        builder.append("}").append("\n");
+        BodyNode body = node.getBody();
+        builder.append(body.accept(this));
+
+        builder.append("\n");
         return builder.toString();
     }
 
@@ -156,6 +158,31 @@ public class TranslationVisitor implements Visitor{
 
         return builder.toString();
     }
+
+    @Override
+    public Object visit(BodyNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(" {").append("\n");
+
+        ArrayList<VarDeclNode> vars = node.getLeft();
+        if(vars != null){
+            for(VarDeclNode var : vars ){
+                builder.append(var.accept(this));
+            }
+        }
+
+        ArrayList<StatOpNode> stats = node.getRight();
+        if(stats != null){
+            for(StatOpNode stat : stats){
+                builder.append(stat.accept(this));
+            }
+        }
+
+        builder.append("}").append("\n");
+        return builder.toString();
+    }
+
 
     @Override
     public Object visit(BoolNode node) {
@@ -289,11 +316,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(WhileNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(BodyNode node) {
         return null;
     }
 
