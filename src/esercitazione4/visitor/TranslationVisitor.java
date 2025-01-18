@@ -23,7 +23,6 @@ public class TranslationVisitor implements Visitor{
 
         ArrayList<DeclOpNode> decls = node.getDecls();
 
-        String prototype;
         //needed for the definition fo the prototypes
         if(decls != null){
             for(DeclOpNode decl : decls){
@@ -32,6 +31,8 @@ public class TranslationVisitor implements Visitor{
                 }
             }
         }
+
+        builder.append("\n\n");
 
         //needed for the declarations
         if(decls != null){
@@ -63,7 +64,13 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(DefDeclNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(createFirm(node));
+        builder.append(" {");
+
+        builder.append("}").append("\n");
+        return builder.toString();
     }
 
     @Override
@@ -90,7 +97,7 @@ public class TranslationVisitor implements Visitor{
     public Object visit(PVarNode node) {
         StringBuilder builder = new StringBuilder();
 
-        builder.append(node.getVariable().getValue());
+        builder.append(node.getVariable().accept(this));
 
         return builder.toString();
     }
@@ -113,7 +120,7 @@ public class TranslationVisitor implements Visitor{
              builder.append(getCType(node.getType())).append(" ");
              for(int i = optVars.size()-1; i>= 0; i--){
                  VarOptInitNode optVar = optVars.get(i);
-                 if(i == 0){ //needed in order to avoid the symbol , on the last variable
+                 if(i == 0){ //needed in order to avoid the symbol "," on the last variable
                      builder.append(optVar.accept(this));
                  } else {
                      builder.append(optVar.accept(this)).append(", ");
@@ -368,31 +375,38 @@ public class TranslationVisitor implements Visitor{
     public String createPrototype(DefDeclNode node){
         StringBuilder buildPrototype = new StringBuilder();
 
+        buildPrototype.append(createFirm(node));
+
+        buildPrototype.append(";").append("\n");
+        return buildPrototype.toString();
+    }
+
+    public String createFirm(DefDeclNode node){
+
+        StringBuilder buildFirm = new StringBuilder();
         if (node.getType() == null) {
-            buildPrototype.append("void ");
+            buildFirm.append("void ");
         }
         else if (node.getType() == Type.STRING) {
-            buildPrototype.append("char* ");
+            buildFirm.append("char* ");
         }
         else {
-            buildPrototype.append(getCType(node.getType())).append(" ");
+            buildFirm.append(getCType(node.getType())).append(" ");
         }
-        buildPrototype.append(node.getName().getValue()).append("_fun (");
+        buildFirm.append(node.getName().accept(this)).append("_fun (");
 
         ArrayList<ParDeclNode> params = node.getParams();
         if(params != null){
             for(int i = params.size() -1; i >= 0; i--) {//iterates in reverse on each parDecl which may be composed by multiple pVars
-                buildPrototype.append(params.get(i).accept(this));
+                buildFirm.append(params.get(i).accept(this));
             }
-            if (!buildPrototype.isEmpty()) { //instead of calculating the number of parameters, I simply delete the last "," and the last " "
-                buildPrototype.deleteCharAt(buildPrototype.length() - 1);
-                buildPrototype.deleteCharAt(buildPrototype.length() - 1);
+            if (!buildFirm.isEmpty()) { //instead of calculating the number of parameters, I simply delete the last "," and the last " "
+                buildFirm.deleteCharAt(buildFirm.length() - 1);
+                buildFirm.deleteCharAt(buildFirm.length() - 1);
             }
         }
+        buildFirm.append(")");
 
-        buildPrototype.append(")");
-
-        buildPrototype.append(";").append("\n");
-        return buildPrototype.toString();
+        return buildFirm.toString();
     }
 }
