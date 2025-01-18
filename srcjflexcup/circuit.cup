@@ -248,24 +248,21 @@ FunCall ::= ID:attrib LPAR Exprs:ref RPAR {: RESULT = new FunCallNode(new IdNode
         | ID:attrib LPAR RPAR {: RESULT = new FunCallNode(new IdNode (attrib)); :}
         ;
 
-Expr ::= Expr:e1 ArithOp:attrib Expr:e2 {: if(attrib.equals("PLUS")) {RESULT = new AddNode(e1, e2); }
-                                           else if(attrib.equals("MINUS")){ RESULT = new DiffNode(e1, e2); }
-                                           else if(attrib.equals("TIMES")){ RESULT = new MulNode(e1, e2); }
-                                           else if(attrib.equals("DIV")){ RESULT = new DivNode(e1, e2); }
-                                           System.out.println(RESULT);
-                                        :}
-              | Expr:e1 BoolOp:attrib Expr:e2 {: if(attrib.equals("AND")) {RESULT = new AndNode(e1, e2); }
-                                                 else if(attrib.equals("OR")) { RESULT = new OrNode(e1, e2); }
-                                                 System.out.println(RESULT);
-                                              :}
-              | Expr:e1 RelOp:attrib Expr:e2 {: if(attrib.equals("GT")) { RESULT = new GTNode(e1, e2); }
-                                                else if(attrib.equals("GE")) { RESULT = new GENode(e1, e2); }
-                                                else if(attrib.equals("LT")) { RESULT = new LTNode(e1, e2); }
-                                                else if(attrib.equals("LE")) { RESULT = new LENode(e1, e2); }
-                                                else if(attrib.equals("EQ")) { RESULT = new EQNode(e1, e2); }
-                                                else if(attrib.equals("NE")) { RESULT = new NENode(e1, e2); }
-                                                System.out.println(RESULT);
-                                             :}
+Expr ::= Expr:e1 PLUS Expr:e2 {: RESULT = new AddNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 MINUS Expr:e2 {: RESULT = new DiffNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 TIMES Expr:e2 {: RESULT = new MulNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 DIV Expr:e2 {: RESULT = new DivNode(e1, e2); System.out.println(RESULT); :}
+
+              | Expr:e1 AND Expr:e2 {: RESULT = new AndNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 OR Expr:e2 {: RESULT = new OrNode(e1, e2); System.out.println(RESULT); :}
+
+              | Expr:e1 GT Expr:e2 {: RESULT = new GTNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 GE Expr:e2 {: RESULT = new GENode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 LT Expr:e2 {: RESULT = new LTNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 LE Expr:e2 {: RESULT = new LENode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 EQ Expr:e2 {:  RESULT = new EQNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 NE Expr:e2 {: RESULT = new NENode(e1, e2); System.out.println(RESULT); :}
+
               | LPAR Expr:e1 RPAR {: RESULT = e1; System.out.println(RESULT); :}
               | MINUS Expr:e1 {: RESULT = new UMinusNode(e1); System.out.println(RESULT); :} %prec UMINUS
               | NOT Expr:e1 {:  RESULT = new NotNode(e1); System.out.println(RESULT); :}
@@ -274,17 +271,3 @@ Expr ::= Expr:e1 ArithOp:attrib Expr:e2 {: if(attrib.equals("PLUS")) {RESULT = n
               | Constant:attrib {: RESULT = attrib; System.out.println(RESULT); :}
               ;
 
-ArithOp ::= PLUS    {: RESULT = "PLUS"; :}
-        | MINUS {: RESULT = "MINUS"; :}
-        | TIMES {: RESULT = "TIMES"; :}
-        | DIV {: RESULT = "DIV"; :};
-
-BoolOp ::= AND {: RESULT = "AND"; :}
-       | OR {: RESULT = "OR"; :};
-
-RelOp ::= GT    {: RESULT = "GT"; :}
-      | GE  {: RESULT = "GE"; :}
-      | LT  {: RESULT = "LT"; :}
-      | LE  {: RESULT = "LE"; :}
-      | EQ  {: RESULT = "EQ"; :}
-      | NE  {: RESULT = "NE"; :};

@@ -27,13 +27,20 @@ program
 
  def saluto(): string
  {
+
+    test: string;
+
+    test := saluto();
+    x | y := 3.5, 5.6;
+    moltiplicazione(x,y,sommagrande, grande);
+    "i", "am", "a", x, test, "why not", 6+590.6, 'a' !>>;
 	return "ciao";
  }
 
 
 begin
 
-sommagrande | sommapiccola := 0, 0;
+sommagrande | sommapiccola := 0.0, 0.0;
 
 "Questo programma permette di svolgere una serie di moltiplicazioni" !>>;
 "accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola" !>>;
@@ -48,10 +55,10 @@ while (i <= 0) do{
 
 while (i > 0) do{
 
-	x := -1;
-	y := -1;
+	x := -1.0;
+	y := -1.0;
 
-	while (not(x > 0 and y >0)) do
+	while (not((x > 0) and (y >0))) do
 	{
 		saluto :"byebye";
 		"Moltiplicazione " , i , ": inserisci due numeri positivi" !>>;
