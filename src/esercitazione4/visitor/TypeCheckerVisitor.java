@@ -55,11 +55,10 @@ public class TypeCheckerVisitor implements  Visitor{
 
         ArrayList<StatOpNode> stats = node.getStats();
         if(stats != null){
-            for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
+            for(StatOpNode stat : stats){ //checks for each statement if it has a type
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
-                if(tmpStatType != Type.NOTYPE){
-                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                if(tmpStatType == null){
+                    throw new RuntimeException("The current statement: " + stat + "has not a type"); //this code should be not reachable since if there is an error
                     //it would be caught before arriving to BodyNode
                 }
             }
@@ -100,11 +99,10 @@ public class TypeCheckerVisitor implements  Visitor{
         ArrayList<StatOpNode> stats = body.getRight();
 
         if(stats != null){
-            for(StatOpNode stat : stats){ //checks for each statement if his type is NOTYPE
+            for(StatOpNode stat : stats){ //checks for each statement if it has a type
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
-                if(tmpStatType != Type.NOTYPE){
-                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                if(tmpStatType == null){
+                    throw new RuntimeException("The current statement: " + stat + "has not a type"); //this code should be not reachable since if there is an error
                     //it would be caught before arriving to BodyNode
                 }
             }
@@ -215,9 +213,8 @@ public class TypeCheckerVisitor implements  Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){
                 Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
-                //tmpStatType = Type.NOTYPE; //todo remove when all the StatOpNode will be implemented
-                if(tmpStatType != Type.NOTYPE){
-                    throw new RuntimeException("The current statement: " + stat + "has a wrong type"); //this code should be not reachable since if there is an error
+                if(tmpStatType == null){
+                    throw new RuntimeException("The current statement: " + stat + "has not a type"); //this code should be not reachable since if there is an error
                                                                                                        //it would be caught before arriving to BodyNode
                 }
             }
