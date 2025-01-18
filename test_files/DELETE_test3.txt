@@ -15,7 +15,7 @@ def scoping(n: int; m: int; ref message: string)
             message !>>;
         }
         else {
-            if (m > 1 and m < 5) then {
+            if ((m > 1) and (m < 5)) then {
                 message := "level 3.2";
                 message !>>;
             }
@@ -34,7 +34,7 @@ def scoping(n: int; m: int; ref message: string)
             message !>>;
         }
         else {
-            if (m > 1 and m < 5) then {
+            if ((m > 1) and (m < 5)) then {
                 message := "level 3.5";
                 message !>>;
             }

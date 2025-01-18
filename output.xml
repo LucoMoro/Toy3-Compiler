@@ -202,8 +202,6 @@
       </AssignNode>
     </Body>
   </WhileNode>
-  <FunCallNode name='glob'>
-  </FunCallNode>
   <WriteNode isNewLine='true'>
     <IdNode>message</IdNode>
   </WriteNode>

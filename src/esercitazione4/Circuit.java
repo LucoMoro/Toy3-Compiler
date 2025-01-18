@@ -2,6 +2,7 @@ package esercitazione4;
 
 import esercitazione4.ast.ProgramNode;
 import esercitazione4.visitor.ScopeVisitor;
+import esercitazione4.visitor.TranslationVisitor;
 import esercitazione4.visitor.TreeVisitor;
 import esercitazione4.visitor.TypeCheckerVisitor;
 
@@ -45,11 +46,17 @@ public class Circuit {
             program.accept(scope);
 
             System.out.println("/*********************************** Type Checking *************************************************/");
-
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
             program.accept(typeChecker);
 
+            System.out.println("/*********************************** Translating in C *************************************************/");
+            FileWriter translationFile = new FileWriter("translated_code.txt");
+            TranslationVisitor translator = new TranslationVisitor();
+            String outputCode = (String) program.accept(translator);
+            translationFile.append(outputCode);
+
             output_file.close();
+            translationFile.close();
         }
         catch(FileNotFoundException e){
             System.err.println("Error: File not found - " + filePath);
