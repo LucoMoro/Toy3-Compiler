@@ -258,6 +258,42 @@ public class TranslationVisitor implements Visitor{
     }
 
     @Override
+    public Object visit(IfThenNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("if(");
+        ExprOpNode expr = node.getLeft();
+        builder.append(expr.accept(this));
+
+        builder.append("} else {\n");
+        BodyNode bodyElse = node.getRight();
+        builder.append(bodyElse.accept(this));
+        builder.append("}\n");
+
+        return builder.toString();
+    }
+
+    @Override
+    public Object visit(IfThenElseNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("if(");
+        ExprOpNode expr = node.getLeft();
+        builder.append(expr.accept(this));
+
+        builder.append(") {\n");
+        BodyNode bodyIfThen = node.getMid();
+        builder.append(bodyIfThen.accept(this));
+
+        builder.append("} else {\n");
+        BodyNode bodyElse = node.getRight();
+        builder.append(bodyElse.accept(this));
+        builder.append("}\n");
+
+        return builder.toString();
+    }
+
+    @Override
     public Object visit(BoolNode node) {
         return null;
     }
@@ -364,16 +400,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(ReturnOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(IfThenElseNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(IfThenNode node) {
         return null;
     }
 
