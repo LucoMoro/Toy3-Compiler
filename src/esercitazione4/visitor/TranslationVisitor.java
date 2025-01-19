@@ -364,6 +364,18 @@ public class TranslationVisitor implements Visitor{
     }
 
     @Override
+    public Object visit(ReturnOpNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr = node.getExpression();
+        builder.append("return ");
+        builder.append(expr.accept(this));
+
+        builder.append(";").append("\n");
+        return builder.toString();
+    }
+
+    @Override
     public Object visit(AddNode node) {
         return null;
     }
@@ -440,11 +452,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(AssignOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ReturnOpNode node) {
         return null;
     }
 

@@ -57,7 +57,8 @@ printf("%s\n", message);
 }
 
 int glob_fun () {
-null}
+return 100;
+}
 
 char* message = "level 0";
 int n, m, k;
