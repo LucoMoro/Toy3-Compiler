@@ -13,10 +13,6 @@
       </PVar>
     </ParDecl>
     <Body>
-      <VarDecl type='INT'>
-        <VarOptInit name='never_defined'>
-        </VarOptInit>
-      </VarDecl>
       <AssignNode>
         <IdNode>message</IdNode>
         <StringNode>level 1</StringNode>

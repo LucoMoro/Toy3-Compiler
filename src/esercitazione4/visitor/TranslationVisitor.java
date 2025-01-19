@@ -69,7 +69,7 @@ public class TranslationVisitor implements Visitor{
         builder.append(createFirm(node));
 
         BodyNode body = node.getBody();
-        builder.append(body.accept(this));
+        builder.append(body.accept(this)); //in this case, differently from the others visitors I demand the workload to the body
 
         builder.append("\n");
         return builder.toString();
@@ -183,6 +183,42 @@ public class TranslationVisitor implements Visitor{
         return builder.toString();
     }
 
+    @Override
+    public Object visit(ReadOpNode node) {
+        return null;
+    }
+
+    @Override
+    public Object visit(WriteOpNode node) {
+        StringBuilder builderPrint = new StringBuilder();
+        StringBuilder builderArgs = new StringBuilder();
+
+        builderPrint.append("printf(\"");
+        builderArgs.append("");
+
+        ArrayList<ExprOpNode> exprs = node.getExpressions();
+        for(int i = exprs.size()-1; i>= 0; i-- ){
+            ExprOpNode expr = exprs.get(i);
+
+            String exprString = (String) expr.accept(this);
+
+            Type type = expr.getReturnType();
+            String specifier = getPrintSpecifier(type);
+
+            builderPrint.append(specifier);//builds the string
+            builderArgs.append(exprString).append(", "); //builds the list of arguments
+        }
+
+        builderArgs.deleteCharAt(builderArgs.length() - 1);
+        builderArgs.deleteCharAt(builderArgs.length() - 1);
+
+        if(node.getIsNewLine()){
+            builderPrint.append("\\n");
+        }
+
+        builderPrint.append("\", ").append(builderArgs).append(")").append(";").append("\n");
+        return builderPrint.toString();
+    }
 
     @Override
     public Object visit(BoolNode node) {
@@ -281,16 +317,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(FunCallNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(ReadOpNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(WriteOpNode node) {
         return null;
     }
 
@@ -430,5 +456,21 @@ public class TranslationVisitor implements Visitor{
         buildFirm.append(")");
 
         return buildFirm.toString();
+    }
+
+    private String getPrintSpecifier(Type type) {
+
+        switch (type) {
+            case INT:
+                return "%d";
+            case DOUBLE:
+                return "%f";
+            case BOOL, STRING:
+                return "%s";
+            case CHAR:
+                return "%c";
+            default:
+                return "";
+        }
     }
 }
