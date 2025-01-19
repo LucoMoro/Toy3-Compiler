@@ -293,6 +293,23 @@ public class TranslationVisitor implements Visitor{
         return builder.toString();
     }
 
+
+    @Override
+    public Object visit(WhileNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("while (");
+        ExprOpNode expr = node.getLeft();
+        builder.append(expr.accept(this));
+
+        builder.append(") {\n");
+        BodyNode body = node.getRight();
+        builder.append(body.accept(this));
+        builder.append("}\n");
+
+        return builder.toString();
+    }
+
     @Override
     public Object visit(BoolNode node) {
         return null;
@@ -403,10 +420,6 @@ public class TranslationVisitor implements Visitor{
         return null;
     }
 
-    @Override
-    public Object visit(WhileNode node) {
-        return null;
-    }
 
     /**
      * Converts a custom Type enumeration to its equivalent C type as a string.
