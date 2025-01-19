@@ -85,7 +85,7 @@ public class TranslationVisitor implements Visitor{
             for(int i = pVars.size() -1 ; i >= 0; i--){ //needed to reverse the parameters take in input
                 PVarNode pVar =  pVars.get(i);
                 builder.append(getCType(node.getRight())).append(" ");
-                if(pVar.getHasRef()){
+                if(pVar.getHasRef() && node.getRight() != Type.STRING){ //needed in order to avoid strings such as "char* * message"
                     builder.append("*");
                 }
                 builder.append(pVar.accept(this)).append(", ");
@@ -185,8 +185,45 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(ReadOpNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        for(ExprOpNode expr:  node.getIdentifiers()) {
+            if(expr instanceof IdNode){
+                IdNode id = (IdNode) expr;
+
+                Type type = id.getReturnType();
+                String variableName = (String) id.accept(this);
+
+                if(type.name().equalsIgnoreCase(Type.STRING.name())) {
+
+                    String buffer = "buffer = (char*) malloc((1024*5)*sizeof(char));\n";
+                    builder.append(buffer);
+                    builder.append("scanf(\"%s\", buffer);\n");
+                    String alloc = variableName + "= (char*) malloc((strlen(buffer) + 1) *sizeof(char));\n";
+                    alloc = alloc + "strcpy(" + variableName + ",buffer);\nfree(buffer);\n";
+                    builder.append(alloc);
+                }
+
+                if(type.name().equalsIgnoreCase(Type.BOOL.name())
+                        || type.name().equalsIgnoreCase(Type.INT.name())) {
+                    builder.append("scanf(\"%d\", ").append("&").append(variableName).append(");");
+                }
+
+                if(type.name().equalsIgnoreCase(Type.DOUBLE.name())) {
+                    builder.append("scanf(\"%f\", ").append("&").append(variableName).append(");");
+                }
+
+                if(type.name().equalsIgnoreCase(Type.CHAR.name())) {
+                    builder.append("scanf(\"%c\", ").append("&").append(variableName).append(");");
+                }
+            }
+
+        }
+
+        builder.append("\n");
+        return builder.toString();
     }
+
 
     @Override
     public Object visit(WriteOpNode node) {
@@ -413,7 +450,7 @@ public class TranslationVisitor implements Visitor{
             #include <math.h>
             
             #define BUFFER_SIZE  1024*4
-        
+            char* buffer;
             """);
 
         return header.toString();
