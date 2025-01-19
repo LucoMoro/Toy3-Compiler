@@ -312,27 +312,55 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(BoolNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        if(node.getValue() == true) {
+            builder.append("1");
+        } else {
+            builder.append("0");
+        }
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(CharNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\'");
+        builder.append(node.getValue());
+        builder.append("\'");
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(IntNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(node.getValue());
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(DoubleNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(node.getValue());
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(StringNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("\"");
+        builder.append(node.getValue());
+        builder.append("\"");
+
+        return builder.toString();
     }
 
     @Override

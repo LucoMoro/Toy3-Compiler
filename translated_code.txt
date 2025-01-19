@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define BUFFER_SIZE  1024*4
+char* buffer;
+void scoping_fun (int n, int m, char* message);
+int glob_fun ();
+
+
+void scoping_fun (int n, int m, char* message) {
+nullif(null) {
+ {
+nullif(null) {
+ {
+nullprintf("%s\n", message);
+}
+} else {
+ {
+if(null) {
+ {
+nullprintf("%s\n", message);
+}
+} else {
+ {
+nullprintf("%s\n", message);
+}
+}
+}
+}
+printf("%s\n", message);
+}
+} else {
+ {
+nullif(null) {
+ {
+nullprintf("%s\n", message);
+}
+} else {
+ {
+if(null) {
+ {
+nullprintf("%s\n", message);
+}
+} else {
+ {
+nullprintf("%s\n", message);
+}
+}
+}
+}
+printf("%s\n", message);
+}
+}
+printf("%s\n", message);
+}
+
+int glob_fun () {
+null}
+
+char* message = "level 0";
+int n, m, k;
+
+
+int main() {
+nullwhile (null) {
+ {
+printf("%s", "Inserisci n: ");
+scanf("%d", &n);
+printf("%s", "Inserisci m: ");
+scanf("%d", &m);
+printf("%s%d%s%d\n", "I valori inseriti sono ", n, " e ", m);
+nullnull}
+}
+printf("%s\n", message);
+printf("%d\n", null);
+}
