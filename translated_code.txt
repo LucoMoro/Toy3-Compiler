@@ -62,57 +62,47 @@ int glob_fun ();
 
 void scoping_fun (int n, int m, char* message) {
 message="level 1";
-if(n<=1) {
- {
+if(n<=1)  {
 message="level 2.1";
-if(m<=1) {
- {
+if(m<=1)  {
 message="level 3.1";
 printf("%s\n", message);
 }
-} else {
- {
-if(m>1&&m<5) {
- {
+ else  {
+if(m>1&&m<5)  {
 message="level 3.2";
 printf("%s\n", message);
 }
-} else {
- {
+ else  {
 message="level 3.3";
 printf("%s\n", message);
 }
+
 }
-}
-}
+
 printf("%s\n", message);
 }
-} else {
- {
+ else  {
 message="level 2.2";
-if(m<=1) {
- {
+if(m<=1)  {
 message="level 3.4";
 printf("%s\n", message);
 }
-} else {
- {
-if(m>1&&m<5) {
- {
+ else  {
+if(m>1&&m<5)  {
 message="level 3.5";
 printf("%s\n", message);
 }
-} else {
- {
+ else  {
 message="level 3.6";
 printf("%s\n", message);
 }
+
 }
-}
-}
+
 printf("%s\n", message);
 }
-}
+
 printf("%s\n", message);
 }
 
@@ -126,8 +116,7 @@ int n, m, k;
 
 int main() {
 k=6;
-while (k>=1) {
- {
+while (k>=1)  {
 printf("%s", "Inserisci n: ");
 scanf("%d", &n);
 printf("%s", "Inserisci m: ");
@@ -136,7 +125,7 @@ printf("%s%d%s%d\n", "I valori inseriti sono ", n, " e ", m);
 scoping_fun(n, m, message);
 k=k-1;
 }
-}
+
 printf("%s\n", message);
 printf("%d\n", glob_fun());
 return 1; 

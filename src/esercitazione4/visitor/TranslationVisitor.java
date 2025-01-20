@@ -280,10 +280,10 @@ public class TranslationVisitor implements Visitor{
         ExprOpNode expr = node.getLeft();
         builder.append(expr.accept(this));
 
-        builder.append("} else {\n");
-        BodyNode bodyElse = node.getRight();
-        builder.append(bodyElse.accept(this));
-        builder.append("}\n");
+        builder.append(") ");
+        BodyNode bodyThen = node.getRight();
+        builder.append(bodyThen.accept(this));
+        builder.append("\n");
 
         return builder.toString();
     }
@@ -296,14 +296,14 @@ public class TranslationVisitor implements Visitor{
         ExprOpNode expr = node.getLeft();
         builder.append(expr.accept(this));
 
-        builder.append(") {\n");
+        builder.append(") ");
         BodyNode bodyIfThen = node.getMid();
         builder.append(bodyIfThen.accept(this));
 
-        builder.append("} else {\n");
+        builder.append(" else ");
         BodyNode bodyElse = node.getRight();
         builder.append(bodyElse.accept(this));
-        builder.append("}\n");
+        builder.append("\n");
 
         return builder.toString();
     }
@@ -316,10 +316,10 @@ public class TranslationVisitor implements Visitor{
         ExprOpNode expr = node.getLeft();
         builder.append(expr.accept(this));
 
-        builder.append(") {\n");
+        builder.append(") ");
         BodyNode body = node.getRight();
         builder.append(body.accept(this));
-        builder.append("}\n");
+        builder.append("\n");
 
         return builder.toString();
     }
