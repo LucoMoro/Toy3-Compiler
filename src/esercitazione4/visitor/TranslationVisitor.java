@@ -9,15 +9,23 @@ import esercitazione4.ast.ParDeclOp.*;
 import esercitazione4.ast.RelOp.*;
 import esercitazione4.ast.StatOp.*;
 import esercitazione4.ast.VarDeclOp.*;
+import esercitazione4.visitor.symbolTable.FunctionType;
+import esercitazione4.visitor.symbolTable.SymbolTable;
+import esercitazione4.visitor.symbolTable.SymbolTableRow;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+
 
 public class TranslationVisitor implements Visitor{
+
+    HashMap<String, ArrayList<Boolean>> firms = new HashMap<>();
 
     @Override
     public Object visit(ProgramNode node) {
         StringBuilder builder = new StringBuilder();
+        setupFirms(node); //adds elements to the HashMap firms
 
         builder.append(buildHeader());
 
@@ -54,11 +62,13 @@ public class TranslationVisitor implements Visitor{
         if(stats != null){
             for(StatOpNode stat: stats){
                 builder.append(stat.accept(this));
+                if(stat instanceof FunCallNode){
+                    builder.append(";").append("\n");
+                }
             }
         }
 
         builder.append("}\n");
-
         return builder.toString();
     }
 
@@ -176,6 +186,9 @@ public class TranslationVisitor implements Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){
                 builder.append(stat.accept(this));
+                if(stat instanceof FunCallNode){
+                    builder.append(";").append("\n");
+                }
             }
         }
 
@@ -293,7 +306,6 @@ public class TranslationVisitor implements Visitor{
         return builder.toString();
     }
 
-
     @Override
     public Object visit(WhileNode node) {
         StringBuilder builder = new StringBuilder();
@@ -376,6 +388,42 @@ public class TranslationVisitor implements Visitor{
     }
 
     @Override
+    public Object visit(FunCallNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        IdNode id = node.getName();
+        builder.append(id.accept(this));
+
+        ArrayList<Boolean> references = firms.get(id.getValue());
+
+        builder.append("(");
+
+        ArrayList<ExprOpNode> exprs = node.getParameters();
+
+        if(exprs != null){
+            for(int i = exprs.size() -1; i >= 0; i--){
+                ExprOpNode expr = exprs.get(i);
+                String exprContent = (String) expr.accept(this);
+                if(references.get(i) == true && expr.getReturnType() != Type.STRING){
+                    builder.append("&");
+                }
+                builder.append(exprContent);
+                if(i != 0){
+                    builder.append(", ");
+                }
+            }
+        }
+
+        builder.append(")");
+        return builder.toString();
+    }
+
+    @Override
+    public Object visit(AssignOpNode node) {
+        return null;
+    }
+
+    @Override
     public Object visit(AddNode node) {
         return null;
     }
@@ -442,16 +490,6 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(NENode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(FunCallNode node) {
-        return null;
-    }
-
-    @Override
-    public Object visit(AssignOpNode node) {
         return null;
     }
 
@@ -530,7 +568,6 @@ public class TranslationVisitor implements Visitor{
         return header.toString();
     }
 
-
     public String createPrototype(DefDeclNode node){
         StringBuilder buildPrototype = new StringBuilder();
 
@@ -582,6 +619,24 @@ public class TranslationVisitor implements Visitor{
                 return "%c";
             default:
                 return "";
+        }
+    }
+
+    private void setupFirms (Node node){
+        ProgramNode programNode = (ProgramNode) node;
+
+        //code needed for FunctionCall
+        SymbolTable table = programNode.getProgramTable();
+        ArrayList<SymbolTableRow> rows = table.getRows();
+
+        if(rows != null){ //can be null
+            for(SymbolTableRow row : rows){
+                if(row.getType() instanceof FunctionType){ //needed for filtering all the functions
+                    String name = row.getSymbol();
+                    ArrayList<Boolean> refs = ((FunctionType) row.getType()).getReferences();
+                    firms.put(name, refs); //a reverse list is not needed here since it will be done already in FunCallNode
+                }
+            }
         }
     }
 }

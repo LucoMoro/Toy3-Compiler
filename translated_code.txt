@@ -72,8 +72,9 @@ scanf("%d", &n);
 printf("%s", "Inserisci m: ");
 scanf("%d", &m);
 printf("%s%d%s%d\n", "I valori inseriti sono ", n, " e ", m);
-nullnull}
+scoping(n, m, message);
+null}
 }
 printf("%s\n", message);
-printf("%d\n", null);
+printf("%d\n", glob());
 }
