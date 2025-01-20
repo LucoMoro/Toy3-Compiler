@@ -16,13 +16,13 @@ program
  {
     risultato = x+y | nonusata : double;
 
-	if ((x*y) >= 100) then {
-		grande := true;
-	}
-	else{
-		grande := false;
-	}
-	res := risultato;                  // commento di prova
+    if ((x*y) >= 100) then {
+       grande := true;
+    }
+    else{
+       grande := false;
+    }
+    res := risultato;                  // commento di prova
  }
 
  def saluto(): string
@@ -34,11 +34,23 @@ program
     x | y := 3.5, 5.6;
     moltiplicazione(x,y,sommagrande, grande);
     "i", "am", "a", x, test, "why not", 6+590.6, 'a' !>>;
-	return "ciao";
+    return "ciao";
+ }
+
+ def saluto2(prova_prova: string) : string {
+ return "hello i am a test";
  }
 
 
 begin
+
+test1 : "ciao";
+prova1 : double;
+
+prova1 := 5*67.6;
+
+
+test1 := test1 + saluto2(test1);
 
 sommagrande | sommapiccola := 0.0, 0.0;
 
@@ -47,33 +59,33 @@ sommagrande | sommapiccola := 0.0, 0.0;
 
 i := -1;
 while (i <= 0) do{
-	saluto : "ciao";
-	"Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)">>;
-	i <<;
-	saluto !>>;
+    saluto : "ciao";
+    "Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)">>;
+    i <<;
+    saluto !>>;
 }
 
 while (i > 0) do{
 
-	x := -1.0;
-	y := -1.0;
+    x := -1.0;
+    y := -1.0;
 
-	while (not((x > 0) and (y >0))) do
-	{
-		saluto :"byebye";
-		"Moltiplicazione " , i , ": inserisci due numeri positivi" !>>;
-		x | y <<;
-		saluto !>>;
-	}
+    while (not((x > 0) and (y >0))) do
+    {
+       saluto :"byebye";
+       "Moltiplicazione " , i , ": inserisci due numeri positivi" !>>;
+       x | y <<;
+       saluto !>>;
+    }
 
-	moltiplicazione(x, y , risultato, grande);
+    moltiplicazione(x, y , risultato, grande);
 
-	if(grande) then{
-		sommagrande := sommagrande + risultato;
-	}else{
-		sommapiccola := sommapiccola + risultato;
-	}
-	i := i-1;
+    if(grande) then{
+       sommagrande := sommagrande + risultato;
+    }else{
+       sommapiccola := sommapiccola + risultato;
+    }
+    i := i-1;
 }
 
 end

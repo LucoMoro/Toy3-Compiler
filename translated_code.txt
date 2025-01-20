@@ -5,16 +5,68 @@
 
 #define BUFFER_SIZE  1024*4
 char* buffer;
-void moltiplicazione_fun (float x, float y, float *res, int *grande);
+
+
+char* string_concat(char* s1, char* s2)
+{
+    char* ns = malloc(strlen(s1) + strlen(s2) + 1);
+    strcpy(ns, s1);
+    strcat(ns, s2);
+    return ns;
+}
+
+char* int2str(int n)
+{
+    char buffer[BUFFER_SIZE];
+    int len = sprintf(buffer,"%d",n);
+    char *ns = malloc(len + 1);
+    sprintf(ns,"%d",n);
+    return ns;
+}
+
+char* char2str(char c)
+{
+    char *ns = malloc(2);
+    sprintf(ns, "%c", c);
+    return ns;
+}
+
+    char* double2str(double f)
+    {
+        char buffer[BUFFER_SIZE];
+        int len = sprintf(buffer,"%f", f);
+        char *ns = malloc(len + 1);
+        sprintf(ns, "%f", f);
+        return ns;
+    }
+
+char* bool2str(int b)
+{
+    char* ns = NULL;
+    if(b)
+    {
+        ns = malloc(5);
+        strcpy(ns, "true");
+    }
+    else
+    {
+        ns = malloc(6);
+        strcpy(ns, "false");
+    }
+    return ns;
+}
+
+void moltiplicazione_fun (double x, double y, double *res, int *grande);
 char* saluto_fun ();
+char* saluto2_fun (char* prova_prova);
 
 
-float sommagrande, sommapiccola;
+double sommagrande, sommapiccola;
 int i = 0;
-float x, y, risultato;
+double x, y, risultato;
 int grande, nonusata;
-void moltiplicazione_fun (float x, float y, float *res, int *grande) {
-float risultato = null, nonusata;
+void moltiplicazione_fun (double x, double y, double *res, int *grande) {
+double risultato = , nonusata;
 if(null) {
  {
 grande=1;
@@ -33,13 +85,21 @@ test=saluto();
 x=3.5;
 y=5.6;
 moltiplicazione(x, y, &sommagrande, &grande);
-printf("%s%s%s%f%s%s%f%c\n", "i", "am", "a", x, test, "why not", null, 'a');
+printf("%s%s%s%f%s%s%f%c\n", "i", "am", "a", x, test, "why not", , 'a');
 return "ciao";
+}
+
+char* saluto2_fun (char* prova_prova) {
+return "hello i am a test";
 }
 
 
 
 int main() {
+char* test1 = "ciao";
+double prova1;
+prova1=null;
+test1=string_concat(test1, saluto2(test1));
 sommagrande=0.0;
 sommapiccola=0.0;
 printf("%s\n", "Questo programma permette di svolgere una serie di moltiplicazioni");
@@ -68,11 +128,11 @@ printf("%s\n", saluto);
 moltiplicazione(x, y, &risultato, &grande);
 if(grande) {
  {
-sommagrande=null;
+sommagrande=;
 }
 } else {
  {
-sommapiccola=null;
+sommapiccola=;
 }
 }
 i=null;

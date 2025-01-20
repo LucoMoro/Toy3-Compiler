@@ -439,7 +439,17 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(AddNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        //String stringExpr1 = (String) expr1.accept(this);
+        ExprOpNode expr2 = (ExprOpNode) node.getRight();
+        //String stringExpr2 = (String) expr2.accept(this);
+
+        //builder.append(doubleExpressionOperation("PLUS", expr1, expr2, stringExpr1, stringExpr2));
+        builder.append(doubleExpressionOperation("PLUS", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
@@ -537,7 +547,7 @@ public class TranslationVisitor implements Visitor{
                 break;
 
             case DOUBLE:
-                output = "float";
+                output = "double";
                 break;
 
             case INT, BOOL:
@@ -577,6 +587,73 @@ public class TranslationVisitor implements Visitor{
             
             #define BUFFER_SIZE  1024*4
             char* buffer;
+            
+            """);
+
+        header.append("""
+            
+            char* string_concat(char* s1, char* s2)
+            {
+                char* ns = malloc(strlen(s1) + strlen(s2) + 1);
+                strcpy(ns, s1);
+                strcat(ns, s2);
+                return ns;
+            }
+            
+            """);
+
+        header.append("""
+            char* int2str(int n)
+            {
+                char buffer[BUFFER_SIZE];
+                int len = sprintf(buffer,"%d",n);
+                char *ns = malloc(len + 1);
+                sprintf(ns,"%d",n);
+                return ns;
+            }
+            
+            """);
+
+
+        header.append("""
+            char* char2str(char c)
+            {
+                char *ns = malloc(2);
+                sprintf(ns, "%c", c);
+                return ns;
+            }
+            
+            """);
+
+        header.append("""
+            char* double2str(double f)
+            {
+                char buffer[BUFFER_SIZE];
+                int len = sprintf(buffer,"%f", f);
+                char *ns = malloc(len + 1);
+                sprintf(ns, "%f", f);
+                return ns;
+            }
+        
+        """);
+
+        header.append("""
+            char* bool2str(int b)
+            {
+                char* ns = NULL;
+                if(b)
+                {
+                    ns = malloc(5);
+                    strcpy(ns, "true");
+                }
+                else
+                {
+                    ns = malloc(6);
+                    strcpy(ns, "false");
+                }
+                return ns;
+            }
+            
             """);
 
         return header.toString();
@@ -653,4 +730,54 @@ public class TranslationVisitor implements Visitor{
             }
         }
     }
+
+    public String doubleExpressionOperation(String operation, ExprOpNode expr1, ExprOpNode expr2){
+        StringBuilder builder = new StringBuilder();
+        Type type;
+
+        boolean arithOpCheck = operation.equals("PLUS") || operation.equals("TIMES") || operation.equals("MINUS") || operation.equals("DIV");
+        boolean boolOpCheck = operation.equals("AND") || operation.equals("OR");
+        boolean relOpCheck = operation.equals("GT") || operation.equals("GE") || operation.equals("LT") || operation.equals("LE") || operation.equals("EQ") || operation.equals("NE");
+
+        if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
+            type = Type.INT;
+        } else if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.DOUBLE;
+        } else if (arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
+            type = Type.DOUBLE;
+        } else if ( arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.DOUBLE;
+        } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            builder.append("string_concat(");
+            builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
+            builder.append(objectToCString((String) expr2.accept(this), expr1.getReturnType())).append(")");
+        } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.BOOL;
+        } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
+            type = Type.BOOL;
+        } else {
+            throw new RuntimeException("The expressions: '" + expr1 + "' and '" + expr2 + "' do not have a match in the table");
+        }
+
+        return builder.toString();
+    }
+
+    private String objectToCString(String expression, Type type) {
+        switch (type) {
+            case INT: return "int2str(" + expression + ")";
+            case CHAR: return "char2str(" + expression +  ")";
+            case DOUBLE: return "double2str(" + expression +  ")";
+            case BOOL: return "bool2str(" + expression +  ")";
+            case STRING: return expression;
+            default: return "";
+
+        }
+    }
+
 }
