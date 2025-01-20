@@ -186,7 +186,7 @@ public class TranslationVisitor implements Visitor{
         if(stats != null){
             for(StatOpNode stat : stats){
                 builder.append(stat.accept(this));
-                if(stat instanceof FunCallNode){
+                if(stat instanceof FunCallNode){ //needed since FunCallNode can be used as both parameter or statement itself
                     builder.append(";").append("\n");
                 }
             }
@@ -420,7 +420,21 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(AssignOpNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ArrayList<IdNode> ids = node.getIdentifiers();
+        ArrayList<ExprOpNode> exprs = node.getExpressions();
+
+        for(int i = ids.size() -1; i>= 0; i--){
+            IdNode id = ids.get(i);
+            ExprOpNode expr = exprs.get(i);
+            builder.append(id.accept(this));
+            builder.append("=");
+            builder.append(expr.accept(this));
+            builder.append(";").append("\n");
+        }
+
+        return builder.toString();
     }
 
     @Override

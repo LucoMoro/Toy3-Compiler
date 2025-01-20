@@ -5,76 +5,77 @@
 
 #define BUFFER_SIZE  1024*4
 char* buffer;
-void scoping_fun (int n, int m, char* message);
-int glob_fun ();
+void moltiplicazione_fun (float x, float y, float *res, int *grande);
+char* saluto_fun ();
 
 
-void scoping_fun (int n, int m, char* message) {
-nullif(null) {
- {
-nullif(null) {
- {
-nullprintf("%s\n", message);
-}
-} else {
- {
+float sommagrande, sommapiccola;
+int i = 0;
+float x, y, risultato;
+int grande, nonusata;
+void moltiplicazione_fun (float x, float y, float *res, int *grande) {
+float risultato = null, nonusata;
 if(null) {
  {
-nullprintf("%s\n", message);
+grande=1;
 }
 } else {
  {
-nullprintf("%s\n", message);
+grande=0;
 }
 }
-}
-}
-printf("%s\n", message);
-}
-} else {
- {
-nullif(null) {
- {
-nullprintf("%s\n", message);
-}
-} else {
- {
-if(null) {
- {
-nullprintf("%s\n", message);
-}
-} else {
- {
-nullprintf("%s\n", message);
-}
-}
-}
-}
-printf("%s\n", message);
-}
-}
-printf("%s\n", message);
+res=risultato;
 }
 
-int glob_fun () {
-return 100;
+char* saluto_fun () {
+char* test;
+test=saluto();
+x=3.5;
+y=5.6;
+moltiplicazione(x, y, &sommagrande, &grande);
+printf("%s%s%s%f%s%s%f%c\n", "i", "am", "a", x, test, "why not", null, 'a');
+return "ciao";
 }
 
-char* message = "level 0";
-int n, m, k;
 
 
 int main() {
-nullwhile (null) {
+sommagrande=0.0;
+sommapiccola=0.0;
+printf("%s\n", "Questo programma permette di svolgere una serie di moltiplicazioni");
+printf("%s\n", "accumulando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola");
+i=null;
+while (null) {
  {
-printf("%s", "Inserisci n: ");
-scanf("%d", &n);
-printf("%s", "Inserisci m: ");
-scanf("%d", &m);
-printf("%s%d%s%d\n", "I valori inseriti sono ", n, " e ", m);
-scoping(n, m, message);
-null}
+char* saluto = "ciao";
+printf("%s", "Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
+scanf("%d", &i);
+printf("%s\n", saluto);
 }
-printf("%s\n", message);
-printf("%d\n", glob());
+}
+while (null) {
+ {
+x=null;
+y=null;
+while (null) {
+ {
+char* saluto = "byebye";
+printf("%s%d%s\n", "Moltiplicazione ", i, ": inserisci due numeri positivi");
+scanf("%f", &y);scanf("%f", &x);
+printf("%s\n", saluto);
+}
+}
+moltiplicazione(x, y, &risultato, &grande);
+if(grande) {
+ {
+sommagrande=null;
+}
+} else {
+ {
+sommapiccola=null;
+}
+}
+i=null;
+}
+}
 }
