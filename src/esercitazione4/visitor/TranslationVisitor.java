@@ -69,7 +69,7 @@ public class TranslationVisitor implements Visitor{
             }
         }
 
-        builder.append("return 1");
+        builder.append("return 1; \n");
         builder.append("}\n");
         return builder.toString();
     }
@@ -536,32 +536,74 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(GTNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("GT", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(GENode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("GE", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(LTNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("LT", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(LENode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("LE", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(EQNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("EQ", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(NENode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("NE", expr1, expr2));
+
+        return builder.toString();
     }
 
 
@@ -827,13 +869,21 @@ public class TranslationVisitor implements Visitor{
             builder.append(getBoolSymbolFromString(operation));
             builder.append(expr2.accept(this));
         } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
-            type = Type.BOOL;
+            builder.append(expr1.accept(this));
+            builder.append(getRelSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
-            type = Type.BOOL;
+            builder.append(expr1.accept(this));
+            builder.append(getRelSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
-            type = Type.BOOL;
+            builder.append(expr1.accept(this));
+            builder.append(getRelSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
-            type = Type.BOOL;
+            builder.append(expr1.accept(this));
+            builder.append(getRelSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else {
             throw new RuntimeException("The expressions: '" + expr1 + "' and '" + expr2 + "' do not have a match in the table");
         }
@@ -879,6 +929,31 @@ public class TranslationVisitor implements Visitor{
         }
         else if (operation.equals("OR")) {
             symbol = "||";
+        }
+
+        return symbol;
+    }
+
+    public String getRelSymbolFromString(String operation){
+        String symbol="";
+
+        if (operation.equals("GT")){
+            symbol = ">";
+        }
+        else if (operation.equals("GE")) {
+            symbol = ">=";
+        }
+        else if (operation.equals("LT")) {
+            symbol = "<";
+        }
+        else if (operation.equals("LE")) {
+            symbol = "<=";
+        }
+        else if (operation.equals("EQ")) {
+            symbol = "==";
+        }
+        else if (operation.equals("NE")) {
+            symbol = "!=";
         }
 
         return symbol;
