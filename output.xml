@@ -1,0 +1,212 @@
+<Program>
+  <DefDecl name='scoping' type='null'>
+    <ParDecl type='STRING'>
+      <PVar hasRef='true'  name='message'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='INT'>
+      <PVar hasRef='false'  name='m'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='INT'>
+      <PVar hasRef='false'  name='n'>
+      </PVar>
+    </ParDecl>
+    <Body>
+      <AssignNode>
+        <IdNode>message</IdNode>
+        <StringNode>level 1</StringNode>
+      </AssignNode>
+      <IfThenElseNode>
+        <LENode>
+          <IdNode>n</IdNode>
+          <IntNode>1</IntNode>
+        </LENode>
+        <Body>
+          <AssignNode>
+            <IdNode>message</IdNode>
+            <StringNode>level 2.1</StringNode>
+          </AssignNode>
+          <IfThenElseNode>
+            <LENode>
+              <IdNode>m</IdNode>
+              <IntNode>1</IntNode>
+            </LENode>
+            <Body>
+              <AssignNode>
+                <IdNode>message</IdNode>
+                <StringNode>level 3.1</StringNode>
+              </AssignNode>
+              <WriteNode isNewLine='true'>
+                <IdNode>message</IdNode>
+              </WriteNode>
+            </Body>
+            <Body>
+              <IfThenElseNode>
+                <AndNode>
+                  <GTNode>
+                    <IdNode>m</IdNode>
+                    <IntNode>1</IntNode>
+                  </GTNode>
+                  <LTNode>
+                    <IdNode>m</IdNode>
+                    <IntNode>5</IntNode>
+                  </LTNode>
+                </AndNode>
+                <Body>
+                  <AssignNode>
+                    <IdNode>message</IdNode>
+                    <StringNode>level 3.2</StringNode>
+                  </AssignNode>
+                  <WriteNode isNewLine='true'>
+                    <IdNode>message</IdNode>
+                  </WriteNode>
+                </Body>
+                <Body>
+                  <AssignNode>
+                    <IdNode>message</IdNode>
+                    <StringNode>level 3.3</StringNode>
+                  </AssignNode>
+                  <WriteNode isNewLine='true'>
+                    <IdNode>message</IdNode>
+                  </WriteNode>
+                </Body>
+              </IfThenElseNode>
+            </Body>
+          </IfThenElseNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>message</IdNode>
+          </WriteNode>
+        </Body>
+        <Body>
+          <AssignNode>
+            <IdNode>message</IdNode>
+            <StringNode>level 2.2</StringNode>
+          </AssignNode>
+          <IfThenElseNode>
+            <LENode>
+              <IdNode>m</IdNode>
+              <IntNode>1</IntNode>
+            </LENode>
+            <Body>
+              <AssignNode>
+                <IdNode>message</IdNode>
+                <StringNode>level 3.4</StringNode>
+              </AssignNode>
+              <WriteNode isNewLine='true'>
+                <IdNode>message</IdNode>
+              </WriteNode>
+            </Body>
+            <Body>
+              <IfThenElseNode>
+                <AndNode>
+                  <GTNode>
+                    <IdNode>m</IdNode>
+                    <IntNode>1</IntNode>
+                  </GTNode>
+                  <LTNode>
+                    <IdNode>m</IdNode>
+                    <IntNode>5</IntNode>
+                  </LTNode>
+                </AndNode>
+                <Body>
+                  <AssignNode>
+                    <IdNode>message</IdNode>
+                    <StringNode>level 3.5</StringNode>
+                  </AssignNode>
+                  <WriteNode isNewLine='true'>
+                    <IdNode>message</IdNode>
+                  </WriteNode>
+                </Body>
+                <Body>
+                  <AssignNode>
+                    <IdNode>message</IdNode>
+                    <StringNode>level 3.6</StringNode>
+                  </AssignNode>
+                  <WriteNode isNewLine='true'>
+                    <IdNode>message</IdNode>
+                  </WriteNode>
+                </Body>
+              </IfThenElseNode>
+            </Body>
+          </IfThenElseNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>message</IdNode>
+          </WriteNode>
+        </Body>
+      </IfThenElseNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>message</IdNode>
+      </WriteNode>
+    </Body>
+  </DefDecl>
+  <DefDecl name='glob' type='INT'>
+    <Body>
+      <ReturnNode>
+        <IntNode>100</IntNode>
+      </ReturnNode>
+    </Body>
+  </DefDecl>
+  <VarDecl>
+    <VarOptInit name='message'>
+    </VarOptInit>
+    <StringNode>level 0</StringNode>
+  </VarDecl>
+  <VarDecl type='INT'>
+    <VarOptInit name='k'>
+    </VarOptInit>
+    <VarOptInit name='m'>
+    </VarOptInit>
+    <VarOptInit name='n'>
+    </VarOptInit>
+  </VarDecl>
+  <AssignNode>
+    <IdNode>k</IdNode>
+    <IntNode>6</IntNode>
+  </AssignNode>
+  <WhileNode>
+    <GENode>
+      <IdNode>k</IdNode>
+      <IntNode>1</IntNode>
+    </GENode>
+    <Body>
+      <WriteNode isNewLine='false'>
+        <StringNode>Inserisci n: </StringNode>
+      </WriteNode>
+      <ReadNode>
+        <IdNode>n</IdNode>
+      </ReadNode>
+      <WriteNode isNewLine='false'>
+        <StringNode>Inserisci m: </StringNode>
+      </WriteNode>
+      <ReadNode>
+        <IdNode>m</IdNode>
+      </ReadNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>m</IdNode>
+        <StringNode> e </StringNode>
+        <IdNode>n</IdNode>
+        <StringNode>I valori inseriti sono </StringNode>
+      </WriteNode>
+      <FunCallNode name='scoping'>
+        <IdNode>message</IdNode>
+        <IdNode>m</IdNode>
+        <IdNode>n</IdNode>
+      </FunCallNode>
+      <AssignNode>
+        <IdNode>k</IdNode>
+        <DiffNode>
+          <IdNode>k</IdNode>
+          <IntNode>1</IntNode>
+        </DiffNode>
+      </AssignNode>
+    </Body>
+  </WhileNode>
+  <WriteNode isNewLine='true'>
+    <IdNode>message</IdNode>
+  </WriteNode>
+  <WriteNode isNewLine='true'>
+    <FunCallNode name='glob'>
+    </FunCallNode>
+  </WriteNode>
+</Program>

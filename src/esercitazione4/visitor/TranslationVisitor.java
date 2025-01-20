@@ -16,6 +16,7 @@ import esercitazione4.visitor.symbolTable.SymbolTableRow;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 
 public class TranslationVisitor implements Visitor{
@@ -68,6 +69,7 @@ public class TranslationVisitor implements Visitor{
             }
         }
 
+        builder.append("return 1");
         builder.append("}\n");
         return builder.toString();
     }
@@ -393,6 +395,7 @@ public class TranslationVisitor implements Visitor{
 
         IdNode id = node.getName();
         builder.append(id.accept(this));
+        builder.append("_fun");
 
         ArrayList<Boolean> references = firms.get(id.getValue());
 
@@ -442,11 +445,8 @@ public class TranslationVisitor implements Visitor{
         StringBuilder builder = new StringBuilder();
 
         ExprOpNode expr1 = (ExprOpNode) node.getLeft();
-        //String stringExpr1 = (String) expr1.accept(this);
         ExprOpNode expr2 = (ExprOpNode) node.getRight();
-        //String stringExpr2 = (String) expr2.accept(this);
 
-        //builder.append(doubleExpressionOperation("PLUS", expr1, expr2, stringExpr1, stringExpr2));
         builder.append(doubleExpressionOperation("PLUS", expr1, expr2));
 
         return builder.toString();
@@ -454,37 +454,84 @@ public class TranslationVisitor implements Visitor{
 
     @Override
     public Object visit(DiffNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("MINUS", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(MulNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = (ExprOpNode) node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("TIMES", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(DivNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("DIV", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(UMinusNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+
+        builder.append(singleExpressionOperation("UMINUS", expr1));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(AndNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("AND", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(OrNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+        ExprOpNode expr2 = node.getRight();
+
+        builder.append(doubleExpressionOperation("OR", expr1, expr2));
+
+        return builder.toString();
     }
 
     @Override
     public Object visit(NotNode node) {
-        return null;
+        StringBuilder builder = new StringBuilder();
+
+        ExprOpNode expr1 = node.getLeft();
+
+        builder.append(singleExpressionOperation("NOT", expr1));
+
+        return builder.toString();
     }
 
     @Override
@@ -731,6 +778,22 @@ public class TranslationVisitor implements Visitor{
         }
     }
 
+    public String singleExpressionOperation(String operation, ExprOpNode expr1){
+        StringBuilder builder = new StringBuilder();
+
+        if (operation.equals("UMINUS") && expr1.getReturnType() == Type.INT ){
+            builder.append("-");
+            builder.append(expr1.accept(this));
+        } else if (operation.equals("UMINUS") && expr1.getReturnType() == Type.DOUBLE){
+            builder.append("-");
+            builder.append((String) expr1.accept(this));
+        } else if (operation.equals("NOT") && expr1.getReturnType() == Type.BOOL){
+            builder.append("!");
+            builder.append(expr1.accept(this));
+        }
+        return builder.toString();
+    }
+
     public String doubleExpressionOperation(String operation, ExprOpNode expr1, ExprOpNode expr2){
         StringBuilder builder = new StringBuilder();
         Type type;
@@ -739,20 +802,30 @@ public class TranslationVisitor implements Visitor{
         boolean boolOpCheck = operation.equals("AND") || operation.equals("OR");
         boolean relOpCheck = operation.equals("GT") || operation.equals("GE") || operation.equals("LT") || operation.equals("LE") || operation.equals("EQ") || operation.equals("NE");
 
-        if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
-            type = Type.INT;
+        if(arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
+           builder.append(expr1.accept(this));
+           builder.append(getArithSymbolFromString(operation)); //needed in order to get che corresponding symbol based on the string that represents the operation
+           builder.append(expr2.accept(this));
         } else if( arithOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.DOUBLE) {
-            type = Type.DOUBLE;
+            builder.append(expr1.accept(this));
+            builder.append(getArithSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if (arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
-            type = Type.DOUBLE;
+            builder.append(expr1.accept(this));
+            builder.append(getArithSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if ( arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
-            type = Type.DOUBLE;
+            builder.append(expr1.accept(this));
+            builder.append(getArithSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
             builder.append("string_concat(");
             builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
             builder.append(objectToCString((String) expr2.accept(this), expr1.getReturnType())).append(")");
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
-            type = Type.BOOL;
+            builder.append(expr1.accept(this));
+            builder.append(getBoolSymbolFromString(operation));
+            builder.append(expr2.accept(this));
         } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {
             type = Type.BOOL;
         } else if ( relOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.INT) {
@@ -778,6 +851,37 @@ public class TranslationVisitor implements Visitor{
             default: return "";
 
         }
+    }
+
+    public String getArithSymbolFromString(String operation){
+        String symbol = "";
+
+        if(operation.equals("PLUS")){
+            symbol = "+";
+        }
+        else if (operation.equals("MINUS")) {
+            symbol = "-";
+        }
+        else if (operation.equals("TIMES")) {
+            symbol = "*";
+        }
+        else if (operation.equals("DIV")) {
+            symbol = "/";
+        }
+        return symbol;
+    }
+
+    public String getBoolSymbolFromString(String operation){
+        String symbol = "";
+
+        if(operation.equals("AND")){
+            symbol = "&&";
+        }
+        else if (operation.equals("OR")) {
+            symbol = "||";
+        }
+
+        return symbol;
     }
 
 }
