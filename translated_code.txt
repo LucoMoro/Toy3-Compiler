@@ -117,9 +117,9 @@ strcpy(ans1,buffer);
 free(buffer);
 
 printf("%s", "Inserisci un intero: ");
-scanf("%f", &a);
+scanf("%lf", &a);
 printf("%s", "Inserisci un reale: ");
-scanf("%f", &b);
+scanf("%lf", &b);
 sommac_fun(a, x, b, taglia, &risultato);
 stampa_fun(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat("La somma di ", double2str(a)), " e "), double2str(b)), " incrementata di "), int2str(c)), " è "), taglia));
 stampa_fun(string_concat("Ed è pari a ", double2str(risultato)));

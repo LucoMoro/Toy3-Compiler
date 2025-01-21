@@ -235,7 +235,7 @@ public class TranslationVisitor implements Visitor{
                 }
 
                 if(type.name().equalsIgnoreCase(Type.DOUBLE.name())) {
-                    builder.append("scanf(\"%f\", ").append("&").append(variableName).append(");");
+                    builder.append("scanf(\"%lf\", ").append("&").append(variableName).append(");");
                 }
 
                 if(type.name().equalsIgnoreCase(Type.CHAR.name())) {
