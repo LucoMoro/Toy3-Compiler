@@ -446,6 +446,8 @@ public class TranslationVisitor implements Visitor{
 
         ExprOpNode expr1 = (ExprOpNode) node.getLeft();
         ExprOpNode expr2 = (ExprOpNode) node.getRight();
+        System.out.println(expr1.getReturnType());
+        System.out.println(expr1 +"" + expr1.getReturnType());
 
         builder.append(doubleExpressionOperation("PLUS", expr1, expr2));
 
@@ -863,7 +865,7 @@ public class TranslationVisitor implements Visitor{
         } else if (operation.equals("PLUS") && (expr1.getReturnType() == Type.STRING || expr2.getReturnType() == Type.STRING)) {
             builder.append("string_concat(");
             builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
-            builder.append(objectToCString((String) expr2.accept(this), expr1.getReturnType())).append(")");
+            builder.append(objectToCString((String) expr2.accept(this), expr2.getReturnType())).append(")");
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
             builder.append(expr1.accept(this));
             builder.append(getBoolSymbolFromString(operation));
@@ -899,7 +901,6 @@ public class TranslationVisitor implements Visitor{
             case BOOL: return "bool2str(" + expression +  ")";
             case STRING: return expression;
             default: return "";
-
         }
     }
 

@@ -1,212 +1,260 @@
 <Program>
-  <DefDecl name='scoping' type='null'>
+  <VarDecl>
+    <VarOptInit name='c'>
+    </VarOptInit>
+    <IntNode>1</IntNode>
+  </VarDecl>
+  <VarDecl type='DOUBLE'>
+    <VarOptInit name='x'>
+    </VarOptInit>
+    <VarOptInit name='b'>
+    </VarOptInit>
+    <VarOptInit name='a'>
+    </VarOptInit>
+  </VarDecl>
+  <VarDecl type='STRING'>
+    <VarOptInit name='ans'>
+    </VarOptInit>
+    <VarOptInit name='ans1'>
+    </VarOptInit>
+    <VarOptInit name='taglia'>
+    </VarOptInit>
+  </VarDecl>
+  <VarDecl type='DOUBLE'>
+    <VarOptInit name='risultato'>
+    </VarOptInit>
+  </VarDecl>
+  <DefDecl name='sommac' type='null'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='true'  name='result'>
+      </PVar>
+    </ParDecl>
     <ParDecl type='STRING'>
-      <PVar hasRef='true'  name='message'>
+      <PVar hasRef='true'  name='size'>
       </PVar>
     </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='m'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='b'>
       </PVar>
     </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='n'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='d'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='a'>
       </PVar>
     </ParDecl>
     <Body>
       <AssignNode>
-        <IdNode>message</IdNode>
-        <StringNode>level 1</StringNode>
+        <IdNode>result</IdNode>
+        <AddNode>
+          <AddNode>
+            <AddNode>
+              <IdNode>a</IdNode>
+              <IdNode>b</IdNode>
+            </AddNode>
+            <IdNode>c</IdNode>
+          </AddNode>
+          <IdNode>d</IdNode>
+        </AddNode>
       </AssignNode>
       <IfThenElseNode>
-        <LENode>
-          <IdNode>n</IdNode>
-          <IntNode>1</IntNode>
-        </LENode>
+        <GTNode>
+          <IdNode>result</IdNode>
+          <IntNode>100</IntNode>
+        </GTNode>
         <Body>
           <AssignNode>
-            <IdNode>message</IdNode>
-            <StringNode>level 2.1</StringNode>
+            <IdNode>size</IdNode>
+            <StringNode>grande</StringNode>
           </AssignNode>
-          <IfThenElseNode>
-            <LENode>
-              <IdNode>m</IdNode>
-              <IntNode>1</IntNode>
-            </LENode>
-            <Body>
-              <AssignNode>
-                <IdNode>message</IdNode>
-                <StringNode>level 3.1</StringNode>
-              </AssignNode>
-              <WriteNode isNewLine='true'>
-                <IdNode>message</IdNode>
-              </WriteNode>
-            </Body>
-            <Body>
-              <IfThenElseNode>
-                <AndNode>
-                  <GTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>1</IntNode>
-                  </GTNode>
-                  <LTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>5</IntNode>
-                  </LTNode>
-                </AndNode>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.2</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.3</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-              </IfThenElseNode>
-            </Body>
-          </IfThenElseNode>
-          <WriteNode isNewLine='true'>
-            <IdNode>message</IdNode>
-          </WriteNode>
         </Body>
         <Body>
-          <AssignNode>
-            <IdNode>message</IdNode>
-            <StringNode>level 2.2</StringNode>
-          </AssignNode>
           <IfThenElseNode>
-            <LENode>
-              <IdNode>m</IdNode>
-              <IntNode>1</IntNode>
-            </LENode>
+            <GTNode>
+              <IdNode>result</IdNode>
+              <IntNode>50</IntNode>
+            </GTNode>
             <Body>
               <AssignNode>
-                <IdNode>message</IdNode>
-                <StringNode>level 3.4</StringNode>
+                <IdNode>size</IdNode>
+                <StringNode>media</StringNode>
               </AssignNode>
-              <WriteNode isNewLine='true'>
-                <IdNode>message</IdNode>
-              </WriteNode>
             </Body>
             <Body>
-              <IfThenElseNode>
-                <AndNode>
-                  <GTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>1</IntNode>
-                  </GTNode>
-                  <LTNode>
-                    <IdNode>m</IdNode>
-                    <IntNode>5</IntNode>
-                  </LTNode>
-                </AndNode>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.5</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-                <Body>
-                  <AssignNode>
-                    <IdNode>message</IdNode>
-                    <StringNode>level 3.6</StringNode>
-                  </AssignNode>
-                  <WriteNode isNewLine='true'>
-                    <IdNode>message</IdNode>
-                  </WriteNode>
-                </Body>
-              </IfThenElseNode>
+              <AssignNode>
+                <IdNode>size</IdNode>
+                <StringNode>piccola</StringNode>
+              </AssignNode>
             </Body>
           </IfThenElseNode>
-          <WriteNode isNewLine='true'>
-            <IdNode>message</IdNode>
-          </WriteNode>
         </Body>
       </IfThenElseNode>
-      <WriteNode isNewLine='true'>
-        <IdNode>message</IdNode>
-      </WriteNode>
     </Body>
   </DefDecl>
-  <DefDecl name='glob' type='INT'>
+  <DefDecl name='stampa' type='STRING'>
+    <ParDecl type='STRING'>
+      <PVar hasRef='false'  name='messaggio'>
+      </PVar>
+    </ParDecl>
     <Body>
+      <VarDecl>
+        <VarOptInit name='i'>
+        </VarOptInit>
+        <IntNode>0</IntNode>
+      </VarDecl>
+      <WhileNode>
+        <LTNode>
+          <IdNode>i</IdNode>
+          <IntNode>4</IntNode>
+        </LTNode>
+        <Body>
+          <WriteNode isNewLine='true'>
+            <StringNode></StringNode>
+          </WriteNode>
+          <AssignNode>
+            <IdNode>i</IdNode>
+            <AddNode>
+              <IdNode>i</IdNode>
+              <IntNode>1</IntNode>
+            </AddNode>
+          </AssignNode>
+        </Body>
+      </WhileNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>messaggio</IdNode>
+      </WriteNode>
       <ReturnNode>
-        <IntNode>100</IntNode>
+        <StringNode>ok</StringNode>
       </ReturnNode>
     </Body>
   </DefDecl>
-  <VarDecl>
-    <VarOptInit name='message'>
-    </VarOptInit>
-    <StringNode>level 0</StringNode>
-  </VarDecl>
-  <VarDecl type='INT'>
-    <VarOptInit name='k'>
-    </VarOptInit>
-    <VarOptInit name='m'>
-    </VarOptInit>
-    <VarOptInit name='n'>
-    </VarOptInit>
-  </VarDecl>
   <AssignNode>
-    <IdNode>k</IdNode>
-    <IntNode>6</IntNode>
+    <IdNode>a</IdNode>
+    <DoubleNode>1.0</DoubleNode>
   </AssignNode>
-  <WhileNode>
-    <GENode>
-      <IdNode>k</IdNode>
-      <IntNode>1</IntNode>
-    </GENode>
-    <Body>
-      <WriteNode isNewLine='false'>
-        <StringNode>Inserisci n: </StringNode>
-      </WriteNode>
-      <ReadNode>
-        <IdNode>n</IdNode>
-      </ReadNode>
-      <WriteNode isNewLine='false'>
-        <StringNode>Inserisci m: </StringNode>
-      </WriteNode>
-      <ReadNode>
-        <IdNode>m</IdNode>
-      </ReadNode>
-      <WriteNode isNewLine='true'>
-        <IdNode>m</IdNode>
-        <StringNode> e </StringNode>
-        <IdNode>n</IdNode>
-        <StringNode>I valori inseriti sono </StringNode>
-      </WriteNode>
-      <FunCallNode name='scoping'>
-        <IdNode>message</IdNode>
-        <IdNode>m</IdNode>
-        <IdNode>n</IdNode>
-      </FunCallNode>
-      <AssignNode>
-        <IdNode>k</IdNode>
-        <DiffNode>
-          <IdNode>k</IdNode>
-          <IntNode>1</IntNode>
-        </DiffNode>
-      </AssignNode>
-    </Body>
-  </WhileNode>
+  <AssignNode>
+    <IdNode>b</IdNode>
+    <DoubleNode>2.2</DoubleNode>
+  </AssignNode>
+  <AssignNode>
+    <IdNode>x</IdNode>
+    <DoubleNode>3.0</DoubleNode>
+  </AssignNode>
+  <AssignNode>
+    <IdNode>risultato</IdNode>
+    <DoubleNode>0.0</DoubleNode>
+  </AssignNode>
+  <AssignNode>
+    <IdNode>ans</IdNode>
+    <StringNode>no</StringNode>
+  </AssignNode>
+  <FunCallNode name='sommac'>
+    <IdNode>risultato</IdNode>
+    <IdNode>taglia</IdNode>
+    <IdNode>b</IdNode>
+    <IdNode>x</IdNode>
+    <IdNode>a</IdNode>
+  </FunCallNode>
+  <FunCallNode name='stampa'>
+    <AddNode>
+      <AddNode>
+        <AddNode>
+          <AddNode>
+            <AddNode>
+              <AddNode>
+                <AddNode>
+                  <StringNode>La somma di </StringNode>
+                  <IdNode>a</IdNode>
+                </AddNode>
+                <StringNode> e </StringNode>
+              </AddNode>
+              <IdNode>b</IdNode>
+            </AddNode>
+            <StringNode> incrementata di </StringNode>
+          </AddNode>
+          <IdNode>c</IdNode>
+        </AddNode>
+        <StringNode> è </StringNode>
+      </AddNode>
+      <IdNode>taglia</IdNode>
+    </AddNode>
+  </FunCallNode>
+  <FunCallNode name='stampa'>
+    <AddNode>
+      <StringNode>Ed è pari a </StringNode>
+      <IdNode>risultato</IdNode>
+    </AddNode>
+  </FunCallNode>
+  <WriteNode isNewLine='false'>
+    <StringNode>Vuoi continuare? (si/no) - inserisci due volte la risposta\n</StringNode>
+  </WriteNode>
+  <ReadNode>
+    <IdNode>ans</IdNode>
+  </ReadNode>
+  <ReadNode>
+    <IdNode>ans1</IdNode>
+  </ReadNode>
+  <WriteNode isNewLine='false'>
+    <StringNode>Inserisci un intero: </StringNode>
+  </WriteNode>
+  <ReadNode>
+    <IdNode>a</IdNode>
+  </ReadNode>
+  <WriteNode isNewLine='false'>
+    <StringNode>Inserisci un reale: </StringNode>
+  </WriteNode>
+  <ReadNode>
+    <IdNode>b</IdNode>
+  </ReadNode>
+  <FunCallNode name='sommac'>
+    <IdNode>risultato</IdNode>
+    <IdNode>taglia</IdNode>
+    <IdNode>b</IdNode>
+    <IdNode>x</IdNode>
+    <IdNode>a</IdNode>
+  </FunCallNode>
+  <FunCallNode name='stampa'>
+    <AddNode>
+      <AddNode>
+        <AddNode>
+          <AddNode>
+            <AddNode>
+              <AddNode>
+                <AddNode>
+                  <StringNode>La somma di </StringNode>
+                  <IdNode>a</IdNode>
+                </AddNode>
+                <StringNode> e </StringNode>
+              </AddNode>
+              <IdNode>b</IdNode>
+            </AddNode>
+            <StringNode> incrementata di </StringNode>
+          </AddNode>
+          <IdNode>c</IdNode>
+        </AddNode>
+        <StringNode> è </StringNode>
+      </AddNode>
+      <IdNode>taglia</IdNode>
+    </AddNode>
+  </FunCallNode>
+  <FunCallNode name='stampa'>
+    <AddNode>
+      <StringNode>Ed è pari a </StringNode>
+      <IdNode>risultato</IdNode>
+    </AddNode>
+  </FunCallNode>
+  <WriteNode isNewLine='false'>
+    <StringNode>Vuoi continuare? (si/no): </StringNode>
+  </WriteNode>
+  <ReadNode>
+    <IdNode>ans</IdNode>
+  </ReadNode>
   <WriteNode isNewLine='true'>
-    <IdNode>message</IdNode>
+    <StringNode></StringNode>
   </WriteNode>
   <WriteNode isNewLine='true'>
-    <FunCallNode name='glob'>
-    </FunCallNode>
+    <StringNode>Ciao</StringNode>
   </WriteNode>
 </Program>

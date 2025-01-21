@@ -56,77 +56,81 @@ char* bool2str(int b)
     return ns;
 }
 
-void scoping_fun (int n, int m, char* message);
-int glob_fun ();
+void sommac_fun (double a, double d, double b, char* size, double *result);
+char* stampa_fun (char* messaggio);
 
 
-void scoping_fun (int n, int m, char* message) {
-message="level 1";
-if(n<=1)  {
-message="level 2.1";
-if(m<=1)  {
-message="level 3.1";
-printf("%s\n", message);
+int c = 1;
+double a, b, x;
+char* taglia, ans1, ans;
+double risultato;
+void sommac_fun (double a, double d, double b, char* size, double *result) {
+result=a+b+c+d;
+if(result>100)  {
+size="grande";
 }
  else  {
-if(m>1&&m<5)  {
-message="level 3.2";
-printf("%s\n", message);
+if(result>50)  {
+size="media";
 }
  else  {
-message="level 3.3";
-printf("%s\n", message);
+size="piccola";
 }
 
 }
 
-printf("%s\n", message);
-}
- else  {
-message="level 2.2";
-if(m<=1)  {
-message="level 3.4";
-printf("%s\n", message);
-}
- else  {
-if(m>1&&m<5)  {
-message="level 3.5";
-printf("%s\n", message);
-}
- else  {
-message="level 3.6";
-printf("%s\n", message);
 }
 
+char* stampa_fun (char* messaggio) {
+int i = 0;
+while (i<4)  {
+printf("%s\n", "");
+i=i+1;
 }
 
-printf("%s\n", message);
+printf("%s\n", messaggio);
+return "ok";
 }
 
-printf("%s\n", message);
-}
-
-int glob_fun () {
-return 100;
-}
-
-char* message = "level 0";
-int n, m, k;
 
 
 int main() {
-k=6;
-while (k>=1)  {
-printf("%s", "Inserisci n: ");
-scanf("%d", &n);
-printf("%s", "Inserisci m: ");
-scanf("%d", &m);
-printf("%s%d%s%d\n", "I valori inseriti sono ", n, " e ", m);
-scoping_fun(n, m, message);
-k=k-1;
-}
+a=1.0;
+b=2.2;
+x=3.0;
+risultato=0.0;
+ans="no";
+sommac_fun(a, x, b, taglia, &risultato);
+stampa_fun(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat("La somma di ", double2str(a)), " e "), double2str(b)), " incrementata di "), int2str(c)), " è "), taglia));
+stampa_fun(string_concat("Ed è pari a ", double2str(risultato)));
+printf("%s", "Vuoi continuare? (si/no) - inserisci due volte la risposta\n");
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%s", buffer);
+ans= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans,buffer);
+free(buffer);
 
-printf("%s\n", message);
-printf("%d\n", glob_fun());
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%s", buffer);
+ans1= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans1,buffer);
+free(buffer);
+
+printf("%s", "Inserisci un intero: ");
+scanf("%f", &a);
+printf("%s", "Inserisci un reale: ");
+scanf("%f", &b);
+sommac_fun(a, x, b, taglia, &risultato);
+stampa_fun(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat("La somma di ", double2str(a)), " e "), double2str(b)), " incrementata di "), int2str(c)), " è "), taglia));
+stampa_fun(string_concat("Ed è pari a ", double2str(risultato)));
+printf("%s", "Vuoi continuare? (si/no): ");
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%s", buffer);
+ans= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans,buffer);
+free(buffer);
+
+printf("%s\n", "");
+printf("%s\n", "Ciao");
 return 1; 
 }
