@@ -136,7 +136,7 @@ CharC = '[^\\[ntbrf\\\'\"]]' | {EscChar}
           string.setLength(0);
           return symbol(sym.STRING_CONST, result);
       }
-      [^\n\r\"\\]+ { string.append( yytext() ); }
+      [^\"]+ { string.append( yytext() ); } //[^\n\r\"\\]+ { string.append( yytext() ); }
       \\t { string.append('\t'); }
       \\n { string.append('\n'); }
       \\r { string.append('\r'); }

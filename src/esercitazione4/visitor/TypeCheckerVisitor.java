@@ -675,7 +675,7 @@ public class TypeCheckerVisitor implements  Visitor{
         Type tmpExpr = (Type) expr.accept(this);
 
         if(tmpExpr != Type.BOOL){
-            throw new RuntimeException("The while expression is not boolean");
+            throw new RuntimeException("The while expression " + expr.toString() + "is not boolean");
         }
 
         BodyNode body = node.getRight();
@@ -759,7 +759,7 @@ public class TypeCheckerVisitor implements  Visitor{
             type = Type.DOUBLE;
         } else if ( arithOpCheck && expr1.getReturnType() == Type.DOUBLE && expr2.getReturnType() == Type.DOUBLE) {
             type = Type.DOUBLE;
-        } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+        } else if (operation.equals("PLUS") && (expr1.getReturnType() == Type.STRING || expr2.getReturnType() == Type.STRING)) {
             type = Type.STRING;
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
             type = Type.BOOL;

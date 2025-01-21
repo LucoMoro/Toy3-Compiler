@@ -860,7 +860,7 @@ public class TranslationVisitor implements Visitor{
             builder.append(expr1.accept(this));
             builder.append(getArithSymbolFromString(operation));
             builder.append(expr2.accept(this));
-        } else if (operation.equals("PLUS") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+        } else if (operation.equals("PLUS") && (expr1.getReturnType() == Type.STRING || expr2.getReturnType() == Type.STRING)) {
             builder.append("string_concat(");
             builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
             builder.append(objectToCString((String) expr2.accept(this), expr1.getReturnType())).append(")");
@@ -885,7 +885,7 @@ public class TranslationVisitor implements Visitor{
             builder.append(getRelSymbolFromString(operation));
             builder.append(expr2.accept(this));
         } else {
-            throw new RuntimeException("The expressions: '" + expr1 + "' and '" + expr2 + "' do not have a match in the table");
+            throw new RuntimeException("The expressions: '" + expr1 + "' and '" + expr2 + "' cannot be translated in C");
         }
 
         return builder.toString();
