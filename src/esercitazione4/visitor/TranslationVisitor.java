@@ -135,12 +135,18 @@ public class TranslationVisitor implements Visitor{
              for(int i = optVars.size()-1; i>= 0; i--){
                  VarOptInitNode optVar = optVars.get(i);
                  if(i == 0){ //needed in order to avoid the symbol "," on the last variable
+                     if(node.getType() == Type.STRING){ //needed in order to have char* taglia, *ans1, *ans; and not char* taglia, ans1, ans;
+                         builder.append(" *");
+                     }
                      builder.append(optVar.accept(this));
                  } else {
+                     if(i != optVars.size()-1 && node.getType() == Type.STRING){ //the * is not needed for the first variabe since it alredy has it
+                         builder.append(" *");
+                     }
                      builder.append(optVar.accept(this)).append(", ");
-                        }
-                    }
-                }
+                 }
+             }
+        }
         }
 
         builder.append(";").append("\n");

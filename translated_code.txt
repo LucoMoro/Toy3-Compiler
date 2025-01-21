@@ -62,7 +62,7 @@ char* stampa_fun (char* messaggio);
 
 int c = 1;
 double a, b, x;
-char* taglia, ans1, ans;
+char* taglia,  *ans1,  *ans;
 double risultato;
 void sommac_fun (double a, double d, double b, char* size, double *result) {
 result=a+b+c+d;
