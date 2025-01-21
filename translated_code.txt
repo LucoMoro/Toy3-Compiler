@@ -65,12 +65,12 @@ double a, b, x;
 char* taglia,  *ans1,  *ans;
 double risultato;
 void sommac_fun (double a, double d, double b, char* size, double *result) {
-result=a+b+c+d;
-if(result>100)  {
+*result=a+b+c+d;
+if(*result>100)  {
 size="grande";
 }
  else  {
-if(result>50)  {
+if(*result>50)  {
 size="media";
 }
  else  {

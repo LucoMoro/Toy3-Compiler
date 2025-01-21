@@ -49,6 +49,14 @@ public class VariableType implements Firm{
         return "" + this.type;
     }
 
+    public Boolean compareTypes(Type newType){
+        Boolean result = false;
+        if(this.type == newType){
+            return true;
+        }
+        return  result;
+    }
+
     private Type type;
     private ConstantNode constant;
 }

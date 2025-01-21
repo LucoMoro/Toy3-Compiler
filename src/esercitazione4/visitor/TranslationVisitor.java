@@ -97,10 +97,11 @@ public class TranslationVisitor implements Visitor{
             for(int i = pVars.size() -1 ; i >= 0; i--){ //needed to reverse the parameters take in input
                 PVarNode pVar =  pVars.get(i);
                 builder.append(getCType(node.getRight())).append(" ");
-                if(pVar.getHasRef() && node.getRight() != Type.STRING){ //needed in order to avoid strings such as "char* * message"
-                    builder.append("*");
-                }
+                //if(pVar.getHasRef() && node.getRight() != Type.STRING){ //needed in order to avoid strings such as "char* * message"
+                //    builder.append("*");
+                //}
                 builder.append(pVar.accept(this)).append(", ");
+                //System.out.println(builder.toString());
             }
         }
 
@@ -135,8 +136,9 @@ public class TranslationVisitor implements Visitor{
              for(int i = optVars.size()-1; i>= 0; i--){
                  VarOptInitNode optVar = optVars.get(i);
                  if(i == 0){ //needed in order to avoid the symbol "," on the last variable
-                     if(node.getType() == Type.STRING){ //needed in order to have char* taglia, *ans1, *ans; and not char* taglia, ans1, ans;
-                         builder.append(" *");
+                    if(i != optVars.size()-1 && node.getType() == Type.STRING){ //needed in order to have char* taglia, *ans1, *ans; and not char* taglia, ans1, ans;
+                        //row 139: needed again to check the optVars.size in order to avoid having a single variable defined as a string that has double *
+                        builder.append(" *");
                      }
                      builder.append(optVar.accept(this));
                  } else {
@@ -172,8 +174,10 @@ public class TranslationVisitor implements Visitor{
     public Object visit(IdNode node) {
         StringBuilder builder = new StringBuilder();
 
+        if(node.getHasRef() && node.getReturnType() != Type.STRING) {
+            builder.append("*");
+        }
         builder.append(node.getValue());
-
         return builder.toString();
     }
 
@@ -452,8 +456,6 @@ public class TranslationVisitor implements Visitor{
 
         ExprOpNode expr1 = (ExprOpNode) node.getLeft();
         ExprOpNode expr2 = (ExprOpNode) node.getRight();
-        System.out.println(expr1.getReturnType());
-        System.out.println(expr1 +"" + expr1.getReturnType());
 
         builder.append(doubleExpressionOperation("PLUS", expr1, expr2));
 

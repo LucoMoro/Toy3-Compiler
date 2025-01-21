@@ -484,6 +484,24 @@ public class ScopeVisitor implements Visitor{
 
         node.setTable(typeEnvironment.peek());
 
+        //needed for the references
+        Stack<SymbolTable> symbolTableStack = cloneTypeEnvironment(typeEnvironment);
+        for(int i = symbolTableStack.size() -1; i>=0; i--){
+            SymbolTable symbolTable = symbolTableStack.get(i);
+            SymbolTableRow row = symbolTable.getRow(node, "variable");
+
+            if (row != null) {
+                if(row.getProperties() != null){
+                    VariableType stringType = new VariableType(Type.STRING);
+                    VariableType rowType = (VariableType) row.getType();
+                    if(row.getProperties().equals("ref: true") &&  !rowType.compareTypes(stringType.getType())) {
+                        //if needed in order to avoid strings passed as ref having ** in the declaration
+                        node.setHasRef(true);
+                    }
+                }
+            }
+        }
+
         return node;
     }
 
@@ -724,5 +742,16 @@ public class ScopeVisitor implements Visitor{
             }
         }
         return false;
+    }
+
+
+    public Stack<SymbolTable> cloneTypeEnvironment(Stack<SymbolTable> typeEnvironment){
+        Stack<SymbolTable> clonedStack = new Stack<SymbolTable>();
+
+        for(SymbolTable currSymbolTable: typeEnvironment){
+            clonedStack.push(currSymbolTable);
+        }
+
+        return clonedStack;
     }
 }

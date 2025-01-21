@@ -8,6 +8,7 @@ public class IdNode implements ExprOpNode {
 
     public IdNode(Object name){
         this.name = (String) name;
+        this.hasRef = false;
     }
 
     public String getValue() {
@@ -32,6 +33,14 @@ public class IdNode implements ExprOpNode {
         this.returnType = returnType;
     }
 
+    public Boolean getHasRef() {
+        return hasRef;
+    }
+
+    public void setHasRef(Boolean hasRef) {
+        this.hasRef = hasRef;
+    }
+
     @Override
     public String toString() {
         return getClass().getSimpleName() + "{"
@@ -47,4 +56,5 @@ public class IdNode implements ExprOpNode {
 
     private SymbolTable table;
     private Type returnType;
+    private Boolean hasRef;
 }
