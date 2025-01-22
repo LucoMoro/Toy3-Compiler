@@ -174,7 +174,7 @@ public class TranslationVisitor implements Visitor{
     public Object visit(IdNode node) {
         StringBuilder builder = new StringBuilder();
 
-        if(node.getHasRef() && node.getReturnType() != Type.STRING) {
+        if(node.getHasRef()) {
             builder.append("*");
         }
         builder.append(node.getValue());
@@ -417,7 +417,7 @@ public class TranslationVisitor implements Visitor{
             for(int i = exprs.size() -1; i >= 0; i--){
                 ExprOpNode expr = exprs.get(i);
                 String exprContent = (String) expr.accept(this);
-                if(references.get(i) == true && expr.getReturnType() != Type.STRING){
+                if(references.get(i) == true){
                     builder.append("&");
                 }
                 builder.append(exprContent);

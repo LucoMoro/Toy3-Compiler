@@ -492,9 +492,9 @@ public class ScopeVisitor implements Visitor{
 
             if (row != null) {
                 if(row.getProperties() != null){
-                    VariableType stringType = new VariableType(Type.STRING);
-                    VariableType rowType = (VariableType) row.getType();
-                    if(row.getProperties().equals("ref: true") &&  !rowType.compareTypes(stringType.getType())) {
+                    //VariableType stringType = new VariableType(Type.STRING);
+                    //VariableType rowType = (VariableType) row.getType();
+                    if(row.getProperties().equals("ref: true")) {
                         //if needed in order to avoid strings passed as ref having ** in the declaration
                         node.setHasRef(true);
                     }
