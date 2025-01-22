@@ -56,73 +56,62 @@ char* bool2str(int b)
     return ns;
 }
 
-void moltiplicazione_fun (double x, double y, double *res, int *grande);
-char* saluto_fun ();
+void fun_fun (char* *string1, int *n1, double *n2, char *character, int *boolean);
+int somma_fun (int a, int b);
 
 
-double sommagrande, sommapiccola;
-int i = 0;
-double x, y, risultato;
-int grande, nonusata;
-void moltiplicazione_fun (double x, double y, double *res, int *grande) {
-double risultato = x*y, nonusata;
-if(x*y>=100)  {
-*grande=1;
+char* stringa1;
+char* stringa2;
+int numero_intero;
+double numero_double;
+int valore_booleano;
+char* stringa;
+char carattere;
+void fun_fun (char* *string1, int *n1, double *n2, char *character, int *boolean) {
+*string1=string_concat(*string1, char2str('g'));
+*n1=*n1+100;
+*n2=*n2+100;
+*character='z';
+*boolean=0;
 }
- else  {
-*grande=0;
-}
 
-*res=risultato;
-}
-
-char* saluto_fun () {
-return "ciao";
+int somma_fun (int a, int b) {
+return a+b;
 }
 
 
 
 int main() {
-sommagrande=0;
-sommapiccola=0;
-printf("%s\n", "Questo programma permette di svolgere una serie di moltiplicazioni");
-printf("%s\n", "sommando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola");
-i=-1;
-while (i<=0)  {
-char* saluto = "ciao";
-printf("%s", "Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
-scanf("%d", &i);
-getchar();
-printf("%s\n", saluto);
-}
-
-while (i>0)  {
-x=-1;
-y=-1;
-while (! (x>0&&y>0))  {
-char* saluto = "byebye";
-printf("%s%d%s\n", "Moltiplicazione ", i, ": inserisci due numeri positivi");
-scanf("%lf", &y);
-getchar();scanf("%lf", &x);
-getchar();
-printf("%s\n", saluto);
-}
-
-moltiplicazione_fun(x, y, &risultato, &grande);
-printf("%f\n", risultato);
-if(grande)  {
-printf("%s\n", "il risultato è grande");
-sommagrande=sommagrande+risultato;
-}
- else  {
-printf("%s\n", "il risultato è piccolo");
-sommapiccola=sommapiccola+risultato;
-}
-
-i=i-1;
-}
-
-printf("%s%f\n", "\n sommagrande", sommagrande);
-printf("%s%f\n", "sommapiccola ", sommapiccola);
+int variabile = 3;
+stringa1="pluto";
+stringa2="paperino";
+variabile=somma_fun(2, 3);
+numero_intero=1;
+numero_double=2;
+valore_booleano=1;
+stringa="ciao";
+carattere='c';
+printf("%s\n", "----------------------------------------");
+printf("%s\n", string_concat(string_concat("CONCAT stringa: ", stringa1), stringa2));
+printf("%s\n", string_concat(string_concat("CONCAT intero:", stringa1), int2str(1)));
+printf("%s\n", string_concat(string_concat("CONCAT double:", stringa1), double2str(1.0)));
+printf("%s\n", string_concat(string_concat("CONCAT char", stringa1), char2str('c')));
+printf("%s\n", string_concat(string_concat("CONCAT bool", stringa1), bool2str(1)));
+printf("%s\n", "----------------------------------------");
+printf("%s\n", string_concat("valore prima numero intero:", int2str(numero_intero)));
+printf("%s\n", string_concat("valore prima numero double:", double2str(numero_double)));
+printf("%s\n", string_concat("valore prima stringa:", stringa));
+printf("%s\n", string_concat("valore prima carattere:", char2str(carattere)));
+printf("%s\n", string_concat("valore prima valore booleano:", bool2str(valore_booleano)));
+printf("%s\n", "----------------------------------------");
+fun_fun(&stringa, &numero_intero, &numero_double, &carattere, &valore_booleano);
+printf("%s\n", string_concat("valore dopo numero intero:", int2str(numero_intero)));
+printf("%s\n", string_concat("valore dopo numero double:", double2str(numero_double)));
+printf("%s\n", string_concat("valore dopo stringa:", stringa));
+printf("%s\n", string_concat("valore dopo carattere:", char2str(carattere)));
+printf("%s\n", string_concat("valore dopo valore booleano:", bool2str(valore_booleano)));
+printf("%s\n", "----------------------------------------");
+printf("%s\n", string_concat("SOMMA: ", int2str(somma_fun(1, 2))));
+printf("%s\n", string_concat("SOMMA SPECIALE: ", int2str(variabile)));
 return 1; 
 }

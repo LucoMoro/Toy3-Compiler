@@ -1,0 +1,67 @@
+/* Esempio base del linguaggio Toy3 */
+
+program
+
+stringa1: string;
+stringa2: string;
+
+numero_intero:int;
+numero_double:double;
+valore_booleano: bool;
+stringa: string;
+carattere: char;
+
+def fun(ref string1:string; ref n1:int; ref n2: double; ref character: char; ref boolean:bool){
+    string1 := string1 + 'g';
+    n1 := n1 + 100;
+    n2 := n2 + 100;
+    character := 'z';
+    boolean := false;
+}
+
+
+def somma(a:int; b:int):int{
+    return a+b;
+}
+
+
+begin
+ variabile : 3;
+ stringa1 := "pluto";
+ stringa2 := "paperino";
+ variabile := somma(2,3);
+
+
+ numero_intero | numero_double | valore_booleano | stringa | carattere := 1, 2, true, "ciao", 'c';
+"----------------------------------------"!>>;
+
+ "CONCAT stringa: " + stringa1 + stringa2 !>>;
+ "CONCAT intero:" + stringa1 + 1 !>>;
+ "CONCAT double:" + stringa1 + 1.0 !>>;
+ "CONCAT char" + stringa1 + 'c' !>>;
+ "CONCAT bool" + stringa1 + true !>>;
+
+"----------------------------------------"!>>;
+
+  "valore prima numero intero:" + numero_intero !>>;
+  "valore prima numero double:" + numero_double !>>;
+  "valore prima stringa:" + stringa !>>;
+  "valore prima carattere:" + carattere !>>;
+  "valore prima valore booleano:" + valore_booleano !>>;
+
+"----------------------------------------"!>>;
+
+  fun(stringa, numero_intero, numero_double, carattere, valore_booleano);
+
+  "valore dopo numero intero:" + numero_intero !>>;
+  "valore dopo numero double:" + numero_double !>>;
+  "valore dopo stringa:" + stringa !>>;
+  "valore dopo carattere:" + carattere !>>;
+  "valore dopo valore booleano:" + valore_booleano !>>;
+
+"----------------------------------------"!>>;
+
+  "SOMMA: " + somma(1,2) !>>;
+  "SOMMA SPECIALE: " + variabile !>>;
+
+end
