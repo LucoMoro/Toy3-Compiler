@@ -58,10 +58,10 @@ while (i > 0) do{
 	risultato !>>;
 
 	if(grande) then{
-		"il risultato   grande" !>>
+	    "il risultato è grande" !>>;
 		sommagrande := sommagrande + risultato;
 	}else{
-		"il risultato   piccolo" !>>
+	    "il risultato è piccolo" !>>;
 		sommapiccola := sommapiccola + risultato;
 	}
 	i := i-1;

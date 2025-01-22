@@ -840,8 +840,9 @@ public class TranslationVisitor implements Visitor{
             builder.append("-");
             builder.append((String) expr1.accept(this));
         } else if (operation.equals("NOT") && expr1.getReturnType() == Type.BOOL){
-            builder.append("!");
+            builder.append("! (");
             builder.append(expr1.accept(this));
+            builder.append(")");
         }
         return builder.toString();
     }
