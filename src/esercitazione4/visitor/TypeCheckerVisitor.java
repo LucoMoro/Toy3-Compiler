@@ -764,6 +764,10 @@ public class TypeCheckerVisitor implements  Visitor{
             type = Type.DOUBLE;
         } else if (operation.equals("PLUS") && (expr1.getReturnType() == Type.STRING || expr2.getReturnType() == Type.STRING)) {
             type = Type.STRING;
+        } else if (operation.equals("EQ") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            type = Type.BOOL;
+        } else if (operation.equals("NE") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            type = Type.BOOL;
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
             type = Type.BOOL;
         } else if ( relOpCheck && expr1.getReturnType() == Type.INT && expr2.getReturnType() == Type.INT) {

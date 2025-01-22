@@ -874,6 +874,16 @@ public class TranslationVisitor implements Visitor{
             builder.append("string_concat(");
             builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
             builder.append(objectToCString((String) expr2.accept(this), expr2.getReturnType())).append(")");
+        }else if (operation.equals("EQ") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            builder.append("strcmp(");
+            builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
+            builder.append(objectToCString((String) expr2.accept(this), expr2.getReturnType())).append(")");
+            builder.append(" == 0");
+        } else if (operation.equals("NE") && expr1.getReturnType() == Type.STRING && expr2.getReturnType() == Type.STRING) {
+            builder.append("strcmp(");
+            builder.append(objectToCString((String) expr1.accept(this), expr1.getReturnType())).append(", ");
+            builder.append(objectToCString((String) expr2.accept(this), expr2.getReturnType())).append(")");
+            builder.append(" != 0");
         } else if ( boolOpCheck && expr1.getReturnType() == Type.BOOL && expr2.getReturnType() == Type.BOOL) {
             builder.append(expr1.accept(this));
             builder.append(getBoolSymbolFromString(operation));
