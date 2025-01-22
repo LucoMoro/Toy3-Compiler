@@ -15,6 +15,7 @@ import esercitazione4.ast.VarDeclOp.VarDeclNode;
 import esercitazione4.ast.VarDeclOp.VarOptInitNode;
 import esercitazione4.visitor.symbolTable.*;
 
+import javax.sound.midi.SysexMessage;
 import java.util.ArrayList;
 import java.util.Stack;
 
@@ -588,8 +589,10 @@ public class TypeCheckerVisitor implements  Visitor{
         for(int i = 0; i < ids.size(); i++){
             Type tmpId = ids.get(i).getReturnType();
             Type tmpExpr = exprs.get(i).getReturnType();
-            if(tmpId != tmpExpr){
-                throw new RuntimeException("The id: '" + ids.get(i).getValue() +"' (" +tmpId+ ") has a different type from: " + tmpExpr);
+            if(tmpId == Type.DOUBLE && tmpExpr == Type.INT){
+                System.out.println("The assignment of id: '" + ids.get(i).getValue() + "' (" + tmpId + "') with the expression type: '" + tmpExpr +"' has been successfully completed");
+            } else if (tmpId != tmpExpr) {
+                throw new RuntimeException("The id: '" + ids.get(i).getValue() + "' (" + tmpId + ") has a different type from: " + tmpExpr);
             }
         }
 
