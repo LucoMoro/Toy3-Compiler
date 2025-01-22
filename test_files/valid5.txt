@@ -34,11 +34,64 @@ def assegnazioni_multiple(numero_intero:int; numero_double:double; valore_boolea
     }
 }
 
+def testing_operation(){
+    n1:double;
+    n2:int;
+    number1 | number2 : int;
+
+    str : string;
+    str := "ciao" + 1;
+
+    while(n1 * n2 <> 0) do {
+        "Inserisci n1:" !>>;
+        n1  <<;
+        "Inserisci n2:" !>>;
+        n2  <<;
+
+
+        "Addizione: " + (n1 + n2) !>>;
+        "Sottrazione: " + (n1 - n2) !>>;
+        "Moltiplicazione: " + (n1 * n2) !>>;
+        "Divisione: " + (n1 / n2) !>>;
+
+    }
+
+
+    number1:= 1;
+    number2:= 2;
+    "AND (true):" , true and true !>>;
+    "OR (true):" , true or false !>>;
+    "NOT (false):" , not true !>>;
+    "> 0" , number1 > number2 !>>;
+    ">= 0" , number1 >= number2 !>>;
+    "< 1" , number1 < number2 !>>;
+    "<= 1" , number1 <= number2  !>>;
+    "== 0" , number1 == number2  !>>;
+    "!= 1" , number1 <> number2  !>>;
+
+}
+
 begin
 
-numero_intero | numero_double | valore_booleano | stringa | carattere := 1, 2, true, "ciao", 'c';
 
+numero_tipo_intero_dinamico:1;
+numero_tipo_double_dinamico:2.0;
+boolean_value: true;
+stringa_tipo_dinamico: "ciao ciao ciao ciao ciao";
+char_dinamico: 'z';
+
+numero_intero | numero_double | valore_booleano | stringa | carattere := 1, 2, true, "ciao", 'c';
 assegnazioni_multiple(numero_intero, numero_double, valore_booleano, stringa, carattere);
 
+if(boolean_value and false)then{
+    "ciao bella gente fabri fibra e qui presente"!>>;
+}
+else{
+    char_dinamico := 'e';
+    "sono nell'else, printo char dinamico:", char_dinamico!>>;
+
+}
+
+testing_operation();
 
 end

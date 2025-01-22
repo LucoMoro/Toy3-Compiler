@@ -17,7 +17,7 @@ public enum Type {
     public static Type convertType(ConstantNode constant){
         Type convertedType = null;
 
-        if(constant instanceof BodyNode){
+        if(constant instanceof BoolNode){
             convertedType = Type.BOOL;
         } else if (constant instanceof IntNode){
             convertedType = Type.INT;
