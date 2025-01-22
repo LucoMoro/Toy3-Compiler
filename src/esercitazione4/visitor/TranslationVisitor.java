@@ -223,7 +223,8 @@ public class TranslationVisitor implements Visitor{
 
                     String buffer = "buffer = (char*) malloc((1024*5)*sizeof(char));\n";
                     builder.append(buffer);
-                    builder.append("scanf(\"%s\", buffer);\n");
+                    builder.append("scanf(\"%[^\\n]\", buffer);\n");
+                    builder.append("getchar();\n");
                     String alloc = variableName + "= (char*) malloc((strlen(buffer) + 1) *sizeof(char));\n";
                     alloc = alloc + "strcpy(" + variableName + ",buffer);\nfree(buffer);\n";
                     builder.append(alloc);
@@ -231,15 +232,18 @@ public class TranslationVisitor implements Visitor{
 
                 if(type.name().equalsIgnoreCase(Type.BOOL.name())
                         || type.name().equalsIgnoreCase(Type.INT.name())) {
-                    builder.append("scanf(\"%d\", ").append("&").append(variableName).append(");");
+                    builder.append("scanf(\"%d\", ").append("&").append(variableName).append(");\n");
+                    builder.append("getchar();");
                 }
 
                 if(type.name().equalsIgnoreCase(Type.DOUBLE.name())) {
-                    builder.append("scanf(\"%lf\", ").append("&").append(variableName).append(");");
+                    builder.append("scanf(\"%lf\", ").append("&").append(variableName).append(");\n");
+                    builder.append("getchar();");
                 }
 
                 if(type.name().equalsIgnoreCase(Type.CHAR.name())) {
-                    builder.append("scanf(\"%c\", ").append("&").append(variableName).append(");");
+                    builder.append("scanf(\" %c\", ").append("&").append(variableName).append(");\n");
+                    builder.append("getchar();");
                 }
             }
 
@@ -799,11 +803,11 @@ public class TranslationVisitor implements Visitor{
     private String getPrintSpecifier(Type type) {
 
         switch (type) {
-            case INT:
+            case INT, BOOL:
                 return "%d";
             case DOUBLE:
                 return "%f";
-            case BOOL, STRING:
+            case STRING:
                 return "%s";
             case CHAR:
                 return "%c";

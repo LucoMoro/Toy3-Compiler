@@ -1,0 +1,44 @@
+/* Esempio base del linguaggio Toy3 */
+
+program
+
+numero_intero:int;
+numero_double:double;
+valore_booleano: bool;
+stringa: string;
+carattere: char;
+
+def assegnazioni_multiple(numero_intero:int; numero_double:double; valore_booleano:bool; stringa:string; carattere:char){
+    numero_intero | numero_double | valore_booleano | stringa | carattere := 1, 2, true, "ciao", 'c';
+    if(valore_booleano)then{
+        "Inserisci un numero intero e te lo stampo:\n">>;
+        numero_intero <<;
+        numero_intero !>>;
+
+        "Inserisci un double e te lo stampo:\n">>;
+        numero_double <<;
+        numero_double !>>;
+
+        "Inserisci un valore booleano e te lo stampo:\n">>;
+        valore_booleano <<;
+        valore_booleano !>>;
+
+        "Inserisci una stringa e te lo stampo:\n">>;
+        stringa <<;
+        stringa !>>;
+
+        "Inserisci un carattere e te lo stampo:\n">>;
+        carattere <<;
+        carattere !>>;
+
+    }
+}
+
+begin
+
+numero_intero | numero_double | valore_booleano | stringa | carattere := 1, 2, true, "ciao", 'c';
+
+assegnazioni_multiple(numero_intero, numero_double, valore_booleano, stringa, carattere);
+
+
+end

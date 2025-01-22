@@ -92,6 +92,7 @@ while (i<=0)  {
 char* saluto = "ciao";
 printf("%s", "Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)");
 scanf("%d", &i);
+getchar();
 printf("%s\n", saluto);
 }
 
@@ -101,7 +102,9 @@ y=-1;
 while (! (x>0&&y>0))  {
 char* saluto = "byebye";
 printf("%s%d%s\n", "Moltiplicazione ", i, ": inserisci due numeri positivi");
-scanf("%lf", &y);scanf("%lf", &x);
+scanf("%lf", &y);
+getchar();scanf("%lf", &x);
+getchar();
 printf("%s\n", saluto);
 }
 
