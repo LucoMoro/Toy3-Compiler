@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Main Test2 DELETE" type="Application" factoryName="Application">
-    <option name="MAIN_CLASS_NAME" value="esercitazione4.Circuit" />
+    <option name="MAIN_CLASS_NAME" value="esercitazione4.Main" />
     <module name="UsoCup" />
-    <option name="PROGRAM_PARAMETERS" value="test_files/DELETE_test2.txt" />
+    <option name="PROGRAM_PARAMETERS" value="old_test_files/DELETE_test2.txt" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

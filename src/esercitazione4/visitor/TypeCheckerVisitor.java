@@ -28,7 +28,7 @@ public class TypeCheckerVisitor implements  Visitor{
     public Object visit(ProgramNode node) {
 
         typeEnvironment.add(node.getProgramTable());
-        System.out.println("ProgramNode: " + node.getProgramTable());
+        //System.out.println("ProgramNode: " + node.getProgramTable());
 
         ArrayList<DeclOpNode> decls = node.getDecls();
         if(decls != null){
@@ -38,7 +38,7 @@ public class TypeCheckerVisitor implements  Visitor{
         }
 
         typeEnvironment.add(node.getBegindEndTable());
-        System.out.println("BeginEndTable: " + node.getBegindEndTable());
+        //System.out.println("BeginEndTable: " + node.getBegindEndTable());
 
         ArrayList<VarDeclNode> vars = node.getVars();
         if(vars != null){
@@ -77,7 +77,7 @@ public class TypeCheckerVisitor implements  Visitor{
     public Object visit(DefDeclNode node) {
 
         typeEnvironment.add(node.getTable());
-        System.out.println("DefDecl: " + node.getTable());
+        //System.out.println("DefDecl: " + node.getTable());
 
         ArrayList<ParDeclNode> pars = node.getParams();
         if(pars != null){
@@ -590,7 +590,7 @@ public class TypeCheckerVisitor implements  Visitor{
             Type tmpId = ids.get(i).getReturnType();
             Type tmpExpr = exprs.get(i).getReturnType();
             if(tmpId == Type.DOUBLE && tmpExpr == Type.INT){
-                System.out.println("The assignment of id: '" + ids.get(i).getValue() + "' (" + tmpId + "') with the expression type: '" + tmpExpr +"' has been successfully completed");
+                //System.out.println("The assignment of id: '" + ids.get(i).getValue() + "' (" + tmpId + "') with the expression type: '" + tmpExpr +"' has been successfully completed");
             } else if (tmpId != tmpExpr) {
                 throw new RuntimeException("The id: '" + ids.get(i).getValue() + "' (" + tmpId + ") has a different type from: " + tmpExpr);
             }

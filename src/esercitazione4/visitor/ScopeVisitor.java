@@ -89,7 +89,7 @@ public class ScopeVisitor implements Visitor{
         }
 
         node.setProgramTable(programTable);
-        System.out.println(programTable);
+        //System.out.println(programTable);
 
         //Start of the begin-end body
         ArrayList<VarDeclNode> vars = node.getVars();
@@ -135,7 +135,7 @@ public class ScopeVisitor implements Visitor{
         }
 
         node.setBegindEndTable(beginEndTable);
-        System.out.println(beginEndTable);
+        //System.out.println(beginEndTable);
 
         typeEnvironment.pop();
         typeEnvironment.pop();
@@ -208,7 +208,7 @@ public class ScopeVisitor implements Visitor{
         }
 
         node.setTable(defDeclTable);
-        System.out.println(defDeclTable);
+        //System.out.println(defDeclTable);
         typeEnvironment.pop();
 
         return node;
@@ -322,7 +322,7 @@ public class ScopeVisitor implements Visitor{
         }
 
         node.setTable(bodyTable);
-        System.out.println(bodyTable);
+        //System.out.println(bodyTable);
         typeEnvironment.pop();
 
         return node;
@@ -416,7 +416,7 @@ public class ScopeVisitor implements Visitor{
         bodyName = "ElseBody";
         elseBody.accept(this);
 
-        System.out.println(ifThenElseTable);
+        //System.out.println(ifThenElseTable);
         node.setTable(ifThenElseTable);
         typeEnvironment.pop();
 
@@ -435,7 +435,7 @@ public class ScopeVisitor implements Visitor{
         bodyName = "IfThenBody";
         body.accept(this);
 
-        System.out.println(ifThenTable);
+        //System.out.println(ifThenTable);
         node.setTable(ifThenTable);
         typeEnvironment.pop();
 
@@ -454,7 +454,7 @@ public class ScopeVisitor implements Visitor{
         bodyName = "WhileBody";
         body.accept(this);
 
-        System.out.println(whileTable);
+        //System.out.println(whileTable);
         node.setTable(whileTable);
         typeEnvironment.pop();
 

@@ -43,7 +43,6 @@ esercitazione4\visitor\symbolTable\Firm.class
 esercitazione4\ast\BodyNode.class
 esercitazione4\ast\Constants\BoolNode.class
 esercitazione4\ast\ParDeclOp\PVarNode.class
-esercitazione4\Circuit.class
 esercitazione4\ast\ParDeclOp\ParDeclNode.class
 esercitazione4\ast\Node.class
 esercitazione4\ast\RelOp\EQNode.class

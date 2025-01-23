@@ -93,17 +93,17 @@ precedence left LPAR, RPAR; //Check if it is correct
 
 /* The grammar */
 Programma ::= PROGRAM Decls:decls BEGIN VarDecls:vars Statements:stats END {: RESULT = new ProgramNode(decls, vars, stats);
-                                                                              System.out.println(RESULT);
+                                                                              //System.out.println(RESULT);
                                                                            :}
           ;
 
 Decls ::= VarDecl:var Decls:list {: list.add(0, (VarDeclNode) var);
                                     RESULT = list;
-                                    System.out.println("VarDecls Fittizio: " + RESULT);
+                                    //System.out.println("VarDecls Fittizio: " + RESULT);
                                  :}
       | DefDecl:def Decls:list {: list.add(0, (DefDeclNode) def);
                                   RESULT = list;
-                                  System.out.println("DefDecls Fittizio: " + RESULT);
+                                  //System.out.println("DefDecls Fittizio: " + RESULT);
                                :}
       | /* empty */ {: ArrayList<DeclOpNode> list = new ArrayList<>();
                        RESULT = list;
@@ -118,7 +118,9 @@ VarDecls ::= VarDecls:list VarDecl:var {: list.add((VarDeclNode) var);
                          RESULT = list;
                       :};
 
-VarDecl ::= VarsOptInit:vars COLON TypeOrConstant:typeOrConstant SEMI {: RESULT = new VarDeclNode(vars, typeOrConstant); System.out.println(RESULT);:}
+VarDecl ::= VarsOptInit:vars COLON TypeOrConstant:typeOrConstant SEMI {: RESULT = new VarDeclNode(vars, typeOrConstant);
+                                                                        //System.out.println(RESULT);
+                                                                        :}
             ;
 
 //For each list, check during esercitazione5 if it is correct to add elements on top of the array or should be added at the bottom (or viceversa)
@@ -138,8 +140,8 @@ VarsOptInit ::= ID:attrib PIPE VarsOptInit:list {: list.add(new VarOptInitNode(n
                                          :}
             ;
 
-TypeOrConstant ::= Type:attrib {: RESULT = attrib;  System.out.println("Type Fittizio: " + RESULT); :}
-               | Constant:attrib {: RESULT = attrib; System.out.println("Constant Fittizio: " + RESULT); :}
+TypeOrConstant ::= Type:attrib {: RESULT = attrib;  /*System.out.println("Type Fittizio: " + RESULT);*/ :}
+               | Constant:attrib {: RESULT = attrib; /*System.out.println("Constant Fittizio: " + RESULT);*/ :}
                ;
 
 Type ::= INT {: RESULT = Type.INT; :}
@@ -158,26 +160,26 @@ Constant ::= TRUE {: RESULT = new BoolNode(true); :}
          ;
 
 DefDecl ::= DEF ID:name LPAR ParDecls:params RPAR OptType:type Body:body {: RESULT = new DefDeclNode(new IdNode(name), params, type, body);
-                                                                            System.out.println(RESULT);
+                                                                            //System.out.println(RESULT);
                                                                          :}
         | DEF ID:name LPAR RPAR OptType:type Body:body {: RESULT = new DefDeclNode(new IdNode(name), type, body);
-                                                          System.out.println(RESULT);
+                                                          //System.out.println(RESULT);
                                                        :}
         ;
 
 ParDecls ::= ParDecl:attrib SEMI ParDecls:list {: list.add((ParDeclNode) attrib);
                                                   RESULT = list;
-                                                  System.out.println("ParDecls fittizio: " + RESULT);
+                                                  //System.out.println("ParDecls fittizio: " + RESULT);
                                                :}
          | ParDecl:attrib {: ArrayList<ParDeclNode> list = new ArrayList<>();
                              list.add((ParDeclNode) attrib);
                              RESULT = list;
-                             System.out.println("ParDecls fittizio: " + RESULT);
+                             //System.out.println("ParDecls fittizio: " + RESULT);
                           :}
          ;
 
 ParDecl ::= PVars:vars COLON Type:type {: RESULT = new ParDeclNode(vars, type);
-                                          System.out.println(RESULT);
+                                          //System.out.println(RESULT);
                                        :}
         ;
 
@@ -192,8 +194,8 @@ PVars ::= PVar:pvar COMMA PVars:list {: list.add((PVarNode) pvar);
                        :}
       ;
 
-PVar ::= ID:attrib {: RESULT = new PVarNode(new IdNode(attrib)); System.out.println(RESULT);:}
-     | REF ID:attrib {: RESULT = new PVarNode(new IdNode(attrib), true); System.out.println(RESULT); :}
+PVar ::= ID:attrib {: RESULT = new PVarNode(new IdNode(attrib)); /*System.out.println(RESULT);*/ :}
+     | REF ID:attrib {: RESULT = new PVarNode(new IdNode(attrib), true); /*System.out.println(RESULT);*/ :}
      ;
 
 OptType ::= COLON Type:type {: RESULT = type; :}
@@ -201,7 +203,7 @@ OptType ::= COLON Type:type {: RESULT = type; :}
         ;
 
 Body ::= LBRAC VarDecls:vars Statements:stats RBRAC {: RESULT = new BodyNode(vars, stats);
-                                                       System.out.println(RESULT);
+                                                       //System.out.println(RESULT);
                                                     :};
 
 //AGGIUNTA DEL NUOVO ELEMENTO IN TESTA E NON IN CODA
@@ -214,15 +216,15 @@ Statements ::= Stat:stat Statements:list {: list.add(0, (StatOpNode) stat);
                           :}
             ;
 
-Stat ::= Vars:attrib IN SEMI {: RESULT = new ReadOpNode(attrib); System.out.println(RESULT); :}
-    | Exprs:attrib OUT SEMI {: RESULT = new WriteOpNode(attrib); System.out.println(RESULT); :}
-    | Exprs:attrib OUTNL SEMI {: RESULT = new WriteOpNode(attrib, true); System.out.println(RESULT); :}
-    | Vars:ids ASSIGN Exprs:exprs SEMI {: RESULT = new AssignOpNode(ids, exprs); System.out.println(RESULT); :}
-    | FunCall:attrib SEMI {: RESULT = attrib; System.out.println(RESULT); :}
-    | IF LPAR Expr:expr RPAR THEN Body:body1 ELSE Body:body2 {: RESULT = new IfThenElseNode(expr, body1, body2); System.out.println(RESULT); :}
-    | IF LPAR Expr:expr RPAR THEN Body:body {: RESULT = new IfThenNode(expr, body); System.out.println(RESULT); :}
-    | WHILE LPAR Expr:expr RPAR DO Body:body {: RESULT = new WhileNode(expr, body); System.out.println(RESULT); :}
-    | RETURN Expr:attrib SEMI {: RESULT = new ReturnOpNode(attrib); System.out.println(RESULT); :}
+Stat ::= Vars:attrib IN SEMI {: RESULT = new ReadOpNode(attrib); /*System.out.println(RESULT);*/ :}
+    | Exprs:attrib OUT SEMI {: RESULT = new WriteOpNode(attrib); /*System.out.println(RESULT);*/ :}
+    | Exprs:attrib OUTNL SEMI {: RESULT = new WriteOpNode(attrib, true); /*System.out.println(RESULT);*/ :}
+    | Vars:ids ASSIGN Exprs:exprs SEMI {: RESULT = new AssignOpNode(ids, exprs); /*System.out.println(RESULT);*/ :}
+    | FunCall:attrib SEMI {: RESULT = attrib; /*System.out.println(RESULT);*/ :}
+    | IF LPAR Expr:expr RPAR THEN Body:body1 ELSE Body:body2 {: RESULT = new IfThenElseNode(expr, body1, body2); /*System.out.println(RESULT);*/ :}
+    | IF LPAR Expr:expr RPAR THEN Body:body {: RESULT = new IfThenNode(expr, body); /*System.out.println(RESULT);*/ :}
+    | WHILE LPAR Expr:expr RPAR DO Body:body {: RESULT = new WhileNode(expr, body); /*System.out.println(RESULT);*/ :}
+    | RETURN Expr:attrib SEMI {: RESULT = new ReturnOpNode(attrib); /*System.out.println(RESULT);*/ :}
     ;
 
 Vars ::= ID:attrib PIPE Vars:list {: list.add(new IdNode(attrib));
@@ -236,7 +238,7 @@ Vars ::= ID:attrib PIPE Vars:list {: list.add(new IdNode(attrib));
 
 Exprs ::= Expr:attrib COMMA Exprs:list {: list.add((ExprOpNode) attrib);
                                           RESULT = list;
-                                          System.out.println("Exprs Fittizio: " + RESULT);
+                                          //System.out.println("Exprs Fittizio: " + RESULT);
                                        :}
       | Expr:attrib {: ArrayList<ExprOpNode> list = new ArrayList<>();
                        list.add((ExprOpNode) attrib);
@@ -248,26 +250,26 @@ FunCall ::= ID:attrib LPAR Exprs:ref RPAR {: RESULT = new FunCallNode(new IdNode
         | ID:attrib LPAR RPAR {: RESULT = new FunCallNode(new IdNode (attrib)); :}
         ;
 
-Expr ::= Expr:e1 PLUS Expr:e2 {: RESULT = new AddNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 MINUS Expr:e2 {: RESULT = new DiffNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 TIMES Expr:e2 {: RESULT = new MulNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 DIV Expr:e2 {: RESULT = new DivNode(e1, e2); System.out.println(RESULT); :}
+Expr ::= Expr:e1 PLUS Expr:e2 {: RESULT = new AddNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 MINUS Expr:e2 {: RESULT = new DiffNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 TIMES Expr:e2 {: RESULT = new MulNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 DIV Expr:e2 {: RESULT = new DivNode(e1, e2); /*System.out.println(RESULT);*/ :}
 
-              | Expr:e1 AND Expr:e2 {: RESULT = new AndNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 OR Expr:e2 {: RESULT = new OrNode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 AND Expr:e2 {: RESULT = new AndNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 OR Expr:e2 {: RESULT = new OrNode(e1, e2); /*System.out.println(RESULT);*/ :}
 
-              | Expr:e1 GT Expr:e2 {: RESULT = new GTNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 GE Expr:e2 {: RESULT = new GENode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 LT Expr:e2 {: RESULT = new LTNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 LE Expr:e2 {: RESULT = new LENode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 EQ Expr:e2 {:  RESULT = new EQNode(e1, e2); System.out.println(RESULT); :}
-              | Expr:e1 NE Expr:e2 {: RESULT = new NENode(e1, e2); System.out.println(RESULT); :}
+              | Expr:e1 GT Expr:e2 {: RESULT = new GTNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 GE Expr:e2 {: RESULT = new GENode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 LT Expr:e2 {: RESULT = new LTNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 LE Expr:e2 {: RESULT = new LENode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 EQ Expr:e2 {:  RESULT = new EQNode(e1, e2); /*System.out.println(RESULT);*/ :}
+              | Expr:e1 NE Expr:e2 {: RESULT = new NENode(e1, e2); /*System.out.println(RESULT);*/ :}
 
-              | LPAR Expr:e1 RPAR {: RESULT = e1; System.out.println(RESULT); :}
-              | MINUS Expr:e1 {: RESULT = new UMinusNode(e1); System.out.println(RESULT); :} %prec UMINUS
-              | NOT Expr:e1 {:  RESULT = new NotNode(e1); System.out.println(RESULT); :}
-              | ID:attrib {: RESULT = new IdNode(attrib); System.out.println(RESULT); :} //la System.out serve per verificare il funzionamento di toString()
-              | FunCall:attrib {: RESULT = attrib; System.out.println(RESULT); :}
-              | Constant:attrib {: RESULT = attrib; System.out.println(RESULT); :}
+              | LPAR Expr:e1 RPAR {: RESULT = e1; /*System.out.println(RESULT);*/ :}
+              | MINUS Expr:e1 {: RESULT = new UMinusNode(e1); /*System.out.println(RESULT);*/ :} %prec UMINUS
+              | NOT Expr:e1 {:  RESULT = new NotNode(e1); /*System.out.println(RESULT);*/ :}
+              | ID:attrib {: RESULT = new IdNode(attrib); /*System.out.println(RESULT);*/ :} //la System.out serve per verificare il funzionamento di toString()
+              | FunCall:attrib {: RESULT = attrib; /*System.out.println(RESULT);*/ :}
+              | Constant:attrib {: RESULT = attrib; /*System.out.println(RESULT);*/ :}
               ;
 

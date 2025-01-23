@@ -8,7 +8,7 @@ import esercitazione4.visitor.TypeCheckerVisitor;
 
 import java.io.*;
 
-public class Circuit {
+public class Main {
     public static void main(String[] args) throws Exception {
         /*String res = "corretta";
         System.out.println("Type in circuit, hit Return, then Cmd-D (in MacOs) o Ctrl-D (in Windows)");
@@ -45,11 +45,11 @@ public class Circuit {
             ScopeVisitor scope = new ScopeVisitor();
             program.accept(scope);
 
-            System.out.println("/*********************************** Type Checking *************************************************/");
+            //System.out.println("/*********************************** Type Checking *************************************************/");
             TypeCheckerVisitor typeChecker = new TypeCheckerVisitor();
             program.accept(typeChecker);
 
-            System.out.println("/*********************************** Translating in C *************************************************/");
+            //System.out.println("/*********************************** Translating in C *************************************************/");
             FileWriter translationFile = new FileWriter("translated_code.txt");
             TranslationVisitor translator = new TranslationVisitor();
             String outputCode = (String) program.accept(translator);
