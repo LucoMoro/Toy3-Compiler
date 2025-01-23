@@ -9,7 +9,7 @@ taglia | ans1 | ans : string;
 risultato: double;
 
 // Definizione delle funzioni
-def sommac(a: int; d: int; b: double; ref size: string; ref result: double)
+def sommac(a: double; d: double; b: double; ref size: string; ref result: double)
 {
     result := a + b + c + d;
 
