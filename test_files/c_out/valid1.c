@@ -1,0 +1,144 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define BUFFER_SIZE  1024*4
+char* buffer;
+
+
+char* string_concat(char* s1, char* s2)
+{
+    char* ns = malloc(strlen(s1) + strlen(s2) + 1);
+    strcpy(ns, s1);
+    strcat(ns, s2);
+    return ns;
+}
+
+char* int2str(int n)
+{
+    char buffer[BUFFER_SIZE];
+    int len = sprintf(buffer,"%d",n);
+    char *ns = malloc(len + 1);
+    sprintf(ns,"%d",n);
+    return ns;
+}
+
+char* char2str(char c)
+{
+    char *ns = malloc(2);
+    sprintf(ns, "%c", c);
+    return ns;
+}
+
+    char* double2str(double f)
+    {
+        char buffer[BUFFER_SIZE];
+        int len = sprintf(buffer,"%f", f);
+        char *ns = malloc(len + 1);
+        sprintf(ns, "%f", f);
+        return ns;
+    }
+
+char* bool2str(int b)
+{
+    char* ns = NULL;
+    if(b)
+    {
+        ns = malloc(5);
+        strcpy(ns, "true");
+    }
+    else
+    {
+        ns = malloc(6);
+        strcpy(ns, "false");
+    }
+    return ns;
+}
+
+void sommac_fun (double a, double d, double b, char* *size, double *result);
+char* stampa_fun (char* messaggio);
+
+
+int c = 1;
+double a, b, x;
+char* taglia,  *ans1,  *ans;
+double risultato;
+void sommac_fun (double a, double d, double b, char* *size, double *result) {
+*result=a+b+c+d;
+if(*result>100)  {
+*size="grande";
+}
+ else  {
+if(*result>50)  {
+*size="media";
+}
+ else  {
+*size="piccola";
+}
+
+}
+
+}
+
+char* stampa_fun (char* messaggio) {
+int i = 0;
+while (i<4)  {
+printf("%s\n", "");
+i=i+1;
+}
+
+printf("%s\n", messaggio);
+return "ok";
+}
+
+
+
+int main() {
+a=1;
+b=2.2;
+x=3;
+risultato=0.0;
+ans="no";
+sommac_fun(a, x, b, &taglia, &risultato);
+stampa_fun(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat("La somma di ", double2str(a)), " e "), double2str(b)), " incrementata di "), int2str(c)), " è "), taglia));
+stampa_fun(string_concat("Ed è pari a ", double2str(risultato)));
+printf("%s", "Vuoi continuare? (si/no) - inserisci due volte la risposta\n");
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%[^\n]", buffer);
+getchar();
+ans= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans,buffer);
+free(buffer);
+
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%[^\n]", buffer);
+getchar();
+ans1= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans1,buffer);
+free(buffer);
+
+while (strcmp(ans, "si") == 0)  {
+printf("%s", "Inserisci un intero: ");
+scanf("%lf", &a);
+getchar();
+printf("%s", "Inserisci un reale: ");
+scanf("%lf", &b);
+getchar();
+sommac_fun(a, x, b, &taglia, &risultato);
+stampa_fun(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat(string_concat("La somma di ", double2str(a)), " e "), double2str(b)), " incrementata di "), int2str(c)), " è "), taglia));
+stampa_fun(string_concat("Ed è pari a ", double2str(risultato)));
+printf("%s", "Vuoi continuare? (si/no): ");
+buffer = (char*) malloc((1024*5)*sizeof(char));
+scanf("%[^\n]", buffer);
+getchar();
+ans= (char*) malloc((strlen(buffer) + 1) *sizeof(char));
+strcpy(ans,buffer);
+free(buffer);
+
+}
+
+printf("%s\n", "");
+printf("%s\n", "Ciao");
+return 1; 
+}
