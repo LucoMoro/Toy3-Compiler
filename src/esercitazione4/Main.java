@@ -8,6 +8,8 @@ import esercitazione4.visitor.TypeCheckerVisitor;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -32,12 +34,16 @@ public class Main {
         System.out.println("Frase " + res);*/
 
         String output_folder = "test_files" + File.separator + "/c_out";
-        String filePath = args[0];
-        String baseName = FilenameUtils.removeExtension(filePath);
-        String fileName = baseName + ".c";
+        Path inputPath = Paths.get(args[0]);
+        String inputFileName = inputPath.getFileName().toString();
+        String cInputFileName = FilenameUtils.removeExtension(inputFileName) + ".c";
+
+        //String baseName = FilenameUtils.removeExtension(filePath);
+        //String fileName = baseName + ".c";
 
         try {
-            FileReader fileReader = new FileReader(filePath);
+            //FileReader fileReader = new FileReader(filePath);
+            FileReader fileReader = new FileReader(inputPath.toString());
             parser p = new parser(new esercitazione4.Yylex(fileReader));
             FileWriter output_file = new FileWriter("output.xml");
 
@@ -53,7 +59,7 @@ public class Main {
             program.accept(typeChecker);
 
             //System.out.println("/*********************************** Translating in C *************************************************/");
-            FileWriter translationFile = new FileWriter(output_folder + File.separator + fileName);
+            FileWriter translationFile = new FileWriter(output_folder + File.separator + cInputFileName);
             TranslationVisitor translator = new TranslationVisitor();
             String outputCode = (String) program.accept(translator);
             translationFile.append(outputCode);
@@ -62,7 +68,7 @@ public class Main {
             translationFile.close();
         }
         catch(FileNotFoundException e){
-            System.err.println("Error: File not found - " + filePath);
+            System.err.println("Error: File not found - " + inputPath.toString());
         }
         catch(Exception e){
             System.out.println(e);
