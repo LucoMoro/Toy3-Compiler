@@ -5,6 +5,7 @@ import esercitazione4.visitor.ScopeVisitor;
 import esercitazione4.visitor.TranslationVisitor;
 import esercitazione4.visitor.TreeVisitor;
 import esercitazione4.visitor.TypeCheckerVisitor;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.*;
 
@@ -30,8 +31,10 @@ public class Main {
 
         System.out.println("Frase " + res);*/
 
-
+        String output_folder = "test_files" + File.separator + "/c_out";
         String filePath = args[0];
+        String baseName = FilenameUtils.removeExtension(filePath);
+        String fileName = baseName + ".c";
 
         try {
             FileReader fileReader = new FileReader(filePath);
@@ -50,7 +53,7 @@ public class Main {
             program.accept(typeChecker);
 
             //System.out.println("/*********************************** Translating in C *************************************************/");
-            FileWriter translationFile = new FileWriter("translated_code.txt");
+            FileWriter translationFile = new FileWriter(output_folder + File.separator + fileName);
             TranslationVisitor translator = new TranslationVisitor();
             String outputCode = (String) program.accept(translator);
             translationFile.append(outputCode);

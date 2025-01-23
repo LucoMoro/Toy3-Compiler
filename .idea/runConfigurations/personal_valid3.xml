@@ -1,8 +1,8 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Main Test4 DELETE" type="Application" factoryName="Application">
+  <configuration default="false" name="personal_valid3" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="esercitazione4.Main" />
     <module name="UsoCup" />
-    <option name="PROGRAM_PARAMETERS" value="old_test_files/DELETE_test4.txt" />
+    <option name="PROGRAM_PARAMETERS" value="personal_valid3.txt" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

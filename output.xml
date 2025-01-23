@@ -1,12 +1,4 @@
 <Program>
-  <VarDecl type='STRING'>
-    <VarOptInit name='stringa1'>
-    </VarOptInit>
-  </VarDecl>
-  <VarDecl type='STRING'>
-    <VarOptInit name='stringa2'>
-    </VarOptInit>
-  </VarDecl>
   <VarDecl type='INT'>
     <VarOptInit name='numero_intero'>
     </VarOptInit>
@@ -27,97 +19,275 @@
     <VarOptInit name='carattere'>
     </VarOptInit>
   </VarDecl>
-  <DefDecl name='fun' type='null'>
-    <ParDecl type='BOOL'>
-      <PVar hasRef='true'  name='boolean'>
-      </PVar>
-    </ParDecl>
+  <DefDecl name='assegnazioni_multiple' type='null'>
     <ParDecl type='CHAR'>
-      <PVar hasRef='true'  name='character'>
-      </PVar>
-    </ParDecl>
-    <ParDecl type='DOUBLE'>
-      <PVar hasRef='true'  name='n2'>
-      </PVar>
-    </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='true'  name='n1'>
+      <PVar hasRef='false'  name='carattere'>
       </PVar>
     </ParDecl>
     <ParDecl type='STRING'>
-      <PVar hasRef='true'  name='string1'>
+      <PVar hasRef='false'  name='stringa'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='BOOL'>
+      <PVar hasRef='false'  name='valore_booleano'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='numero_double'>
+      </PVar>
+    </ParDecl>
+    <ParDecl type='INT'>
+      <PVar hasRef='false'  name='numero_intero'>
       </PVar>
     </ParDecl>
     <Body>
       <AssignNode>
-        <IdNode>string1</IdNode>
-        <AddNode>
-          <IdNode>string1</IdNode>
-          <CharNode>g</CharNode>
-        </AddNode>
+        <IdNode>carattere</IdNode>
+        <IdNode>stringa</IdNode>
+        <IdNode>valore_booleano</IdNode>
+        <IdNode>numero_double</IdNode>
+        <IdNode>numero_intero</IdNode>
+        <CharNode>c</CharNode>
+        <StringNode>ciao</StringNode>
+        <BoolNode>true</BoolNode>
+        <IntNode>2</IntNode>
+        <IntNode>1</IntNode>
       </AssignNode>
-      <AssignNode>
-        <IdNode>n1</IdNode>
-        <AddNode>
-          <IdNode>n1</IdNode>
-          <IntNode>100</IntNode>
-        </AddNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>n2</IdNode>
-        <AddNode>
-          <IdNode>n2</IdNode>
-          <IntNode>100</IntNode>
-        </AddNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>character</IdNode>
-        <CharNode>z</CharNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>boolean</IdNode>
-        <BoolNode>false</BoolNode>
-      </AssignNode>
+      <IfThenNode>
+        <IdNode>valore_booleano</IdNode>
+        <Body>
+          <WriteNode isNewLine='false'>
+            <StringNode>Inserisci un numero intero e te lo stampo:\n</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>numero_intero</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>numero_intero</IdNode>
+          </WriteNode>
+          <WriteNode isNewLine='false'>
+            <StringNode>Inserisci un double e te lo stampo:\n</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>numero_double</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>numero_double</IdNode>
+          </WriteNode>
+          <WriteNode isNewLine='false'>
+            <StringNode>Inserisci un valore booleano e te lo stampo:\n</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>valore_booleano</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>valore_booleano</IdNode>
+          </WriteNode>
+          <WriteNode isNewLine='false'>
+            <StringNode>Inserisci una stringa e te lo stampo:\n</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>stringa</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>stringa</IdNode>
+          </WriteNode>
+          <WriteNode isNewLine='false'>
+            <StringNode>Inserisci un carattere e te lo stampo:\n</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>carattere</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>carattere</IdNode>
+          </WriteNode>
+        </Body>
+      </IfThenNode>
     </Body>
   </DefDecl>
-  <DefDecl name='somma' type='INT'>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='b'>
-      </PVar>
-    </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='a'>
-      </PVar>
-    </ParDecl>
+  <DefDecl name='testing_operation' type='null'>
     <Body>
-      <ReturnNode>
+      <VarDecl type='DOUBLE'>
+        <VarOptInit name='n1'>
+        </VarOptInit>
+      </VarDecl>
+      <VarDecl type='INT'>
+        <VarOptInit name='n2'>
+        </VarOptInit>
+      </VarDecl>
+      <VarDecl type='INT'>
+        <VarOptInit name='number2'>
+        </VarOptInit>
+        <VarOptInit name='number1'>
+        </VarOptInit>
+      </VarDecl>
+      <VarDecl type='STRING'>
+        <VarOptInit name='str'>
+        </VarOptInit>
+      </VarDecl>
+      <AssignNode>
+        <IdNode>str</IdNode>
         <AddNode>
-          <IdNode>a</IdNode>
-          <IdNode>b</IdNode>
+          <StringNode>ciao</StringNode>
+          <IntNode>1</IntNode>
         </AddNode>
-      </ReturnNode>
+      </AssignNode>
+      <WhileNode>
+        <NENode>
+          <MulNode>
+            <IdNode>n1</IdNode>
+            <IdNode>n2</IdNode>
+          </MulNode>
+          <IntNode>0</IntNode>
+        </NENode>
+        <Body>
+          <WriteNode isNewLine='true'>
+            <StringNode>Inserisci n1:</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>n1</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <StringNode>Inserisci n2:</StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>n2</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <AddNode>
+              <StringNode>Addizione: </StringNode>
+              <AddNode>
+                <IdNode>n1</IdNode>
+                <IdNode>n2</IdNode>
+              </AddNode>
+            </AddNode>
+          </WriteNode>
+          <WriteNode isNewLine='true'>
+            <AddNode>
+              <StringNode>Sottrazione: </StringNode>
+              <DiffNode>
+                <IdNode>n1</IdNode>
+                <IdNode>n2</IdNode>
+              </DiffNode>
+            </AddNode>
+          </WriteNode>
+          <WriteNode isNewLine='true'>
+            <AddNode>
+              <StringNode>Moltiplicazione: </StringNode>
+              <MulNode>
+                <IdNode>n1</IdNode>
+                <IdNode>n2</IdNode>
+              </MulNode>
+            </AddNode>
+          </WriteNode>
+          <WriteNode isNewLine='true'>
+            <AddNode>
+              <StringNode>Divisione: </StringNode>
+              <DivNode>
+                <IdNode>n1</IdNode>
+                <IdNode>n2</IdNode>
+              </DivNode>
+            </AddNode>
+          </WriteNode>
+        </Body>
+      </WhileNode>
+      <AssignNode>
+        <IdNode>number1</IdNode>
+        <IntNode>1</IntNode>
+      </AssignNode>
+      <AssignNode>
+        <IdNode>number2</IdNode>
+        <IntNode>2</IntNode>
+      </AssignNode>
+      <WriteNode isNewLine='true'>
+        <AndNode>
+          <BoolNode>true</BoolNode>
+          <BoolNode>true</BoolNode>
+        </AndNode>
+        <StringNode>AND (true):</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <OrNode>
+          <BoolNode>true</BoolNode>
+          <BoolNode>false</BoolNode>
+        </OrNode>
+        <StringNode>OR (true):</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <NotNode>
+          <BoolNode>true</BoolNode>
+        </NotNode>
+        <StringNode>NOT (false):</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <GTNode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </GTNode>
+        <StringNode>> 0</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <GENode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </GENode>
+        <StringNode>>= 0</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <LTNode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </LTNode>
+        <StringNode>< 1</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <LENode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </LENode>
+        <StringNode><= 1</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <EQNode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </EQNode>
+        <StringNode>== 0</StringNode>
+      </WriteNode>
+      <WriteNode isNewLine='true'>
+        <NENode>
+          <IdNode>number1</IdNode>
+          <IdNode>number2</IdNode>
+        </NENode>
+        <StringNode>!= 1</StringNode>
+      </WriteNode>
     </Body>
   </DefDecl>
   <VarDecl>
-    <VarOptInit name='variabile'>
+    <VarOptInit name='numero_tipo_intero_dinamico'>
     </VarOptInit>
-    <IntNode>3</IntNode>
+    <IntNode>1</IntNode>
   </VarDecl>
-  <AssignNode>
-    <IdNode>stringa1</IdNode>
-    <StringNode>pluto</StringNode>
-  </AssignNode>
-  <AssignNode>
-    <IdNode>stringa2</IdNode>
-    <StringNode>paperino</StringNode>
-  </AssignNode>
-  <AssignNode>
-    <IdNode>variabile</IdNode>
-    <FunCallNode name='somma'>
-      <IntNode>3</IntNode>
-      <IntNode>2</IntNode>
-    </FunCallNode>
-  </AssignNode>
+  <VarDecl>
+    <VarOptInit name='numero_tipo_double_dinamico'>
+    </VarOptInit>
+    <DoubleNode>2.0</DoubleNode>
+  </VarDecl>
+  <VarDecl>
+    <VarOptInit name='boolean_value'>
+    </VarOptInit>
+    <BoolNode>true</BoolNode>
+  </VarDecl>
+  <VarDecl>
+    <VarOptInit name='stringa_tipo_dinamico'>
+    </VarOptInit>
+    <StringNode>ciao ciao ciao ciao ciao</StringNode>
+  </VarDecl>
+  <VarDecl>
+    <VarOptInit name='char_dinamico'>
+    </VarOptInit>
+    <CharNode>z</CharNode>
+  </VarDecl>
   <AssignNode>
     <IdNode>carattere</IdNode>
     <IdNode>stringa</IdNode>
@@ -130,143 +300,34 @@
     <IntNode>2</IntNode>
     <IntNode>1</IntNode>
   </AssignNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT stringa: </StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <IdNode>stringa2</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT intero:</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <IntNode>1</IntNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT double:</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <DoubleNode>1.0</DoubleNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT char</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <CharNode>c</CharNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT bool</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <BoolNode>true</BoolNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima numero intero:</StringNode>
-      <IdNode>numero_intero</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima numero double:</StringNode>
-      <IdNode>numero_double</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima stringa:</StringNode>
-      <IdNode>stringa</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima carattere:</StringNode>
-      <IdNode>carattere</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima valore booleano:</StringNode>
-      <IdNode>valore_booleano</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <FunCallNode name='fun'>
-    <IdNode>valore_booleano</IdNode>
+  <FunCallNode name='assegnazioni_multiple'>
     <IdNode>carattere</IdNode>
+    <IdNode>stringa</IdNode>
+    <IdNode>valore_booleano</IdNode>
     <IdNode>numero_double</IdNode>
     <IdNode>numero_intero</IdNode>
-    <IdNode>stringa</IdNode>
   </FunCallNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo numero intero:</StringNode>
-      <IdNode>numero_intero</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo numero double:</StringNode>
-      <IdNode>numero_double</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo stringa:</StringNode>
-      <IdNode>stringa</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo carattere:</StringNode>
-      <IdNode>carattere</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo valore booleano:</StringNode>
-      <IdNode>valore_booleano</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>SOMMA: </StringNode>
-      <FunCallNode name='somma'>
-        <IntNode>2</IntNode>
-        <IntNode>1</IntNode>
-      </FunCallNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>SOMMA SPECIALE: </StringNode>
-      <IdNode>variabile</IdNode>
-    </AddNode>
-  </WriteNode>
+  <IfThenElseNode>
+    <AndNode>
+      <IdNode>boolean_value</IdNode>
+      <BoolNode>false</BoolNode>
+    </AndNode>
+    <Body>
+      <WriteNode isNewLine='true'>
+        <StringNode>ciao bella gente fabri fibra e qui presente</StringNode>
+      </WriteNode>
+    </Body>
+    <Body>
+      <AssignNode>
+        <IdNode>char_dinamico</IdNode>
+        <CharNode>e</CharNode>
+      </AssignNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>char_dinamico</IdNode>
+        <StringNode>sono nell'else, printo char dinamico:</StringNode>
+      </WriteNode>
+    </Body>
+  </IfThenElseNode>
+  <FunCallNode name='testing_operation'>
+  </FunCallNode>
 </Program>

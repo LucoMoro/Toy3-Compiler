@@ -91,17 +91,17 @@ public class parserTest {
 
     @Test
     public void testFileProf2() {
-        parseFile("DELETE_test1.txt");
+        parseFile("personal_valid1.txt");
     }
 
     @Test
     public void testFileProf3() {
-        parseFile("DELETE_test2.txt");
+        parseFile("personal_valid2.txt");
     }
 
     @Test
     public void testFileProf4() {
-        parseFile("DELETE_test3.txt");
+        parseFile("personal_valid3.txt");
     }
 
 
