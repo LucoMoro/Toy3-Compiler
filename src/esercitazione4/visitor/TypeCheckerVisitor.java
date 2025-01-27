@@ -514,6 +514,9 @@ public class TypeCheckerVisitor implements  Visitor{
             for(int i = 0; i < numberOfFormalParameters; i++){
                 Type actualType = (Type) node.getParameters().get(i).accept(this); //accept is needed in order to check the type of the expression
                 Type formalType = tmpFunctionType.getInput_types().get(i);
+                if(formalType == Type.DOUBLE && actualType == Type.INT) {
+                    //This if is needed in order to accept this specific case
+                }
                 if(actualType != formalType){
                     throw new RuntimeException("The parameter " + node.getParameters().get(i) + " (position " + i + "; type " + node.getParameters().get(i).getReturnType() +") has a different actual type from the formal one");
                 }
