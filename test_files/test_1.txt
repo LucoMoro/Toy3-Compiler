@@ -7,7 +7,7 @@ begin
 
     if( hello == when) then {
     var =1: string;
-        "Yes" >>;
+        "Yes >>;
     } else {}
 
     -7 >>;

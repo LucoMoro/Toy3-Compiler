@@ -56,6 +56,7 @@ EscChar = '\\[ntbrf\\\'\"]' | ''
 CharC = '[^\\[ntbrf\\\'\"]]' | {EscChar}
 
 %state STRING
+%state COMMENT
 %%
 
 /** Keywords **/
@@ -126,6 +127,9 @@ CharC = '[^\\[ntbrf\\\'\"]]' | {EscChar}
      {Identifier} { return symbol(sym.ID, yytext());}
 
      {WhiteSpace} { /* ignore */ }
+
+      "/*" { yybegin(COMMENT); }
+
      {Comment} { /* ignore */ }
 
 }
@@ -142,8 +146,15 @@ CharC = '[^\\[ntbrf\\\'\"]]' | {EscChar}
       \\r { string.append('\r'); }
       \\\" { string.append('\"'); }
       \\ { string.append('\\'); }
+      <<EOF>> { throw new IllegalArgumentException("String constant not correctly closed, line: " + yyline + "; column: " +yycolumn); }
 }
 
+<COMMENT> {
+    "*/" { yybegin(YYINITIAL); }
+    {LineTerminator} {}
+    . {}
+    <<EOF>> { throw new Error("Comment not correctly closed, line: " + yyline + "; column: " +yycolumn); }
+}
 
 [^] { throw new Error("Illegal character <"+yytext()+"> line: " + yyline + "; column: " +yycolumn); }
 

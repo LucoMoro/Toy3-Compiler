@@ -1,272 +1,233 @@
 <Program>
-  <VarDecl type='STRING'>
-    <VarOptInit name='stringa1'>
+  <VarDecl type='DOUBLE'>
+    <VarOptInit name='sommapiccola'>
+    </VarOptInit>
+    <VarOptInit name='sommagrande'>
     </VarOptInit>
   </VarDecl>
-  <VarDecl type='STRING'>
-    <VarOptInit name='stringa2'>
+  <VarDecl>
+    <VarOptInit name='i'>
     </VarOptInit>
-  </VarDecl>
-  <VarDecl type='INT'>
-    <VarOptInit name='numero_intero'>
-    </VarOptInit>
+    <IntNode>0</IntNode>
   </VarDecl>
   <VarDecl type='DOUBLE'>
-    <VarOptInit name='numero_double'>
+    <VarOptInit name='risultato'>
+    </VarOptInit>
+    <VarOptInit name='y'>
+    </VarOptInit>
+    <VarOptInit name='x'>
     </VarOptInit>
   </VarDecl>
   <VarDecl type='BOOL'>
-    <VarOptInit name='valore_booleano'>
+    <VarOptInit name='nonusata'>
+    </VarOptInit>
+    <VarOptInit name='grande'>
     </VarOptInit>
   </VarDecl>
-  <VarDecl type='STRING'>
-    <VarOptInit name='stringa'>
-    </VarOptInit>
-  </VarDecl>
-  <VarDecl type='CHAR'>
-    <VarOptInit name='carattere'>
-    </VarOptInit>
-  </VarDecl>
-  <DefDecl name='fun' type='null'>
+  <DefDecl name='moltiplicazione' type='null'>
     <ParDecl type='BOOL'>
-      <PVar hasRef='true'  name='boolean'>
-      </PVar>
-    </ParDecl>
-    <ParDecl type='CHAR'>
-      <PVar hasRef='true'  name='character'>
+      <PVar hasRef='true'  name='grande'>
       </PVar>
     </ParDecl>
     <ParDecl type='DOUBLE'>
-      <PVar hasRef='true'  name='n2'>
+      <PVar hasRef='true'  name='res'>
       </PVar>
     </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='true'  name='n1'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='y'>
       </PVar>
     </ParDecl>
-    <ParDecl type='STRING'>
-      <PVar hasRef='true'  name='string1'>
+    <ParDecl type='DOUBLE'>
+      <PVar hasRef='false'  name='x'>
       </PVar>
     </ParDecl>
     <Body>
-      <AssignNode>
-        <IdNode>string1</IdNode>
-        <AddNode>
-          <IdNode>string1</IdNode>
-          <CharNode>g</CharNode>
-        </AddNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>n1</IdNode>
-        <AddNode>
-          <IdNode>n1</IdNode>
+      <VarDecl type='DOUBLE'>
+        <VarOptInit name='nonusata'>
+        </VarOptInit>
+        <VarOptInit name='risultato'>
+          <MulNode>
+            <IdNode>x</IdNode>
+            <IdNode>y</IdNode>
+          </MulNode>
+        </VarOptInit>
+      </VarDecl>
+      <IfThenElseNode>
+        <GENode>
+          <MulNode>
+            <IdNode>x</IdNode>
+            <IdNode>y</IdNode>
+          </MulNode>
           <IntNode>100</IntNode>
-        </AddNode>
-      </AssignNode>
+        </GENode>
+        <Body>
+          <AssignNode>
+            <IdNode>grande</IdNode>
+            <BoolNode>true</BoolNode>
+          </AssignNode>
+        </Body>
+        <Body>
+          <AssignNode>
+            <IdNode>grande</IdNode>
+            <BoolNode>false</BoolNode>
+          </AssignNode>
+        </Body>
+      </IfThenElseNode>
       <AssignNode>
-        <IdNode>n2</IdNode>
-        <AddNode>
-          <IdNode>n2</IdNode>
-          <IntNode>100</IntNode>
-        </AddNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>character</IdNode>
-        <CharNode>z</CharNode>
-      </AssignNode>
-      <AssignNode>
-        <IdNode>boolean</IdNode>
-        <BoolNode>false</BoolNode>
+        <IdNode>res</IdNode>
+        <IdNode>risultato</IdNode>
       </AssignNode>
     </Body>
   </DefDecl>
-  <DefDecl name='somma' type='INT'>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='b'>
-      </PVar>
-    </ParDecl>
-    <ParDecl type='INT'>
-      <PVar hasRef='false'  name='a'>
-      </PVar>
-    </ParDecl>
+  <DefDecl name='saluto' type='STRING'>
     <Body>
       <ReturnNode>
-        <AddNode>
-          <IdNode>a</IdNode>
-          <IdNode>b</IdNode>
-        </AddNode>
+        <StringNode>ciao</StringNode>
       </ReturnNode>
     </Body>
   </DefDecl>
-  <VarDecl>
-    <VarOptInit name='variabile'>
-    </VarOptInit>
-    <IntNode>3</IntNode>
-  </VarDecl>
   <AssignNode>
-    <IdNode>stringa1</IdNode>
-    <StringNode>pluto</StringNode>
-  </AssignNode>
-  <AssignNode>
-    <IdNode>stringa2</IdNode>
-    <StringNode>paperino</StringNode>
-  </AssignNode>
-  <AssignNode>
-    <IdNode>variabile</IdNode>
-    <FunCallNode name='somma'>
-      <IntNode>3</IntNode>
-      <IntNode>2</IntNode>
-    </FunCallNode>
-  </AssignNode>
-  <AssignNode>
-    <IdNode>carattere</IdNode>
-    <IdNode>stringa</IdNode>
-    <IdNode>valore_booleano</IdNode>
-    <IdNode>numero_double</IdNode>
-    <IdNode>numero_intero</IdNode>
-    <CharNode>c</CharNode>
-    <StringNode>ciao</StringNode>
-    <BoolNode>true</BoolNode>
-    <IntNode>2</IntNode>
-    <IntNode>1</IntNode>
+    <IdNode>sommapiccola</IdNode>
+    <IdNode>sommagrande</IdNode>
+    <IntNode>0</IntNode>
+    <IntNode>0</IntNode>
   </AssignNode>
   <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
+    <StringNode>Questo programma permette di svolgere una serie di moltiplicazioni</StringNode>
   </WriteNode>
   <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT stringa: </StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <IdNode>stringa2</IdNode>
-    </AddNode>
+    <StringNode>sommando i risultati < 100 in sommagrande e quelli < 100 in sommapiccola</StringNode>
   </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT intero:</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
+  <AssignNode>
+    <IdNode>i</IdNode>
+    <UMinusNode>
       <IntNode>1</IntNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT double:</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <DoubleNode>1.0</DoubleNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT char</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <CharNode>c</CharNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <AddNode>
-        <StringNode>CONCAT bool</StringNode>
-        <IdNode>stringa1</IdNode>
-      </AddNode>
-      <BoolNode>true</BoolNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima numero intero:</StringNode>
-      <IdNode>numero_intero</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima numero double:</StringNode>
-      <IdNode>numero_double</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima stringa:</StringNode>
-      <IdNode>stringa</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima carattere:</StringNode>
-      <IdNode>carattere</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore prima valore booleano:</StringNode>
-      <IdNode>valore_booleano</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <FunCallNode name='fun'>
-    <IdNode>valore_booleano</IdNode>
-    <IdNode>carattere</IdNode>
-    <IdNode>numero_double</IdNode>
-    <IdNode>numero_intero</IdNode>
-    <IdNode>stringa</IdNode>
-  </FunCallNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo numero intero:</StringNode>
-      <IdNode>numero_intero</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo numero double:</StringNode>
-      <IdNode>numero_double</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo stringa:</StringNode>
-      <IdNode>stringa</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo carattere:</StringNode>
-      <IdNode>carattere</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>valore dopo valore booleano:</StringNode>
-      <IdNode>valore_booleano</IdNode>
-    </AddNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <StringNode>----------------------------------------</StringNode>
-  </WriteNode>
-  <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>SOMMA: </StringNode>
-      <FunCallNode name='somma'>
-        <IntNode>2</IntNode>
-        <IntNode>1</IntNode>
+    </UMinusNode>
+  </AssignNode>
+  <WhileNode>
+    <LENode>
+      <IdNode>i</IdNode>
+      <IntNode>0</IntNode>
+    </LENode>
+    <Body>
+      <VarDecl>
+        <VarOptInit name='saluto'>
+        </VarOptInit>
+        <StringNode>ciao</StringNode>
+      </VarDecl>
+      <WriteNode isNewLine='false'>
+        <StringNode>Quante moltiplicazioni vuoi svolgere? (inserire intero > 0)</StringNode>
+      </WriteNode>
+      <ReadNode>
+        <IdNode>i</IdNode>
+      </ReadNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>saluto</IdNode>
+      </WriteNode>
+    </Body>
+  </WhileNode>
+  <WhileNode>
+    <GTNode>
+      <IdNode>i</IdNode>
+      <IntNode>0</IntNode>
+    </GTNode>
+    <Body>
+      <AssignNode>
+        <IdNode>x</IdNode>
+        <UMinusNode>
+          <IntNode>1</IntNode>
+        </UMinusNode>
+      </AssignNode>
+      <AssignNode>
+        <IdNode>y</IdNode>
+        <UMinusNode>
+          <IntNode>1</IntNode>
+        </UMinusNode>
+      </AssignNode>
+      <WhileNode>
+        <NotNode>
+          <AndNode>
+            <GTNode>
+              <IdNode>x</IdNode>
+              <IntNode>0</IntNode>
+            </GTNode>
+            <GTNode>
+              <IdNode>y</IdNode>
+              <IntNode>0</IntNode>
+            </GTNode>
+          </AndNode>
+        </NotNode>
+        <Body>
+          <VarDecl>
+            <VarOptInit name='saluto'>
+            </VarOptInit>
+            <StringNode>byebye</StringNode>
+          </VarDecl>
+          <WriteNode isNewLine='true'>
+            <StringNode>: inserisci due numeri positivi</StringNode>
+            <IdNode>i</IdNode>
+            <StringNode>Moltiplicazione </StringNode>
+          </WriteNode>
+          <ReadNode>
+            <IdNode>y</IdNode>
+            <IdNode>x</IdNode>
+          </ReadNode>
+          <WriteNode isNewLine='true'>
+            <IdNode>saluto</IdNode>
+          </WriteNode>
+        </Body>
+      </WhileNode>
+      <FunCallNode name='moltiplicazione'>
+        <IdNode>grande</IdNode>
+        <IdNode>risultato</IdNode>
+        <IdNode>y</IdNode>
+        <IdNode>x</IdNode>
       </FunCallNode>
-    </AddNode>
+      <WriteNode isNewLine='true'>
+        <IdNode>risultato</IdNode>
+      </WriteNode>
+      <IfThenElseNode>
+        <IdNode>grande</IdNode>
+        <Body>
+          <WriteNode isNewLine='true'>
+            <StringNode>il risultato è grande</StringNode>
+          </WriteNode>
+          <AssignNode>
+            <IdNode>sommagrande</IdNode>
+            <AddNode>
+              <IdNode>sommagrande</IdNode>
+              <IdNode>risultato</IdNode>
+            </AddNode>
+          </AssignNode>
+        </Body>
+        <Body>
+          <WriteNode isNewLine='true'>
+            <StringNode>il risultato è piccolo</StringNode>
+          </WriteNode>
+          <AssignNode>
+            <IdNode>sommapiccola</IdNode>
+            <AddNode>
+              <IdNode>sommapiccola</IdNode>
+              <IdNode>risultato</IdNode>
+            </AddNode>
+          </AssignNode>
+        </Body>
+      </IfThenElseNode>
+      <AssignNode>
+        <IdNode>i</IdNode>
+        <DiffNode>
+          <IdNode>i</IdNode>
+          <IntNode>1</IntNode>
+        </DiffNode>
+      </AssignNode>
+    </Body>
+  </WhileNode>
+  <WriteNode isNewLine='true'>
+    <IdNode>sommagrande</IdNode>
+    <StringNode>\n sommagrande</StringNode>
   </WriteNode>
   <WriteNode isNewLine='true'>
-    <AddNode>
-      <StringNode>SOMMA SPECIALE: </StringNode>
-      <IdNode>variabile</IdNode>
-    </AddNode>
+    <IdNode>sommapiccola</IdNode>
+    <StringNode>sommapiccola </StringNode>
   </WriteNode>
 </Program>

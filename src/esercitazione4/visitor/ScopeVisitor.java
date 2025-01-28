@@ -75,7 +75,7 @@ public class ScopeVisitor implements Visitor{
                         if(check) {
                             type = new VariableType(((VarDeclNode) decl).getConstant());
                         } else {
-                            throw new RuntimeException("Incorrect variables declaration in " + node );
+                            throw new RuntimeException("Incorrect variables declaration in " + node + "for the variable" + decl);
                         }
                     } else {
                         type = new VariableType(((VarDeclNode) decl).getType());

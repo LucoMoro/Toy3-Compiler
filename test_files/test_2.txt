@@ -3,7 +3,5 @@ program
     global = 5 : int;
 
 begin
-    /*without VarDecls*/ return first * second / (third - fourth + hello ) *fifth + false;
-
-    example <> not true !>>;
+    /*without VarDecls
 end
