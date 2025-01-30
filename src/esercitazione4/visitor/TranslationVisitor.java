@@ -455,6 +455,56 @@ public class TranslationVisitor implements Visitor{
     }
 
     @Override
+    public Object visit(SwitchStatNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("case ");
+        ConstantNode constant = node.getConstant();
+        builder.append(constant.accept(this));
+        builder.append(": ");
+        ArrayList<StatOpNode> stats = node.getStats();
+        if(stats!= null) {
+            for(StatOpNode stat : stats){
+                builder.append(stat.accept(this));
+                if(stat instanceof FunCallNode){ //needed since FunCallNode can be used as both parameter or statement itself
+                    builder.append(";").append("\n");
+                }
+            }
+        }
+
+        builder.append("\n");
+        builder.append("break;");
+        builder.append("\n");
+
+        return builder.toString();
+    }
+
+    @Override
+    public Object visit(SwitchNode node) {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("switch (");
+        IdNode id = node.getId();
+        builder.append(id.accept(this));
+        builder.append(") ");
+        builder.append(" {");
+        builder.append("\n");
+
+        ArrayList<SwitchStatNode> switchStats = node.getSwitchStats();
+        if(switchStats != null) {
+            for(SwitchStatNode switchStat : switchStats) {
+                builder.append(switchStat.accept(this));
+            }
+        }
+
+        builder.append(" }");
+        builder.append("\n");
+
+
+        return builder.toString();
+    }
+
+    @Override
     public Object visit(AddNode node) {
         StringBuilder builder = new StringBuilder();
 

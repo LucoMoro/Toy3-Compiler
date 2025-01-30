@@ -16,6 +16,7 @@ esercitazione4\ast\ArithOp\DivNode.class
 esercitazione4\ast\VarDeclOp\VarOptInitNode.class
 esercitazione4\parser$CUP$parser$actions.class
 esercitazione4\ast\Constants\ConstantNode.class
+esercitazione4\ast\StatOp\SwitchNode.class
 esercitazione4\visitor\TypeCheckerVisitor.class
 esercitazione4\visitor\Visitor.class
 esercitazione4\visitor\ScopeVisitor.class
@@ -32,6 +33,7 @@ esercitazione4\ast\RelOp\GTNode.class
 esercitazione4\ast\StatOp\ReturnOpNode.class
 esercitazione4\Main.class
 esercitazione4\ast\StatOp\AssignOpNode.class
+esercitazione4\ast\SwitchStatNode.class
 esercitazione4\visitor\TranslationVisitor$1.class
 esercitazione4\ast\ExprOpNode.class
 esercitazione4\ast\BoolOp\OrNode.class

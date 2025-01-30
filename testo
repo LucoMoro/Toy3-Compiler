@@ -1,0 +1,6 @@
+SWITCH LPAR ID RPAR
+Constant COLON Statements STOP SEMI
+Constant COLON Statements STOP SEMI
+Constant COLON Statements STOP SEMI
+
+END SWITCH SEMI

@@ -478,6 +478,41 @@ public class ScopeVisitor implements Visitor{
         return node;
     }
 
+    @Override
+    public Object visit(SwitchStatNode node) {
+
+        node.setTable(typeEnvironment.peek());
+
+        ConstantNode constant = node.getConstant();
+        constant.accept(this);
+
+        ArrayList<StatOpNode> stats = node.getStats();
+        if(stats != null){
+            for(StatOpNode stat: stats){
+                stat.accept(this);
+            }
+        }
+
+        return node;
+    }
+
+    @Override
+    public Object visit(SwitchNode node) {
+        node.setTable(typeEnvironment.peek());
+
+        IdNode id = node.getId();
+        id.accept(this);
+
+        ArrayList<SwitchStatNode> switchStats = node.getSwitchStats();
+        if(switchStats != null) {
+            for(SwitchStatNode switchStat: switchStats) {
+                switchStat.accept(this);
+            }
+        }
+
+        return node;
+    }
+
     /* Identifier */
     @Override
     public Object visit(IdNode node) {

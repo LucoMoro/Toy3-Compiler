@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="personal_valid1" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="esercitazione4.Main" />
-    <module name="UsoCup" />
+    <module name="Morelli_es5TSC" />
     <option name="PROGRAM_PARAMETERS" value="personal_valid1.txt" />
     <method v="2">
       <option name="Make" enabled="true" />

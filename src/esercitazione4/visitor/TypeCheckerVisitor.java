@@ -22,6 +22,7 @@ import java.util.Stack;
 public class TypeCheckerVisitor implements  Visitor{
 
     private Stack<SymbolTable> typeEnvironment = new Stack<>();
+    private Type switchIdType;
 
     /* Program */
     @Override
@@ -697,6 +698,74 @@ public class TypeCheckerVisitor implements  Visitor{
         return node.getReturnType();
     }
 
+    @Override
+    public Object visit(SwitchStatNode node) {
+
+        ConstantNode constant = node.getConstant();
+        if(!(constant instanceof ConstantNode)) { //avoidable check
+            throw new RuntimeException("The element = " + constant + " should be a constant");
+        }
+
+        boolean check;
+        check = switchConstantCheck(constant);
+        if(check == false) {
+            throw new RuntimeException("The constant " + constant + " has a different type from the id (" + switchIdType + ")");
+        }
+
+        ArrayList<StatOpNode> stats = node.getStats();
+
+        if(stats != null){
+            for(StatOpNode stat : stats){
+                Type tmpStatType = (Type) stat.accept(this); //temporary variable that contains the type of stat
+                if(tmpStatType == null){
+                    throw new RuntimeException("The current statement: " + stat + "has not a type"); //this code should be not reachable since if there is an error
+                    //it would be caught before arriving to BodyNode
+                }
+            }
+        }
+
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();
+    }
+
+    @Override
+    public Object visit(SwitchNode node) {
+
+        /*        ArrayList<ExprOpNode> exprs = node.getIdentifiers();
+        if(exprs != null){
+            for(ExprOpNode expr : exprs){
+                expr.accept(this);
+            }
+        }
+
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();*/
+
+        IdNode id = node.getId();
+        id.accept(this);
+        switchIdType = lookUpVariable(typeEnvironment, id);
+
+        ArrayList<SwitchStatNode> switchStats = node.getSwitchStats();
+        if(switchStats != null) {
+            if(switchStats.size() < 3) {
+                throw new RuntimeException("The switch must contain at least 3 cases or more");
+            }
+
+            for(SwitchStatNode switchStat : switchStats) {
+                Type tmpType = (Type) switchStat.accept(this);
+                if(tmpType == null) {
+                    throw new RuntimeException("The swicth case = " + node + " has a null switchStat");
+                }
+            }
+        }
+
+        node.setReturnType(Type.NOTYPE);
+
+        return node.getReturnType();
+    }
+
     /**
     * checks if the function is a procedure or a function and, in case it is a function,
      * if it has at least one return statement
@@ -838,6 +907,17 @@ public class TypeCheckerVisitor implements  Visitor{
         }
 
         return clonedStack;
+    }
+
+    public boolean switchConstantCheck(ConstantNode constant) {
+        boolean result = false;
+
+        Type constantType = Type.convertType(constant);
+        if(switchIdType == constantType) {
+            return result = true; //in this case, the constant has the same type of the id
+        } else {
+            throw new RuntimeException("The constant " + constant + "(" + constantType + ") has a different type from the id type " + switchIdType);
+        }
     }
 
 }

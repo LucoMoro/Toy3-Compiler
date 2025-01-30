@@ -514,6 +514,80 @@ public class TreeVisitor implements Visitor{
         return node;
     }
 
+    @Override
+    public Object visit(SwitchStatNode node) {
+        String open_tag;
+
+        open_tag = "<SwitchStatNode>";
+
+        try{
+            String indent = space.repeat(depth);
+            file.append(indent).append(open_tag).append("\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        depth++;
+
+        ConstantNode constant = node.getConstant();
+        constant.accept(this);
+
+        ArrayList<StatOpNode> stats = node.getStats();
+        if(stats != null) {
+            for(StatOpNode stat : stats) {
+                stat.accept(this);
+            }
+        }
+
+        depth--;
+
+        try {
+            String indent = space.repeat(depth);
+            file.append(indent).append("</SwitchStatNode>").append("\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return node;
+    }
+
+    @Override
+    public Object visit(SwitchNode node) {
+        String open_tag;
+
+        open_tag = "<SwitchNode>";
+
+        try{
+            String indent = space.repeat(depth);
+            file.append(indent).append(open_tag).append("\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        depth++;
+
+        IdNode id = node.getId();
+        id.accept(this);
+
+        ArrayList<SwitchStatNode> switchStats = node.getSwitchStats();
+        if(switchStats != null) {
+            for(SwitchStatNode switchStat : switchStats) {
+                switchStat.accept(this);
+            }
+        }
+
+        depth--;
+
+        try {
+            String indent = space.repeat(depth);
+            file.append(indent).append("</SwitchNode>").append("\n");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return node;
+    }
+
     /* Identifier */
     public Object visit(IdNode node){
         String open_tag;

@@ -1,0 +1,98 @@
+// Programma esemplificativo in sintassi Toy3
+
+program
+
+// Dichiarazione variabili globali
+c: 1;
+a | b | x : double;
+taglia | ans1 | ans : string;
+risultato: double;
+
+// Definizione delle funzioni
+def sommac(a: double; d: double; b: double; ref size: string; ref result: double)
+{
+    double_var = 1.00001 : double;
+
+            switch (double_var)
+                1.01 : "funziono anche sui double" !>>; stop;
+                1.001 : "non dovrei essere qui" !>>; stop;
+                1.00001 : "ok, sui double non funziono" !>>; stop;
+            end switch;
+
+    result := a + b + c + d;
+
+    if (result > 100) then {
+        size := "grande";
+    }
+    else {
+        if (result > 50) then {
+            size := "media";
+        }
+        else {
+            size := "piccola";
+        }
+    }
+}
+
+def stampa(messaggio: string): string
+{
+    i: 0;
+    while (i < 4) do {
+        "" !>>; // Ritorno a capo
+        i := i + 1;
+    }
+    messaggio !>>;
+    return "ok";
+}
+
+begin
+
+    i : 1;
+    ans_char: 'c';
+
+    a := 1;
+    b := 2.2;
+    x := 3;
+    risultato := 0.0;
+    ans := "no";
+
+
+    switch (i)
+        1 : a*4 + "sono nello switch, funziono!" !>>; a :=a+1; stop;
+        2 : a := b + 3; stop;
+        3 : 3 !>>; stop;
+    end switch;
+
+    switch (ans_char)
+        'c' : "funziono anche sui char" !>>; stop;
+        'm' : "non dovrei essere qui" !>>; stop;
+        'h' : "ok, sui char non funziono" !>>; stop;
+    end switch;
+
+    sommac(a, x, b, taglia, risultato);
+
+    stampa("La somma di " + a + " e " + b + " incrementata di " + c + " è " + taglia);
+    stampa("Ed è pari a " + risultato);
+
+    "Vuoi continuare? (si/no) - inserisci due volte la risposta\n">>;
+    ans <<;
+    ans1 <<;
+
+    while (ans == "si") do {
+        "Inserisci un intero: ">>;
+        a <<;
+        "Inserisci un reale: ">>;
+        b <<;
+
+        sommac(a, x, b, taglia, risultato);
+
+        stampa("La somma di " + a + " e " + b + " incrementata di " + c + " è " + taglia);
+        stampa("Ed è pari a " + risultato);
+
+        "Vuoi continuare? (si/no): ">>;
+        ans <<;
+    }
+
+    "" !>>; // Ritorno a capo finale
+    "Ciao" !>>;
+end

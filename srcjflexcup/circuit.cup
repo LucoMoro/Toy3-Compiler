@@ -27,10 +27,12 @@ import esercitazione4.ast.Type;
 
 import esercitazione4.ast.VarDeclOp.*;
 
+import esercitazione4.ast.SwitchStatNode;
+
 /* Terminals (tokens returned by the scanner). */
 /** Keywords **/
 terminal            IF, THEN, ELSE;
-terminal            WHILE, DO, RETURN;
+terminal            WHILE, DO, RETURN, SWITCH, STOP;
 terminal            REF, DEF;
 terminal            INT, BOOL, DOUBLE, STRING, CHAR;
 terminal            PROGRAM, BEGIN, END;
@@ -77,6 +79,7 @@ non terminal        ArrayList<DeclOpNode> Decls;
 non terminal        ArrayList<ParDeclNode> ParDecls;
 non terminal        ArrayList<VarDeclNode> VarDecls;
 non terminal        ArrayList<IdNode> Vars;
+non terminal        ArrayList<SwitchStatNode> SwitchStat;
 non terminal        PVar;
 non terminal        ArrayList<PVarNode> PVars;
 non terminal        ArrayList<VarOptInitNode> VarsOptInit;
@@ -224,8 +227,22 @@ Stat ::= Vars:attrib IN SEMI {: RESULT = new ReadOpNode(attrib); /*System.out.pr
     | IF LPAR Expr:expr RPAR THEN Body:body1 ELSE Body:body2 {: RESULT = new IfThenElseNode(expr, body1, body2); /*System.out.println(RESULT);*/ :}
     | IF LPAR Expr:expr RPAR THEN Body:body {: RESULT = new IfThenNode(expr, body); /*System.out.println(RESULT);*/ :}
     | WHILE LPAR Expr:expr RPAR DO Body:body {: RESULT = new WhileNode(expr, body); /*System.out.println(RESULT);*/ :}
+    | SWITCH LPAR ID:attrib RPAR SwitchStat:switchStats END SWITCH SEMI {: RESULT = new SwitchNode(new IdNode(attrib), switchStats); System.out.println(RESULT); :}
     | RETURN Expr:attrib SEMI {: RESULT = new ReturnOpNode(attrib); /*System.out.println(RESULT);*/ :}
     ;
+
+SwitchStat ::= Constant:const1 COLON Statements:stats1 STOP SEMI Constant:const2 COLON Statements:stats2 STOP SEMI Constant:const3 COLON Statements:stats3 STOP SEMI
+                {: SwitchStatNode s1 = new SwitchStatNode(const1, stats1);
+                SwitchStatNode s2 = new SwitchStatNode(const2, stats2);
+                SwitchStatNode s3 = new SwitchStatNode(const3, stats3);
+                ArrayList<SwitchStatNode> list = new ArrayList<>();
+                list.add(s1);
+                list.add(s2);
+                list.add(s3);
+                RESULT = list;
+                System.out.println(RESULT);
+                :}
+                ;
 
 Vars ::= ID:attrib PIPE Vars:list {: list.add(new IdNode(attrib));
                                      RESULT = list;

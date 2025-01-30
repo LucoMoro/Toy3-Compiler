@@ -1,14 +1,11 @@
 package esercitazione4.visitor;
 
+import esercitazione4.ast.*;
 import esercitazione4.ast.ArithOp.*;
-import esercitazione4.ast.BodyNode;
 import esercitazione4.ast.BoolOp.*;
 import esercitazione4.ast.Constants.*;
 import esercitazione4.ast.DefDeclOp.DefDeclNode;
-import esercitazione4.ast.FunCallNode;
-import esercitazione4.ast.IdNode;
 import esercitazione4.ast.ParDeclOp.*;
-import esercitazione4.ast.ProgramNode;
 import esercitazione4.ast.RelOp.*;
 import esercitazione4.ast.StatOp.*;
 import esercitazione4.ast.VarDeclOp.*;
@@ -54,6 +51,8 @@ public interface Visitor {
     Object visit(IfThenElseNode node);
     Object visit(IfThenNode node);
     Object visit(WhileNode node);
+    Object visit(SwitchStatNode node);
+    Object visit(SwitchNode node);
 
     /* VarDecls */
     Object visit(VarOptInitNode node);
